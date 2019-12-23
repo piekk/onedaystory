@@ -15,7 +15,7 @@ from google.cloud import storage
 @app.route('/')
 def home():
     illustration = Products.query.filter(Products.category=='illustration').order_by(Products.view.asc()).limit(12).all()
-    painting = Products.query.filter(Products.category=='painting').order_by(Products.view.desc()).limit(12).all()
+    painting = Products.query.filter(Products.category=='test').order_by(Products.view.desc()).limit(12).all()
     photography = Products.query.filter(Products.category=='photograph').order_by(Products.view.desc()).limit(12).all()
     decorations = Products.query.filter(Products.category=='decoration').order_by(Products.view.desc()).limit(12).all()
     books = Products.query.filter(Products.category=='book').order_by(Products.view.desc()).limit(12).all()
