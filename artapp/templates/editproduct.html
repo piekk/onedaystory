@@ -1,0 +1,106 @@
+{% extends"merchantlayout.html" %}
+{% block content %}
+<!--เปลี่ยนข้อทูลไม่ได้เพราะสินค้าอยู่ในตะกร้า--!>
+    {% if message %}
+    <div class = "break"></div>
+    <div class = "view">
+      <h4 class="title-center">{{product.title}}</h4>
+      <h4>*{{message}}</h4>
+      {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+      <img src="{{ image }}">
+      <h4 class="title-center">{{product.title}}</h4>
+      <h4>กลุ่มสินค้า: {{product.category}}</h4>
+
+      {% if product.category == 'illustration' or product.category == 'painting' or product.category=='photograph' %}
+        <h4>กรอบรูป: {{product.frame}}</h4>
+        <h4>ขนาด: {{product.size}} นิ้ว</h4>
+      {% elif product.category == 'book' %}
+        <h4>ผู้แต่ง: {{product.authors}}</h4>
+        <h4>รูปแบบ: {{product.book_condition}}</h4>
+      {% else %}
+        <h4>สภาพ: {{product.condition}}</h4>
+      {% endif %}
+
+      <h4>ราคาสินค้า: {{"฿ {:,.2f}".format(product.price|int)}}</h4>
+      <h4>ค่าส่งสินค้า: {{"฿ {:,.2f}".format(product.shipping_fee|int)}}</h4>
+      {% if product.promotion|int > 0 and time<product.promotion_expire %}
+        <h4>{{product.promotion}}% <span class="discount">OFF</span> <span class="small-description">(ถึงวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }})</span></h4>
+        <h4>ราคาแสดงบนเวปไซท์:{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}</h4>
+      {% else %}
+        <h4 class = "left-description">โปรโมชัน: ไม่มีโปรโมชัน</h4>
+        <h4>ราคาแสดงบนเวปไซท์: {{"฿ {:,.2f}".format(((product.price|int*margin)+product.shipping_fee|int)|round)}}</h4>
+      {% endif %}
+      <h4>จำนวนเงินที่คุณได้รับ: {{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100))))+product.shipping_fee|int)|round)}}</h4>
+
+      <h4 >เหลือจำนวน: {{product.quantity}} </h4>
+
+      {% if product.description %}
+        <p>{{product.description}}</p>
+      {% else %}
+        <p>ไม่มีคำอธิบายสินค้า</p>
+      {% endif %}
+      <h4>*{{message}}</h4>
+
+      <div class="button b-right"><a href="{{url_for('merchant', name=current_user.username)}}">BACK</a></div>
+    </div>
+<!--ไม่มีสินค้าอยู่ในตะกร้า เปลี่ยนข้อมูลได้--!>
+    {% else %}
+    <div class = "break"></div>
+    <div class = "view">
+      <h4 class = "title-center">{{product.title}}</h4>
+      {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+      <img src="{{ image }}">
+      <a class = "box-center" href="{{url_for('update_image', name=product.productcode)}}">เปลี่ยนรูปภาพ</a>
+
+
+      <h4 class="title-center">{{product.title}}</h4>
+      <h4>กลุ่มสินค้า: {{product.category}}</h4>
+
+      {% if product.category == 'illustration' or product.category == 'painting' or product.category=='photograph' %}
+        <h4>กรอบรูป: {{product.frame}}</h4>
+        <h4>ขนาด: {{product.size}} นิ้ว</h4>
+      {% elif product.category == 'book' %}
+        <h4>ผู้แต่ง: {{product.authors}}</h4>
+        <h4>รูปแบบ: {{product.book_condition}}</h4>
+      {% else %}
+        <h4>สภาพ: {{product.condition}}</h4>
+      {% endif %}
+
+      {% if product.description %}
+        <p>{{product.description}}</p>
+      {% else %}
+        <p>ไม่มีคำอธิบายสินค้า</p>
+      {% endif %}
+
+      <a class = "box-center" href="{{url_for('update_detail', name=product.productcode)}}">เปลี่ยนแปลงข้อมูล</a>
+
+
+      <h4>ราคาสินค้า: {{"฿ {:,.2f}".format(product.price|int)}}</h4>
+      <h4>ค่าส่งสินค้า: {{"฿ {:,.2f}".format(product.shipping_fee|int)}}</h4>
+      {% if product.promotion|int > 0 and time<product.promotion_expire %}
+        <h4>{{product.promotion}}% <span class="discount">OFF</span> <span class="small-description">(ถึงวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }})</span></h4>
+        <h4>ราคาแสดงบนเวปไซท์:{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}</h4>
+      {% else %}
+        <h4 class = "left-description">โปรโมชัน: ไม่มีโปรโมชัน</h4>
+        <h4>ราคาแสดงบนเวปไซท์: {{"฿ {:,.2f}".format(((product.price|int*margin)+product.shipping_fee|int)|round)}}</h4>
+      {% endif %}
+      <h4>จำนวนเงินที่คุณได้รับ: {{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100))))+product.shipping_fee|int)|round)}}</h4>
+
+      <a class = "box-center" href="{{url_for('update_price', name=product.productcode)}}">เปลี่ยนแปลงราคาและโปรโมชัน</a>
+
+      <h4>จำนวนสินค้าที่มีอยู่: {{product.quantity}} </h4>
+
+      <a class = "box-center" href="{{url_for('update_stock', name=product.productcode)}}">แก้ไขจำนวนสต็อก</a>
+
+
+
+      <a class = "inverse box-center" href="{{url_for('edit_delete_product', name=product.productcode)}}">ลบสินค้าชิ้นนี้</a>
+
+      <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
+    {% endif %}
+    </div>
+
+
+
+
+{% endblock %}

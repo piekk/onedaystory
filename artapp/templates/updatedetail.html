@@ -1,0 +1,50 @@
+{% extends"merchantlayout.html" %}
+{% block content %}
+<!-- เปลี่ยนข้อมูลสินค้า -->
+
+  <div class = "break"></div>
+  <div class = "view">
+    <h4 class="title-center">{{product.title}}</h4>
+    {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+    <img src="{{ image }}">
+    <h3 class="box-center inverse">แก้ไขข้อมูลสินค้า</h3>
+    <h4>ประเภทสินค้า: {{product.category}}</h4>
+
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <div class="wrapper">
+        <h5> เลือกใส่ Hashtag ที่เกี่ยวข้องกับสินค้าของคุณ เช่น #keyword1 #keyword2</h5>
+        <a class="addnote" href="#">ดูวิธีการเลือกใช้ Hashtag ที่เหมาะสม</a>
+        {{ form.tag }}
+      </div>
+
+    {% if product.category == 'decoration' %}
+      <div class="wrapper">
+        <h5>ระบุขนาดของสินค้า</h5>
+        <span>ขนาด</span>
+        {{ form.object_size }}
+      </div>
+    {% elif product.category == 'illustration' or product.category == 'photograph' or product.category == 'painting' %}
+      <div class="wrapper">
+        <h5>ระบุขนาดของสินค้า เช่น 12"x12" หน่วยเป็นนิ้ว</h5>
+        <span>ขนาด</span>
+        {{ form.size }}
+      </div>
+      <div class="wrapper">
+        <h5>ถ้าสินค้าคุณมีกรอบระบุวัสดุและสีของเฟรม</h5>
+        <span>กรอบ</span>
+        {{ form.frame }}
+      </div>
+    {% endif %}
+      <div class="wrapper">
+        <h5>คำอธิบายเพิ่มเติมของสินค้านี้</h5>
+        {{ form.description }}
+      </div>
+      <button class="b-left">{{ form.submit }}</button>
+    </form>
+
+    <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
+  </div>
+
+
+{% endblock %}

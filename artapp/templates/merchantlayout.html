@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/merchant.css') }}">
+	<title></title>
+
+</head>
+<body>
+  <header>
+		<div class='logo_container'>
+			<a href={{ url_for('home') }}><img src="{{ url_for('static', filename='image/logo.png') }}"></a>
+			<div class='float_right_cart'>
+				<img src="{{ url_for('static', filename='image/menu.png') }}" onclick="toggle()" >
+			</div>
+		</div>
+		<nav>
+			<ul>
+				<li><a href="{{ url_for('merchant', name=current_user.username) }}">Dashboard</a></li>
+				<li><a href="{{ url_for('addproduct') }}">Add New Product</a></li>
+				<li><a href="#">ABOUT US</a></li>
+				<li><a href="#">CONTACT</a></li>
+			</ul>
+		</nav>
+  </header>
+
+
+	<ul id="sidemenu">
+		<li><a href="{{ url_for('home') }}">Home</a></li>
+		<li><a href="{{ url_for('merchant', name=current_user.username) }}">Dashboard</a></li>
+		<li><a href="{{ url_for('addproduct') }}">Add New Product</a></li>
+		<li><a href="">Order</a></li>
+		<li><a href="">Help</a></li>
+	</ul>
+
+	<section>
+
+					{% block content%}{% endblock %}
+
+	</section>
+
+	<footer>
+		<ul class="toggle-footer">
+			<li><a href="#">ABOUT US</a></li>
+			<li><a href="#">CONTACT US</a></li>
+			<li><a href="#">FAQ</a></li>
+			<li><a href="#">TERMS AND CONDITIONS</a></li>
+		</ul>
+		<div class="social-media">
+			<a href="#"><img src="{{ url_for('static', filename='image/icon/facebook.png') }}" alt="facebook link"></a>
+			<a href="#"><img src="{{ url_for('static', filename='image/icon/instagram.png') }}" alt="instagram link"></a>
+			<a href="#"><img src="{{ url_for('static', filename='image/icon/line.png') }}" alt="lline link"></a>
+		</div>
+		<small>Copyright &copy; <span id="this-year">2018</span> Example Corporation. All Rights Reserved</small>
+	</footer>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/layout.js') }}"></script>
+</body>
+</html>

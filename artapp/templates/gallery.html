@@ -1,0 +1,85 @@
+{% extends"layout.html" %}
+{% block content %}
+<!-- photography   -->
+    <div class="break"></div>
+    <div class="banner">
+      <img src="{{ url_for('static', filename='image/banner/photography.png')}}" alt="รูปถ่าย รุปขาวดำ">
+      <div class="text-center"><a href="{{url_for('merchantregister')}}">ลงผลงานกับเรา</a></div>
+    </div>
+    <div class="break"></div>
+    <div class="header-title">{{filter}}</div>
+    <div class='filter'>
+      <span><a href="{{url_for('home')}}">Home </a>|</span>
+      <span><a href="{{url_for('gallery')}}">Gallery </a>|</span>
+      <span><a href="{{url_for('gallery', filter='latest')}}">{{filter}}</a></span>
+    </div>
+    <!-- Slider main container -->
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        {% for item in product.items %}
+        <div class="swiper-slide">
+          <div class="box">
+            {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
+            <a href="{{url_for('product', product=item.productcode)}}"><img src="{{image}}"></a>
+            <div class='filter'>
+              <span><a href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
+              {% for word in item.style.split("#") %}
+              <span class="tag"><a href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
+              {% endfor %}
+              <span><a href="{{url_for('view', name=item.owner.username)}}">{{item.owner.username}} </a></span>
+            </div>
+            <h4 class = 'btn-detail'><a href="{{url_for('product', product=item.productcode)}}">VIEW DETAIL</a></h4>
+            <h4><a href="{{url_for('view', name=item.owner.username)}}">{{item.owner.username}}</a></h4>
+            {% if item.promotion|int > 0 and time< item.promotion_expire %}
+            <h4 class="highlight price">
+              <span class="discount">-{{item.promotion}}%</span> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} <span class="discount-from">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span></h4>
+            {% else %}
+            <h4 class="price">{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    </div>
+    <div class="info-page">
+      {% for page_num in product.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+          {% if product.page == page_num %}
+            {% if filter == "gallery" %}
+              <a class ="btn-page current" href="{{ url_for('gallery', page=page_num) }}">{{page_num}}</a>
+            {% else %}
+              <a class ="btn-page current" href="{{ url_for('gallery', filter=filter, page=page_num) }}">{{page_num}}</a>
+            {% endif %}
+          {% else %}
+            {% if filter == "gallery" %}
+              <a class ="btn-page" href="{{ url_for('gallery', page=page_num) }}">{{page_num}}</a>
+            {% else %}
+              <a class ="btn-page" href="{{ url_for('gallery', filter=filter, page=page_num) }}">{{page_num}}</a>
+            {% endif %}
+          {% endif %}
+        {% else %}
+          <a class ="btn-page">. . .</a>
+        {% endif %}
+      {% endfor %}
+      {% if filter=="gallery"%}
+        <a href="{{ url_for('gallery', page=product.next_num) }}" class="button">LOAD MORE</a>
+      {% else %}
+      <a href="{{ url_for('gallery', filter=filter, page=product.next_num) }}" class="button">LOAD MORE</a>
+      {% endif %}
+    </div>
+
+<script type="text/javascript" src="{{ url_for('static',filename='js/swiper.js') }}"></script>
+
+<!-- Initialize Swiper -->
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    pagination: {
+      el: '.swiper-pagination',
+    },
+  });
+</script>
+
+{% endblock %}

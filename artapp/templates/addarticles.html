@@ -1,0 +1,66 @@
+{% extends"admin.html" %}
+{% block content %}
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="wrapper">
+        {{ form.title.label }}
+        {{ form.title(class='small') }}
+    <span class="errors">{% for error in form.title.errors %}{{ error }}{% endfor %}</span>
+    </div>
+    <div class="wrapper">
+        {{ form.sub_title.label }}
+        {{ form.sub_title(class='small') }}
+    <span class="errors">{% for error in form.sub_title.errors %}{{ error }}{% endfor %}</span>
+    </div>
+    <div class="wrapper">
+        {{ form.sub_title.label }}
+        {{ form.sub_title(class='small') }}
+    <span class="errors">{% for error in form.sub_title.errors %}{{ error }}{% endfor %}</span>
+    </div>
+    <div class="wrapper">
+        {{ form.content.label }}
+        {{ form.content(class='small') }}
+    <span class="errors">{% for error in form.content.errors %}{{ error }}{% endfor %}</span>
+    </div>
+
+
+    <div class="wrapper">
+        {{ form.image1.label }}
+        {{ form.image1 }}
+        {% if form.image1.errors %}
+        {% for error in form.image1.errors %}<span>{{ error }}</span>{% endfor %}
+        {% endif %}
+    </div>
+    <div class="wrapper">
+        {{ form.image2.label }}
+        {{ form.image2 }}
+        {% if form.image2.errors %}
+        {% for error in form.image2.errors %}<span>{{ error }}</span>{% endfor %}
+        {% endif %}
+    </div>
+    <div class="wrapper">
+        {{ form.image3.label }}
+        {{ form.image3 }}
+        {% if form.image3.errors %}
+        {% for error in form.image3.errors %}<span>{{ error }}</span>{% endfor %}
+        {% endif %}
+    </div>
+    <div class="wrapper">
+        {{ form.image4.label }}
+        {{ form.image4 }}
+        {% if form.image4.errors %}
+        {% for error in form.image4.errors %}<span>{{ error }}</span>{% endfor %}
+        {% endif %}
+    </div>
+    <div class="wrapper">
+        {{ form.image5.label }}
+        {{ form.image5 }}
+        {% if form.image5.errors %}
+        {% for error in form.image5.errors %}<span>{{ error }}</span>{% endfor %}
+        {% endif %}
+    </div>
+    <div class="button">
+        {{ form.submit }}
+    </div>
+  </form>
+{% endblock %}

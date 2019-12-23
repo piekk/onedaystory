@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form class ="center" method="POST" >
+
+        <h3>CHANGE USER STATUS</h3>
+        {{ form.hidden_tag() }}
+        <div class="wrapper">
+            {{ form.firstname.label }}
+            {{ form.firstname(class='small') }}
+            {% if form.firstname.errors %}
+        <span class="errors">{% for error in form.firstname.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="wrapper">
+            {{ form.lastname.label }}
+            {{ form.lastname(class='small') }}
+            {% if form.lastname.errors %}
+        <span class="errors">{% for error in form.lastname.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+
+
+        <div class="checkbox">
+            {{ form.accept_terms }}<span> I accept the <a href={{ url_for('terms') }}>Terms of use & Privacy policy</a></span>
+        </div>
+        <div class="button">
+            {{ form.submit }}
+        </div>
+    </form>
+{% endblock %}

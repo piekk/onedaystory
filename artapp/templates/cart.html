@@ -1,0 +1,66 @@
+{% extends"layout.html" %}
+{% block content %}
+{% if message %}
+  <h1>{{message}}</h1>
+{% else %}
+<div class= "content_center">
+  <div class = "head">SHOPPING CART</div>
+  <ul class="cart_process">
+    <li><img src="{{ url_for('static', filename = 'image/cart60.png') }}"></li>
+    <li>SHIPPING</li>
+    <li>PAYMENT</li>
+    <li>COMPLETE</li>
+  </ul>
+</div>
+    <div class='dashboard'>
+      <h1> CartCode: {{ cart.cartcode }}</h1>
+      <h1> Payment status: {{ cart.payment }}</h1>
+      <h1> CartOwner: {{ cart.owner }}</h1>
+      <h1> Date Create: {{ cart.date_create }}</h1>
+      <h1> Cart Expire: {{ cart.date_expire }}</h1>
+      <h1> Cart item: {{ cart.items }}</h1>
+      <h1> {{ product_inventory }}</h1>
+      <h1> {{ price }}</h1>
+      <br><br>
+
+      {% for item in cart.items %}
+        <img src="{{ url_for('static', filename=item.img) }}">
+        <h3>Items id: {{ item.id }}</h3>
+        <h3 class="productname">{{ item.product }}</h3>
+        <h3>owner: {{ item.seller }}</h3>
+        <h3>payment status: {{ item.status }}</h3>
+        <h3>No : </h3><h3 id="no{{ item.product }}">{{ item.quantity }}</h3>
+        <h3>Listed price: ฿<span id="price{{ item.product }}">{{ price[item.product] }} </span>.00</h3>
+        <h3>Total price: ฿<span id="totalPrice{{ item.product }}">{{ price[item.product]*item.quantity }} </span>.00</h3>
+        <h3>Tracking number: {{ item.tracking }}</h3>
+        {% if product_inventory[item.product]==0 %}
+          <h3>This product is no longer available.</h3>
+        {% else %}
+          <h3>Availability: {{ product_inventory[item.product] }}</h3>
+          <form method="POST">
+            <select name="{{ item.product }}" id="{{ item.product }}" onchange="getVal()">
+          {% for i in range(product_inventory[item.product]) %}
+              <option value="{{i+1}}">{{ i+1 }}</option>
+          {% endfor %}
+            </select>
+          </form>
+        {% endif %}
+
+
+        <form method="POST">
+          <input type="hidden" name="todelete" value="{{ item.id }}">
+          <input type="submit" value="DELETE">
+        </form>
+        <br><br>
+      {% endfor %}
+
+
+      <h3>Total Price: </h3>
+      <form method="POST">
+        <input type="submit" name="checkout" value="CHECKOUT">
+      </form>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static',filename='js/cart.js') }}"></script>
+{% endif %}
+{% endblock %}

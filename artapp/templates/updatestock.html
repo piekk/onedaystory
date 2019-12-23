@@ -1,0 +1,26 @@
+{% extends"merchantlayout.html" %}
+{% block content %}
+<!-- เปลี่ยนสต็อกสินค้า -->
+
+  <div class = "break"></div>
+  <div class = "view">
+    <h4 class="title-center">{{product.title}}</h4>
+    {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+    <img src="{{ image }}">
+    <h3 class="box-center inverse">เปลี่ยนสต็อกสินค้า</h3>
+    <h4>สินค้าที่มีอยู่: {{product.quantity }}</h4>
+
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+
+        <h4> จำนวน: {{ form.quantity }}</h4>
+
+        <button class="b-left">{{ form.submit }}</button>
+
+    </form>
+
+    <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends"merchantlayout.html" %}
+{% block content %}
+
+  {% if item.cart.payment=='W'%}
+  <h4>รหัส: {{item.cart.reference_id}}</h4>
+  <h4>ผู้ซื้อ: {{item.cart.cartowner.firstname}} {{item.cart.cartowner.lastname}}</h4>
+  <h4>ติดต่อ: {{item.cart.cartowner.contact}}</h4>
+  <h4>ผู้รับสินค้า: {{item.cart.shippingaddress.cart_address}}</h4>
+  <h4>ที่อยู่จัดส่ง: บ้านเลขที่ {{item.cart.shippingaddress.homeadress}} หมู่บ้าน/คอนโด: {{item.cart.shippingaddress.housename}}</h4>
+  <h4>ถนน: {{item.cart.shippingaddress.street}} ซอย: {{item.cart.shippingaddress.housename}}</h4>
+  <h4>แขวง/ตำบล: {{item.cart.shippingaddress.subdistrict}} เขต/อำเภอ: {{item.cart.shippingaddress.disrict}}</h4>
+  <h4>จังหวัด: {{item.cart.shippingaddress.province}} รหัสไปรษณีย์: {{item.cart.shippingaddress.postcode}}</h4>
+  {% else %}
+  <h4>รหัส: {{item.cart.reference_id}}</h4>
+  <h4>รหัส: {{item.cart.owner}}</h4>
+  <h4>รอการชำระเงินจากลูกค้า</h4>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form class ="center" method="POST" action="">
+
+        <h3>SELLER REGISTRATION</h3>
+        {{ form.hidden_tag() }}
+        <div class="wrapper">
+            {{ form.username.label }}
+            {{ form.username(class='small') }}
+            {% if form.username.errors %}
+        <span class="errors">{% for error in form.username.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="wrapper">
+            {{ form.firstname.label }}
+            {{ form.firstname(class='small') }}
+            {% if form.firstname.errors %}
+        <span class="errors">{% for error in form.firstname.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="wrapper">
+            {{ form.lastname.label }}
+            {{ form.lastname(class='small') }}
+            {% if form.lastname.errors %}
+        <span class="errors">{% for error in form.lastname.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="wrapper">
+            {{ form.contact.label }}
+            {{ form.contact(class='large' )}}
+            {% if form.contact.errors %}
+        <span class="errors">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="wrapper">
+            {{ form.email.label }}
+            {{ form.email(class='large' )}}
+            {% if form.email.errors %}
+        <span class="errors">{% for error in form.email.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="wrapper">
+            {{ form.password.label }}
+            {{ form.password(class='large' )}}
+            {% if form.password.errors %}
+        <span class="errors">{% for error in form.password.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="wrapper">
+            {{ form.confirm_password.label }}
+            {{ form.confirm_password(class='large' )}}
+            {% if form.confirm_password.errors %}
+        <span class="errors">{% for error in form.confirm_password.errors %}{{ error }}{% endfor %}</span>
+            {% endif %}
+        </div>
+        <div class="checkbox">
+            {{ form.accept_terms }}<span> I accept the <a href={{ url_for('terms') }}>Terms of use & Privacy policy</a></span>
+        </div>
+        <div class="button">
+            {{ form.submit }}
+        </div>
+    </form>
+    <div class="center">
+        <h4>Already have seller account? <a href={{ url_for('merchantlogin') }}>LOGIN</a></h4>
+    </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form class ="center" method="POST" action="">
+
+        <h3>MERCHANT LOGIN</h3>
+        <div class="wrapper">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <span class="errors">{{ message }}</span>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        </div>
+        {{ form.hidden_tag() }}
+        <div class="wrapper">
+            {{ form.email.label }}
+            {{ form.email(class='large' )}}
+        </div>
+
+        <div class="wrapper">
+            {{ form.password.label }}
+            {{ form.password(class='large' )}}
+        </div>
+        <h5><a href={{ url_for('password_email_reset') }}>Forgot your password?</a></h5>
+        <div class="button">
+            {{ form.submit }}
+        <div>
+    </form>
+    <div class="center">
+        <h4>Do not have seller account? <a href={{ url_for('merchantregister') }}>SELLER REGISTER</a></h4>
+    </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends"layout.html" %}
+{% block content %}
+    <div class="break"></div>
+    <div class="view">
+      <h4 class = "title-center">{{user.username}}</h4>
+      {% if user.description != None %}
+      <p class = "left-description">{{user.description}}</p>
+      {% endif %}
+
+      <div class="grid-container">
+        {% for item in user.product %}
+        <div class="double">
+          {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
+          {% if item.quantity > 0 %}
+          <a href="{{url_for('product', product=item.productcode)}}"><img src="{{image}}"></a>
+          {% else %}
+          <img src="{{image}}">
+          {% endif %}
+          <h4 class = "left-description italic">{{item.category}}</h4>
+          <h4 class = "left-description">Title: {{item.title}}</h4>
+
+          <div class="break"></div>
+          {% if item.quantity > 0 %}
+          <div class="view-item"><a href="{{url_for('product', product=item.productcode)}}">VIEW ITEM</a></div>
+          {% else %}
+          <div class="view-item">Out of stock</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+{% endblock %}

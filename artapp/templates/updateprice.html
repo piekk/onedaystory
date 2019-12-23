@@ -1,0 +1,39 @@
+{% extends"merchantlayout.html" %}
+{% block content %}
+<!-- เปลี่ยนราคาสินค้า -->
+
+  <div class = "break"></div>
+  <div class = "view">
+    <h4 class="title-center">{{product.title}}</h4>
+    {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+    <img src="{{ image }}">
+    <h3 class="box-center inverse">แก้ไขราคาสินค้าและโปรโมชัน</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <div class="wrapper">
+        <h5>ราคาสินค้า</h5>
+        {{ form.price }} <span> บาท </span>
+      </div>
+      <div class="wrapper">
+        <h5>ราคาค่าส่งสินค้า</h5>
+        {{ form.shipping_fee }} <span> บาท </span>
+      </div>
+      <div class="wrapper">
+        <h5>โปรโมชันสินค้า</h5>
+        {{ form.promotion }} <span> % </span>
+      </div>
+
+      <div class="wrapper">
+        <h5>หมดอายุใน</h5>
+        {{ form.promotion_expire }} <span> วัน </span>
+      </div>
+      <button class="b-left">{{ form.submit }} </button>
+
+    </form>
+
+    <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
+  </div>
+
+
+{% endblock %}

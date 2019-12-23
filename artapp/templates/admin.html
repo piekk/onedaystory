@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+	<title></title>
+
+</head>
+  <body>
+      <nav>
+				<ul>
+					<li><a href="{{ url_for('logout') }}">Logout</a></li>
+					<li><h4>Admin</h4>
+						<ul>
+							<li><a href="{{ url_for('admin') }}">Admin</a></li>
+							<li><a href="{{ url_for('admin_verify') }}">Verify</a></li>
+							<li><a href="#">Link 3</a></li>
+						</ul>
+					</li>
+					<li><h4>Articles</h4>
+						<ul>
+							<li><a href="{{ url_for('articles') }}">Articles</a></li>
+							<li><a href="{{ url_for('addarticles') }}">Update Articles</a></li>
+						</ul>
+					</li>
+					<li>Contact</li>
+				</ul>
+			</nav>
+    <section>
+
+			{% block content%}{% endblock %}
+
+
+    </section>
+		<footer>
+			<h4>This is footer</h4>
+		</footer>
+  </body>
+</html>

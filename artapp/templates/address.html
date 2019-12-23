@@ -1,0 +1,64 @@
+{% extends"layout.html" %}
+{% block content %}
+    {% if message %}
+    {{message}}
+    {% else %}
+    <form class ="center" method="POST">
+        <h3>กรุณากรอกชื่อและที่อยู่ในการจัดส่ง</h3>
+        {{ form.hidden_tag() }}
+
+            <div class="wrapper">
+              {{form.fullname.label}}
+              {{form.fullname}}
+            </div>
+            <div class="wrapper">
+              {{ form.contact.label }}
+              {{ form.contact }}
+            <span class="errors">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.homeaddress.label }}
+              {{ form.homeaddress }}
+            <span class="errors">{% for error in form.homeaddress.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.housename.label }}
+              {{ form.housename }}
+            <span class="errors">{% for error in form.housename.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.street.label }}
+              {{ form.street }}
+            <span class="errors">{% for error in form.street.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.substreet.label }}
+              {{ form.substreet }}
+            <span class="errors">{% for error in form.substreet.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.subdistrict.label }}
+              {{ form.subdistrict }}
+            <span class="errors">{% for error in form.subdistrict.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.district.label }}
+              {{ form.district }}
+            <span class="errors">{% for error in form.district.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.province.label }}
+              {{ form.province}}
+            <span class="errors">{% for error in form.province.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="wrapper">
+              {{ form.postcode.label }}
+              {{ form.postcode }}
+            <span class="errors">{% for error in form.postcode.errors %}{{ error }}{% endfor %}</span>
+            </div>
+            <div class="button">
+              {{ form.submit }}
+            </div>
+    </form>
+    {% endif %}
+{% endblock %}

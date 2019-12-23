@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/responsive.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/swiper.css') }}">
+
+	<link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='image/favicon/apple-icon-57x57.png') }}">
+	<link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename= 'image/favicon/apple-icon-60x60.png') }}">
+	<link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename= 'image/favicon/apple-icon-72x72.png') }}">
+	<link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename= 'image/favicon/apple-icon-76x76.png') }}">
+	<link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename= 'image/favicon/apple-icon-114x114.png') }}">
+	<link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename= 'image/favicon/apple-icon-120x120.png') }}">
+	<link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename= 'image/favicon/apple-icon-144x144.png') }}">
+	<link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename= 'image/favicon/apple-icon-152x152.png') }}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename= 'image/favicon/apple-icon-180x180.png') }}">
+	<link rel="icon" type="image/png" sizes="192x192"  href="{{ url_for('static', filename= 'image/favicon/android-icon-192x192.png') }}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename= 'image/favicon/favicon-32x32.png') }}">
+	<link rel="icon" type="image/png" sizes="96x96" href="{{url_for('static', filename= 'image/favicon/favicon-96x96.png') }}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename= 'image/favicon/favicon-16x16.png') }}">
+	<link rel="manifest" href="{{ url_for('static', filename= 'image/favicon/manifest.json') }}">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="{{ url_for('static', filename = 'image/favicon/ms-icon-144x144.png') }}">
+	<meta name="theme-color" content="#ffffff">
+	<title></title>
+
+</head>
+  <body>
+    <header>
+				<div class='logo_container'>
+					<a href={{ url_for('home') }}><img src="{{ url_for('static', filename='image/logo.png') }}"></a>
+					<div class='float_right_cart'>
+						<img src="{{ url_for('static', filename='image/menu.png') }}" onclick="toggle()" >
+					</div>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="{{ url_for('gallery') }}">GALLERY</a></li>
+						<li><a href="{{ url_for('articles') }}">ARTICLES</a></li>
+						<li><a href="#">ABOUT US</a></li>
+						<li><a href="#">CONTACT</a></li>
+					</ul>
+				</nav>
+		</header>
+
+		<ul id="sidemenu">
+			{% if current_user.is_authenticated and current_user.role == 'Buyer' %}
+			<li><a href={{ url_for('cart') }}><img src="{{ url_for('static', filename='image/icon/shoppingbag.png') }}">&nbsp {{ current_user.cart.items|length }}</a></li>
+			<li><a href={{ url_for('logout') }}>LOGOUT</a></li>
+			<li><a href={{ url_for('changeuserstatus') }}>CHANGE TO SELLER ACCOUNT</a></li>
+			{% elif current_user.is_authenticated and current_user.role == 'admin' %}
+			<li><a href={{ url_for('admin', name=current_user.username) }}>ADMIN</a></li>
+			<li><a href={{ url_for('logout') }}>LOGOUT</a></li>
+			{% elif current_user.is_authenticated and current_user.role == 'Seller' %}
+			<li><a href={{ url_for('cart') }}><img src="{{ url_for('static', filename='image/icon/shoppingbag.png') }}">&nbsp {{ current_user.cart.items|length }}</a></li>
+			<li><a href={{ url_for('logout') }}>LOGOUT</a></li>
+			<li><a href={{ url_for('merchant', name=current_user.username) }}>DASHBOARD</a></li>
+			{% else%}
+			<li><a href={{ url_for('cart') }}><img src="{{ url_for('static', filename='image/icon/shoppingbag.png') }}"></a></li>
+			<li><a href={{ url_for('register') }}>REGISTER</a></li>
+			<li><a href={{ url_for('login') }}>LOGIN</a></li>
+			<li><a href={{ url_for('merchantregister') }}>SELL WITH US</a></li>
+			{% endif %}
+		</ul>
+
+
+    <section>
+
+            {% block content%}{% endblock %}
+
+    </section>
+
+		<footer>
+
+			<ul class="toggle-footer">
+				<li><a href="#">TRACK YOUR ORDER</a></li>
+				<li><a href="#">ABOUT US</a></li>
+				<li><a href="#">CONTACT US</a></li>
+				<li><a href="#">FAQ</a></li>
+				<li><a href="#">TERMS AND CONDITIONS</a></li>
+			</ul>
+			<div class="social-media">
+				<a href="#"><img src="{{ url_for('static', filename='image/icon/facebook.png') }}" alt="facebook link"></a>
+				<a href="#"><img src="{{ url_for('static', filename='image/icon/instagram.png') }}" alt="instagram link"></a>
+				<a href="#"><img src="{{ url_for('static', filename='image/icon/line.png') }}" alt="lline link"></a>
+			</div>
+			<small>Copyright &copy; <span id="this-year">2018</span> www.onedaystory.co. All Rights Reserved</small>
+		</footer>
+		<script type="text/javascript" src="{{ url_for('static',filename='js/layout.js') }}"></script>
+  </body>
+</html>
