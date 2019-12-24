@@ -121,103 +121,71 @@ footer .social-media{
   padding: 1em 1em;
 }
 
-/* top of display*/
-.break{
-  width: 100%;
-  height: 1em;
+
+/* general font style */
+h3, h4{
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
-.header-title{
-  font-size: 1em;
-  margin-left: 1em;
-  font-weight: bold;
-}
-.filter{
-  line-height: .8em;
-  margin-left: 1em;
-}
-.filter span, .filter a{
-  font-size: 0.7em;
-  text-align: center;
+
+a{
   text-decoration: none;
-  vertical-align: middle;
-}
-
-
-/*swipe style*/
-.swiper-container {
-  width: 100%;
-  height: calc(70vh);
-  max-height: calc(120vw);
-}
-
-.swiper-slide {
-  border-bottom: 1px solid #c5c6c7;
-  text-align: center;
-
-  /* Center slide text vertically */
-
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-.swiper-slide .box{
-  width: 100%;
-
-}
-.swiper-slide .box img{
-  width: 90%;
-}
-
-.swiper-slide .filter{
-  width: 90%;
-  margin: auto;
-  text-align: right;
-}
-
-
-.swiper-slide h4{
-  width: 50%;
-  margin: auto;
-  margin-top: 0.25em;
-  line-height: 0.7em;
-  padding: 0em 0.5em;
-  font-weight: 400;
-  text-align: center;
-}
-.swiper-slide h4 a{
-  font-size: 0.6em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.swiper-slide h4.price{
-  margin-top: 0.8em;
-  font-size: 0.8em;
-  font-weight: 100;
-  vertical-align: middle;
 }
 .highlight{
-  color: #ce4a50;
+  color: #e71212;
 }
-
-h4.price span.discount{
+.tag{
+  font-size: 0.8em;
+}
+.discount{
   color: white;
-  background-color: #ce4a50;
+  background-color: ##e71212;
   font-size: .65em;
   padding: 0 0.2em;
   margin-right: 0.4em;
 }
-h4.price span.discount-from{
-  color: #323137;
-  font-size: 0.85em;
+.linethrough{
   text-decoration: line-through;
   font-style: italic;
+}
+.red{
+  background-color: #e71212;
+  color: white;
+}
+.italic{
+  font-style: italic;
+}
+
+/* div class */
+.break{
+  width: 100%;
+  height: 1em;
+}
+.norm{
+  width: calc(90vw);
+  margin: auto;
+}
+.filter{
+  margin-left: calc(5vw);
+}
+
+
+/*swipe style*/
+
+.swiper-slide {
+  border-bottom: 1px solid #c5c6c7;
+  text-align: center;
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .swiper-pagination{
   z-index: 1000;
 }
 
-/* mid banner */
+/* banner */
 .banner{
   width: 100%;
   margin: auto;
@@ -227,8 +195,7 @@ h4.price span.discount-from{
   border-bottom: 1px solid #c5c6c7;
 }
 .banner img{
-  width: 95%;
-  margin: auto;
+  width: 100%;
 }
 
 .small-banner{
@@ -242,7 +209,6 @@ h4.price span.discount-from{
   border-bottom: 1px solid #c5c6c7;
 }
 
-/*Text on top of image banner*/
 .text-center{
   position: absolute;
   font-size: 0.6em;
@@ -256,6 +222,9 @@ h4.price span.discount-from{
   color: #f1ece1;
   text-decoration: none;
 }
+
+
+/* pagination bullet */
 .info-page{
   width: 90%;
   margin: 1em 2em;
@@ -270,16 +239,13 @@ h4.price span.discount-from{
 .info-page a.current{
   color: black;
 }
-.info-page .button{
+
+
+
+.button{
   padding: 0.2em 1em;
-  background-color: black;
+  background-color: #323137;
   color: white;
-  float: right;
-  font-size: 0.9em;
-  margin-right: 1em;
-}
-.info-page a.button{
-  text-decoration: none;
 }
 
 .btn-detail a{
@@ -287,10 +253,11 @@ h4.price span.discount-from{
   background-color: #323137;
   color: white;
 }
-.red{
-  color: red;
-  font-weight: bold;
+.bck{
+  display: block;
 }
+
+
 .soldout{
   color: white;
   background-color: red;
@@ -327,11 +294,7 @@ h4.price span.discount-from{
   text-align: left;
   font-size: 0.8em;
 }
-.italic{
-  font-style: italic;
-  color: #274b58;
-  font-size: 0.8em;
-}
+
 
 
 .title-center{
@@ -343,7 +306,7 @@ h4.price span.discount-from{
 
 .add-cart{
   width: calc(90vw);
-  background-color: #ce4a50;
+  background-color: #e71212;
   color: #f1ece1;
   border: none;
   margin-left: calc(5vw);
@@ -369,7 +332,6 @@ a.see-more{
 }
 .double img{
   margin-bottom: 1em;
-
   border-bottom: 1px solid #f1ece1;
 }
 
@@ -388,4 +350,22 @@ a.see-more{
   text-decoration: none;
   cursor: pointer;
   font-size: 0.8em;
+}
+
+/* size */
+.w40{
+  width: calc(40vw);
+}
+
+/* position */
+.right{
+  text-align: right;
+}
+.fl-right{
+  float: right;
+  margin-right: 1em;
+}
+.center{
+  margin-left: auto;
+  margin-right: auto;
 }

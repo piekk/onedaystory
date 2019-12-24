@@ -65,9 +65,9 @@
         {% endif %}
       {% endfor %}
       {% if filter=="gallery"%}
-        <a href="{{ url_for('gallery', page=product.next_num) }}" class="button">LOAD MORE</a>
+        <a href="{{ url_for('gallery', page=product.next_num) }}" class="button fl-right">LOAD MORE</a>
       {% else %}
-      <a href="{{ url_for('gallery', filter=filter, page=product.next_num) }}" class="button">LOAD MORE</a>
+      <a href="{{ url_for('gallery', filter=filter, page=product.next_num) }}" class="button fl-right">LOAD MORE</a>
       {% endif %}
     </div>
 
