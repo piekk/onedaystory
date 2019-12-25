@@ -155,6 +155,9 @@ a{
 .italic{
   font-style: italic;
 }
+.upper{
+  text-transform: uppercase; 
+}
 
 /* div class */
 .break{

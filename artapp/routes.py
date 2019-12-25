@@ -31,7 +31,7 @@ def gallery(filter):
     productcategory = ['illustration', 'painting', 'photograph', 'decoration', 'book']
     if filter == None:
         time = datetime.now()
-        product = Products.query.filter(Products.quantity>0).paginate(per_page=10, page=page)
+        product = Products.query.order_by(Products.view.desc()).paginate(per_page=10, page=page)
         return render_template("gallery.html", product = product, margin=margin, time=time, filter='gallery', bucket = app.config['BUCKET'])
     elif filter == 'latest':
         time = datetime.now()
@@ -39,13 +39,14 @@ def gallery(filter):
         return render_template("gallery.html", product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
     elif filter in productcategory:
         time = datetime.now()
-        product = Products.query.filter(Products.category==filter,Products.quantity>0).paginate(per_page=10, page=page)
+        product = Products.query.filter(Products.category==filter).paginate(per_page=10, page=page)
         return render_template("gallery.html", product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
     else:
         time = datetime.now()
-        searchwordlower = filter.lower()
+        fil = secure_filename(filter)
+        searchwordlower = fil.lower()
         searchword = searchwordlower.replace(" ","")
-        product = Products.query.filter(Products.style.contains(searchword),Products.quantity>0).paginate(per_page=10, page=page)
+        product = Products.query.filter(Products.style.contains(searchword)).paginate(per_page=10, page=page)
         return render_template("gallery.html", product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
 
 def check_promotion(p_insert):
@@ -566,7 +567,7 @@ def update_detail(name):
         product.frame = form.frame.data
         product.style = keyword
         product.size = form.size.data
-        product.obj_size = form.obj_size.data
+        product.object_size = form.object_size.data
         product.description = form.description.data
         db.session.commit()
         return redirect (url_for('edit_product', name = product.productcode))
@@ -577,7 +578,7 @@ def update_detail(name):
         else:
             form.frame.data = product.frame
             form.tag.data = product.style
-            form.obj_size.data = product.obj_size
+            form.object_size.data = product.object_size
             form.size.data = product.size
             form.description.data = product.description
             return render_template("updatedetail.html", form=form, product=product, bucket=app.config['BUCKET'])
