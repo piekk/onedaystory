@@ -156,7 +156,7 @@ a{
   font-style: italic;
 }
 .upper{
-  text-transform: uppercase; 
+  text-transform: uppercase;
 }
 
 /* div class */
@@ -171,7 +171,10 @@ a{
 .filter{
   margin-left: calc(5vw);
 }
-
+.border{
+  border: 1px solid black;
+  box-shadow: 4px 6px #c5c6c7;
+}
 
 /*swipe style*/
 
@@ -244,7 +247,6 @@ a{
 }
 
 
-
 .button{
   padding: 0.2em 1em;
   background-color: #323137;
@@ -261,66 +263,17 @@ a{
 }
 
 
-.soldout{
-  color: white;
-  background-color: red;
-  width: calc(30vw);
-  text-align: center;
-}
-
 /*Product page*/
 .view{
   width: 100vw;
   margin-bottom: 2em;
 }
-.view h4{
-  margin-left: 1.5em;
-  margin-bottom: 0.5em;
-}
-.view p{
-  font-style: italic;
-  background-color: #e2e2e2;
-  width: calc(90vw);
-  margin-left: calc(5vw);
-  margin-bottom: 1em;
-  padding: 1em 1em 1em 0em;
-  line-height: 1.5em;
-}
-.small-description{
-  font-style: italic;
-  color: #274b58;
-  font-size: 0.8em;
-  text-align: right;
-  margin-right: 2em;
-}
-.left-description{
-  text-align: left;
-  font-size: 0.8em;
-}
-
-
-
-.title-center{
-  width: calc(100vw);
-  text-transform: capitalize;
-  font-style: italic;
-  color: #274b58;
-}
-
 .add-cart{
   width: calc(90vw);
   background-color: #e71212;
   color: #f1ece1;
   border: none;
-  margin-left: calc(5vw);
   padding: 1.2em 3em;
-  margin-bottom: 1em;
-}
-a.see-more{
-  background-color: #274b58;
-  color: #f1ece1;
-  margin-left: calc(5vw);
-  padding: 0.5em 2em;
 }
 
 /* artist view page */

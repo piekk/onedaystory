@@ -2,56 +2,71 @@
 {% block content %}
     <div class="break"></div>
     <div class="view">
-      <h4 class = "title-center">{{product.title}}</h4>
+      <div class = "norm">
+        <h4>{{product.title}}</h4>
+      </div>
       {% set image = "https://storage.googleapis.com/"+ bucket +"/"+product.imgfile1 %}
       <img src="{{ image }}">
-        <h4><a href="{{url_for('view', name=product.owner.username)}}">ดูสินค้าอื่นของ {{product.owner.username}} </a></h4>
 
-      {% if product.promotion|int > 0 and time<product.promotion_expire %}
-        <h4 class="highlight price">{{product.promotion}}% <span class="discount">OFF</span> <span class="small-description">(ภายในวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }} เท่านั้น)</span></h4>
-      {% else %}
-      {% endif %}
+      <div class = "norm border">
+        <a href="{{url_for('view', name=product.owner.username)}}">ดูสินค้าอื่นของ {{product.owner.username}} </a>
 
-      {% if product.quantity==1 %}
+        {% if product.promotion|int > 0 and time<product.promotion_expire %}
+        <h4>
+          <span class="highlight">{{product.promotion}}% OFF </span><span>(ภายในวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }} เท่านั้น)</span>
+        </h4>
+        {% else %}
+        {% endif %}
+
+        {% if product.quantity==0 %}
+        <h4 class="highlight" >สินค้าหมด</h4>
+        {% elif product.quantity==1 %}
         <h4 class="highlight" >เหลือชิ้นสุดท้าย</h4>
-      {% else %}
+        {% else %}
         <h4 class="highlight" >เหลือเพียง {{product.quantity}} </h4>
-      {% endif %}
+        {% endif %}
 
-      {% if product.category == 'illustration' or product.category == 'painting' or product.category=='photograph' %}
-        <h4 class="left-description">กรอบรูป: {{product.frame}}</h4>
-        <h4 class="left-description">ขนาด: {{product.size}} นิ้ว</h4>
-      {% elif product.category == 'book' %}
-        <h4 class="left-description">ผู้แต่ง: {{product.authors}}</h4>
-        <h4 class="left-description">รูปแบบ: {{product.book_condition}}</h4>
-      {% else %}
-        <h4 class="left-description">สภาพ: {{product.condition}}</h4>
-      {% endif %}
+        {% if product.category == 'illustration' or product.category == 'painting' or product.category=='photograph' %}
+        <h4>กรอบรูป: {{product.frame}}</h4>
+        <h4>ขนาด: {{product.size}} นิ้ว</h4>
+        {% elif product.category == 'book' %}
+        <h4>ผู้แต่ง: {{product.authors}}</h4>
+        <h4>รูปแบบ: {{product.book_condition}}</h4>
+        {% else %}
+        <h4>สภาพ: {{product.condition}}</h4>
+        {% endif %}
 
-      {% if product.description %}
-        <p class="left-description">{{product.description}}</p>
-      {% else %}
-      {% endif %}
+        {% if product.description %}
+        <p>{{product.description}}</p>
+        {% else %}
+        {% endif %}
 
 
-      <h4 class="price">
-        <span>ราคา:  </span>{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}
-        <span class="small-description">(รวมค่าจัดส่ง)</span>
-      </h4>
-
+        <h4>
+          <span>ราคา:  </span>{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}
+          <span>(รวมค่าจัดส่ง)</span>
+        </h4>
+      </div>
+      <div class="break"></div>
 
       {% if product.quantity>0 %}
-      <form method="POST">
-        <input class="add-cart" type="submit" value="ADD TO CART">
-      </form>
-      <h4 class="small-description">จัดเตรียมและจัดส่งสินค้าภายใน 3 วัน</h4>
-      <h4 class="small-description">รับประกันคืนสินค้าได้ภายใน 7 วัน</h4>
+      <div class = "norm">
+        <form method="POST">
+          <input class="add-cart" type="submit" value="ADD TO CART">
+        </form>
+        <h4 class="italic right tag">จัดเตรียมและจัดส่งสินค้าภายใน 3 วัน</h4>
+        <h4 class="italic right tag">รับประกันคืนสินค้าได้ภายใน 7 วัน</h4>
+      </div>
       {% else %}
-      <h4 class = "soldout">SOLD OUT</h4>
-      <div class="break"></div>
+      <div class = "norm">
+        <h4 class="red">สินค้าหมด</h4>
+      </div>
       {% endif %}
 
-      <a class="see-more" href="{{url_for('gallery', filter=product.category)}}">SEE MORE</a>
+      <div class="break"></div>
+      <div class = "norm">
+        <a class="blk button w40" href="{{url_for('gallery', filter=product.category)}}">SEE MORE</a>
+      </div>
     </div>
 
 {% endblock %}

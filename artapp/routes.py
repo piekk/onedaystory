@@ -158,6 +158,7 @@ def cart():
             timeexpire = expire.strftime("%Y-%m-%d  %H:%M")
             cart.payment = 'W'
             cart.payment_expire = timeexpire
+            cart.date_expire = timeexpire
             db.session.commit()
             for item in cart.items:
                 product=Products.query.filter_by(productcode=item.product).first()
@@ -595,6 +596,11 @@ def update_price(name):
         noofdays = form.promotion_expire.data
         promotion_expiry_date = datetime.now() + timedelta(days=noofdays)
         expire_on = promotion_expiry_date.strftime("%Y-%m-%d")
+        product.promotion_expire  = expire_on
+        product.price = form.price.data
+        product.promotion = form.promotion.data
+        shipping_fee = form.shipping_fee.data
+        db.session.commit()
         return redirect (url_for('edit_product', name = product.productcode))
     elif request.method == 'GET' and product.owner_id == current_user.id:
         in_cart = CartItems.query.filter(CartItems.product == name).first()
@@ -710,3 +716,7 @@ def admin_verify():
         return render_template("verify.html", pending_user=pending_user)
     else:
         return redirect(url_for('home'))
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for('home')), 404
