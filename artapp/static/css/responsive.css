@@ -158,7 +158,9 @@ a{
 .upper{
   text-transform: uppercase;
 }
-
+.bold{
+  font-weight: bold;
+}
 /* div class */
 .break{
   width: 100%;
@@ -174,6 +176,9 @@ a{
 .border{
   border: 1px solid black;
   box-shadow: 4px 6px #c5c6c7;
+}
+.hide{
+  display: none;
 }
 
 /*swipe style*/
@@ -324,4 +329,34 @@ a{
 .center{
   margin-left: auto;
   margin-right: auto;
+}
+
+/* list style */
+
+ul.norm li{
+  list-style-type: none;
+}
+
+/* table style */
+
+.w-full > thead > tr > th {
+  background: #efefef;
+  border: none;
+  vertical-align: middle;
+  font-size: 1em;
+  color: #737373;
+  padding: 10px 0px;
+  }
+
+table {
+  width: calc(100vw);
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+th.cart_product{
+  width: 20%;
+}
+.thumbnail{
+  width: 120px;
+  height: 120px;
 }

@@ -226,7 +226,7 @@ def cart():
                 message = "Product is no longer available"
                 return render_template("cart.html", message = message)
             else:
-                return render_template("cart.html", cart = cart, product_inventory = product_inventory, price=price)
+                return render_template("cart.html", cart = cart, product_inventory = product_inventory, bucket=app.config['BUCKET'], price=price)
         elif cart and cart.items and cart.payment == 'N' and cart.date_expire < time:
             for item in cart.items:
                 db.session.delete(item)
