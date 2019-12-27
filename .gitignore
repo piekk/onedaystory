@@ -1,4 +1,5 @@
 app.yaml
 /artapp/__init__.py
+/artapp/static/json
 run.py
 .gcloudignore

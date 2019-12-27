@@ -20,7 +20,7 @@
     <tr class="head">
       <th class="cart_product">สินค้า</th>
       <th>จำนวน</th>
-      <th>ราคาต่อหน่วย</th>
+      <th class="lscreen">ราคาต่อหน่วย</th>
       <th>ราคารวม</th>
       <th>ลบ</th>
     </tr>
@@ -47,11 +47,12 @@
         </form>
         {% endif %}
       </td>
-      <td>
-        <span>Listed price: ฿</span><span id="price{{ item.product }}">{{ price[item.product] }} </span><span>.00</span>
+      <td class="lscreen">
+        <span>{{ "฿ {:,.2f}".format(price[item.product]) }} </span>
+        <span class = "hide" id="price{{ item.product }}">{{ price[item.product] }}</span>
       </td>
       <td>
-        <span>Total price: ฿</span><span id="totalPrice{{ item.product }}">{{ price[item.product]*item.quantity }} </span><span>.00</span>
+        <span>฿</span><span id="totalPrice{{ item.product }}">{{ price[item.product]*item.quantity }} </span><span>.00</span>
       </td>
       <td>
         <form method="POST">
@@ -63,7 +64,7 @@
     {% endfor %}
   </tbody>
 </table>
-<h3>Total Price: </h3>
+<h3>Total Price: <span id="t_amount"></span></h3>
 <form method="POST">
   <input type="submit" name="checkout" value="CHECKOUT">
 </form>
