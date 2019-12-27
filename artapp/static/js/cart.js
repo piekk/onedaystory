@@ -2,6 +2,8 @@
 window.addEventListener('load', function() {
     let num = document.getElementsByClassName('productname');
     let dicNum = {};
+    let tamount = document.getElementById('t_amount');
+    let t = 0;
     for (var i=0; i<num.length; i++){
       // load order for item from db
       let order = document.getElementById('no'+num[i].innerText);
@@ -14,7 +16,10 @@ window.addEventListener('load', function() {
       let e = document.getElementById(num[i].innerText);
       e.value = dicNum[num[i].innerText];
       //display total price from selected field and price
-      totalPrice.innerText = price.innerText * e.value;
+      var n = price.innerText * e.value;
+      t += Number(totalPrice.innerText);
+      totalPrice.innerText = n.toLocaleString();
+      tamount.innerText = t.toLocaleString();
     }
 })
 
@@ -24,13 +29,18 @@ window.addEventListener('load', function() {
 function getVal(){
   let p = document.getElementsByClassName('productname');
   let quantity = {};
+  let tamount = document.getElementById('t_amount');
+  let t = 0;
   for (var i = 0; i<p.length; i++){
     let q = document.getElementById(p[i].innerText);
     let price = document.getElementById('price'+p[i].innerText);
     let totalPrice = document.getElementById('totalPrice'+p[i].innerText);
     let realQ = q.selectedIndex+1;
     quantity[p[i].innerText] = realQ;
-    totalPrice.innerText = price.innerText * quantity[p[i].innerText];
+    var n = price.innerText * quantity[p[i].innerText]
+    t += Number(n);
+    totalPrice.innerText = n.toLocaleString();
+    tamount.innerText = t.toLocaleString();
   }
   let quan = JSON.stringify(quantity)
   var xhr = new XMLHttpRequest();

@@ -360,3 +360,21 @@ th.cart_product{
   width: 120px;
   height: 120px;
 }
+td{
+  text-align: center;
+  border: 1px solid #737373;
+}
+
+/* screen size */
+.lscreen{
+  display: none;
+}
+
+/* media screen */
+@media only screen and (min-width: 600px){
+  .lscreen{
+    display: table-cell;
+    vertical-align: inherit;
+    text-align: center;
+  }
+}
