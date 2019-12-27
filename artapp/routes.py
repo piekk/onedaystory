@@ -252,7 +252,6 @@ def process():
     for item in cart.items:
         item.quantity = data[item.product]
         db.session.commit()
-        os.remove(json_path)
     return jsonify(data)
 
 @app.route('/address/<cart>', methods=['GET', 'POST'])
