@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from flask import render_template, request, url_for, redirect, flash, jsonify, json, session
 from artapp import app, db, bcrypt, margin
 from artapp.forms import RegistrationForm, LoginForm, MerchantRegistrationForm, ChangeStatusForm, MerchantLoginForm, ProductForm, EditImageForm, EditDetailForm, EditPriceForm, EditStockForm, Profile, Ship_Address, EditImageForm
-from artapp.models import User, Products, Cart, CartItems, Articles, ShipAddress
+from artapp.models import User, Products, Cart, CartItems, Articles, ShipAddress, Address
 from flask_login import login_user, current_user, logout_user, login_required
 from google.cloud import storage
 
@@ -260,18 +260,38 @@ def address(cart):
     form = Ship_Address()
     if form.validate_on_submit():
         try:
-            db.session.add(ShipAddress(fullname=form.fullname.data, contact=form.contact.data,
+            db.session.add(ShipAddress(firstname=form.firstname.data, lastname=form.lastname.data, contact=form.contact.data,
                                        homeaddress=form.homeaddress.data, housename=form.housename.data,
                                        street=form.street.data, sub_street=form.substreet.data,
                                        subdistrict=form.subdistrict.data, district=form.district.data,
                                        province=form.province.data, country='Thailand', postcode=form.postcode.data,
                                        cartshipaddress = current_user.cart))
+            db.session.add(Address(homeaddress=form.homeaddress.data, housename=form.housename.data,
+                                   street=form.street.data, sub_street=form.substreet.data,
+                                   subdistrict=form.subdistrict.data, district=form.district.data,
+                                   province=form.province.data, country='Thailand', postcode=form.postcode.data,
+                                   owner_address = current_user))
             db.session.commit()
             return redirect(url_for('payment'))
         except:
             message = "ข้อมูลผิดพลาด"
             return render_template("address.html", form=form, message=message)
+    elif current_user.address:
+        form.firstname.data = current_user.firstname
+        form.lastname.data = current_user.lastname
+        form.contact.data = current_user.contact
+        form.homeaddress.data = current_user.address.homeaddress
+        form.street.data = current_user.address.street
+        form.substreet.data = current_user.address.sub_street
+        form.subdistrict.data = current_user.address.subdistrict
+        form.district.data = current_user.address.district
+        form.province.data = current_user.address.province
+        form.postcode.data = current_user.address.postcode
+        return render_template("address.html", form=form)
     else:
+        form.firstname.data = current_user.firstname
+        form.lastname.data = current_user.lastname
+        form.contact.data = current_user.contact
         return render_template("address.html", form=form)
 
 @app.route('/payment', methods=['GET', 'POST'])

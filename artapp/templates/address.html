@@ -3,62 +3,96 @@
     {% if message %}
     {{message}}
     {% else %}
-    <form class ="center" method="POST">
-        <h3>กรุณากรอกชื่อและที่อยู่ในการจัดส่ง</h3>
-        {{ form.hidden_tag() }}
+    <div class="break"></div>
+    <div class= "norm">
+      <div>
+        <h4>ตะกร้าสินค้า</h4>
+      </div>
+      <ul class="norm">
+        <li class="bold">สรุปตะกร้า</li>
+        <li class="bold">ที่อยู่จัดส่ง</li>
+        <li>ชำระเงิน</li>
+      </ul>
+    </div>
+    <div class="break"></div>
 
-            <div class="wrapper">
-              {{form.fullname.label}}
-              {{form.fullname}}
-            </div>
-            <div class="wrapper">
-              {{ form.contact.label }}
-              {{ form.contact }}
+    <div class = "norm"</div>
+      <form class ="center" method="POST">
+        {{ form.hidden_tag() }}
+        <h3>กรุณากรอกชื่อและที่อยู่ในการจัดส่ง</h3>
+        <div class="wrapper">
+          <div class="halfw divspan">
+            {{form.firstname.label(class_="bck bold")}}
+            {{form.firstname(class_="small_field") }}
+          </div>
+          <div class ="halfw fl-right">
+            {{form.lastname.label (class_="bck bold")}}
+            {{form.lastname(class_="med_field") }}
+          </div>
+        </div>
+        <div class="wrapper">
+          <div>
+            {{ form.contact.label(class_="bck bold") }}
+            {{ form.contact(class_="med_field") }}
             <span class="errors">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.homeaddress.label }}
-              {{ form.homeaddress }}
+          </div>
+        </div>
+        <div class="wrapper">
+          <div class ="quaterw divspan">
+            {{ form.homeaddress.label(class_="bck bold") }}
+            {{ form.homeaddress(class_="v_small_field") }}
             <span class="errors">{% for error in form.homeaddress.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.housename.label }}
-              {{ form.housename }}
-            <span class="errors">{% for error in form.housename.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.street.label }}
-              {{ form.street }}
-            <span class="errors">{% for error in form.street.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.substreet.label }}
-              {{ form.substreet }}
-            <span class="errors">{% for error in form.substreet.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.subdistrict.label }}
-              {{ form.subdistrict }}
+          </div>
+          <div class = "quater divspan">
+            {{ form.housename.label(class_="bck bold") }}
+            {{ form.housename(class_="v_small_field") }}
+          </div>
+          <div class = "halfw divspan">
+            {{ form.substreet.label(class_="bck bold") }}
+            {{ form.substreet(class_="small_field") }}
+          </div>
+        </div>
+
+        <div class="wrapper">
+
+          <div class = "halfw divspan">
+            {{ form.street.label(class_="bck bold") }}
+            {{ form.street(class_="small_field") }}
+          </div>
+        </div>
+
+        <div class="wrapper">
+          <div class = "halfw divspan">
+            {{ form.subdistrict.label(class_="bck bold") }}
+            {{ form.subdistrict(class_="small_field") }}
             <span class="errors">{% for error in form.subdistrict.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.district.label }}
-              {{ form.district }}
+          </div>
+          <div class="halfw fl-right">
+            {{ form.district.label(class_="bck bold") }}
+            {{ form.district(class_="small_field") }}
             <span class="errors">{% for error in form.district.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.province.label }}
-              {{ form.province}}
+          </div>
+        </div>
+
+        <div class="wrapper">
+          <div class = "halfw divspan">
+            {{ form.province.label(class_="bck bold") }}
+            {{ form.province(class_="small_field") }}
             <span class="errors">{% for error in form.province.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="wrapper">
-              {{ form.postcode.label }}
-              {{ form.postcode }}
+          </div>
+          <div class="halfw fl-right">
+            {{ form.postcode.label(class_="bck bold") }}
+            {{ form.postcode(class_="small_field") }}
             <span class="errors">{% for error in form.postcode.errors %}{{ error }}{% endfor %}</span>
-            </div>
-            <div class="button">
-              {{ form.submit }}
-            </div>
-    </form>
+          </div>
+        </div>
+        <div class="break"></div>
+
+        <div class="norm">
+          {{ form.submit(class_="button") }}
+        </div>
+
+      </form>
+      <div class="break"></div>
     {% endif %}
 {% endblock %}

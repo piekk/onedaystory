@@ -1,8 +1,42 @@
 {% extends"layout.html" %}
 {% block content %}
 {% if message %}
-  <h1>{{message}}</h1>
+
+<div class="break"></div>
+<div class= "norm">
+  <div>
+    <h4>ตะกร้าสินค้า</h4>
+  </div>
+  <ul class="norm">
+    <li class="bold">สรุปตะกร้า</li>
+    <li>ที่อยู่จัดส่ง</li>
+    <li>ชำระเงิน</li>
+  </ul>
+</div>
+<div class="break"></div>
+<table class="w-full">
+  <thead>
+    <tr class="head">
+      <th class="cart_product">สินค้า</th>
+      <th>จำนวน</th>
+      <th class="lscreen">ราคาต่อหน่วย</th>
+      <th>ราคารวม</th>
+      <th>ลบ</th>
+    </tr>
+  </thead>
+</table>
+<div class="break"></div>
+<div class="norm">
+  <h3 class="right">ไม่มีสินค้าอยู่ในตะกร้า</h3>
+</div>
+<div class="break"></div>
+<div class="norm right">
+  <a class="button w40" href="{{request.referrer}}">BACK</a>
+</div>
+<div class="break"></div>
+
 {% else %}
+
 <div class="break"></div>
 <div class= "norm">
   <div>
@@ -57,17 +91,34 @@
       <td>
         <form method="POST">
           <input type="hidden" name="todelete" value="{{ item.id }}">
-          <input type="submit" value="DELETE">
+          <input class ="button" type="submit" value="ลบ">
         </form>
       </td>
     </tr>
     {% endfor %}
   </tbody>
+  <tfoot>
+    <tr>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <h5>TOTAL PRICE</h5>
+      </td>
+      <td>
+        <span>฿ </span><span id="t_amount"></span><span>.00</span>
+      </td>
+    </tr>
+  </tfoot>
 </table>
-<h3>Total Price: <span id="t_amount"></span></h3>
-<form method="POST">
-  <input type="submit" name="checkout" value="CHECKOUT">
-</form>
+<div class="break"></div>
+<div class="divright">
+  <form method="POST">
+    <input class="button w40" type="submit" name="checkout" value="CHECKOUT">
+  </form>
+</div>
+<div class="break"></div>
 
 <script type="text/javascript" src="{{ url_for('static',filename='js/cart.js') }}"></script>
 {% endif %}

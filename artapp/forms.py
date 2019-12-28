@@ -164,7 +164,8 @@ class Password_change(FlaskForm):
     submit = SubmitField('Submit')
 
 class Ship_Address(FlaskForm):
-    fullname = StringField('ชื่อและนามสกุล', validators=[DataRequired()])
+    firstname = StringField('ชื่อ', validators=[DataRequired()])
+    lastname = StringField('นามสกุล', validators=[DataRequired()])
     contact = StringField('เบอร์ติดต่อ', validators=[DataRequired()])
     homeaddress = StringField('บ้านเลขที่', validators=[DataRequired()])
     housename = StringField('หมู่บ้าน/คอนโด')

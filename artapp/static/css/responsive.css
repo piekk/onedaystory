@@ -121,10 +121,16 @@ footer .social-media{
   padding: 1em 1em;
 }
 
-
+/* button style */
+input[type="submit" i]{
+  border-style: none;
+}
 /* general font style */
 h3, h4{
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+label{
   margin-bottom: 0.5em;
 }
 
@@ -180,7 +186,12 @@ a{
 .hide{
   display: none;
 }
-
+.halfw{
+  width: calc(40vw);
+}
+.quaterw{
+  width: calc(20vw);
+}
 /*swipe style*/
 
 .swiper-slide {
@@ -253,9 +264,10 @@ a{
 
 
 .button{
-  padding: 0.2em 1em;
+  padding: 0.6em 1.2em;
   background-color: #323137;
   color: white;
+  font-size: 1em;
 }
 
 .btn-detail a{
@@ -330,6 +342,17 @@ a{
   margin-left: auto;
   margin-right: auto;
 }
+.divright{
+  text-align: right;
+  margin-right: 1em;
+}
+.divspan{
+  display: inline-block;
+}
+.wrapper{
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
 
 /* list style */
 
@@ -360,11 +383,31 @@ th.cart_product{
   width: 120px;
   height: 120px;
 }
+
+tfoot{
+  background: #efefef;
+  border: none;
+  vertical-align: middle;
+  font-size: 1em;
+  color: #737373;
+  padding: 10px 0px;
+}
 td{
   text-align: center;
-  border: 1px solid #737373;
 }
-
+/* form style */
+.large_field{
+  width: calc(80vw);
+}
+.med_field{
+  width: calc(40vw);
+}
+.small_field{
+  width: calc(35vw);
+}
+.v_small_field{
+  width: calc(20vw);
+}
 /* screen size */
 .lscreen{
   display: none;

@@ -12,18 +12,19 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(12), unique=True,  nullable=False)
     email = db.Column(db.String(40), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    firstname = db.Column(db.String(20), nullable=True)
+    firstname = db.Column(db.String(30), nullable=True)
     lastname = db.Column(db.String(40), nullable=True)
     contact = db.Column(db.String(12), unique=True, nullable=True)
     alter_contact = db.Column(db.String(10), unique=True, nullable=True)
     role = db.Column(db.String(6), unique=False, nullable=False)
     description = db.Column(db.Text, nullable=True)
-    style = db.Column(db.String(20), unique=False, nullable=True)
+    style = db.Column(db.String(40), unique=False, nullable=True)
     verified = db.Column(db.String(3), unique=False, default='no', nullable=False)
     rank = db.Column(db.Numeric(10,2), unique=False, default=1.00, nullable=False)
     date_register = db.Column(db.DateTime, unique=False, nullable=False)
     total_bought = db.Column(db.Integer, unique=False, nullable=True, default=0)
     product = db.relationship("Products", backref="owner")
+    address = db.relationship("Address", backref="owner_address", uselist=False)
     cart = db.relationship("Cart", backref='cartowner', uselist=False)
     review = db.relationship("Reviews", backref='shop_review', uselist=False)
 
@@ -71,7 +72,7 @@ class Cart(db.Model):
     payment_expire = db.Column(db.DateTime, nullable=True)
     owner = db.Column(db.Integer, db.ForeignKey('user.id'))
     items = db.relationship("CartItems", backref='cart')
-    shippingaddress = db.relationship("ShipAddress", backref='cartshipaddress', uselist=False)
+    shippingaddress = db.relationship("ShipAddress", backref='cartshipaddress')
 
     def __repr__(self):
         return "(CartCode: %s)" % (self.cartcode)
@@ -93,21 +94,38 @@ class CartItems(db.Model):
 
 class ShipAddress(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fullname = db.Column(db.String(30), unique=False, nullable=False)
+    firstname = db.Column(db.String(30), unique=False, nullable=False)
+    lastname = db.Column(db.String(30), unique=False, nullable=False)
     contact = db.Column(db.String(20), unique=False, nullable=False)
     homeaddress = db.Column(db.String(40), unique=False, nullable=False)
     housename = db.Column(db.String(30), unique=False, nullable=True)
-    street = db.Column(db.String(40), unique=False)
-    sub_street = db.Column(db.String(40), unique=False)
+    street = db.Column(db.String(40), unique=False, nullable=True)
+    sub_street = db.Column(db.String(50), unique=False, nullable=True)
+    subdistrict = db.Column(db.String(30), unique=False, nullable=False)
+    district = db.Column(db.String(30), unique=False, nullable=False)
+    province = db.Column(db.String(30), unique=False, nullable=False)
+    country = db.Column(db.String(34), unique=False, nullable=False)
+    postcode = db.Column(db.Integer, unique=False, nullable=False)
+    cart_address = db.Column(db.Integer, db.ForeignKey('cart.id'))
+
+    def __repr__(self):
+        return "(Name: {} {})" .format(self.fullname, self.lastname)
+
+class Address(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    homeaddress = db.Column(db.String(40), unique=False, nullable=False)
+    housename = db.Column(db.String(30), unique=False, nullable=True)
+    street = db.Column(db.String(40), unique=False, nullable=True)
+    sub_street = db.Column(db.String(40), unique=False, nullable=True)
     subdistrict = db.Column(db.String(20), unique=False, nullable=False)
     district = db.Column(db.String(20), unique=False, nullable=False)
     province = db.Column(db.String(24), unique=False, nullable=False)
     country = db.Column(db.String(24), unique=False, nullable=False)
     postcode = db.Column(db.Integer, unique=False, nullable=False)
-    cart_address = db.Column(db.Integer, db.ForeignKey('cart.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return "(Name: {})" .format(self.fullname)
+        return "(Name: {})" .format(self.owner_id)
 
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
