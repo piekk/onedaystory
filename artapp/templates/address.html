@@ -17,7 +17,7 @@
     <div class="break"></div>
 
     <div class = "norm"</div>
-      <form class ="center" method="POST">
+      <form method="POST">
         {{ form.hidden_tag() }}
         <h3>กรุณากรอกชื่อและที่อยู่ในการจัดส่ง</h3>
         <div class="wrapper">
@@ -34,14 +34,14 @@
           <div>
             {{ form.contact.label(class_="bck bold") }}
             {{ form.contact(class_="med_field") }}
-            <span class="errors">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
+            <span class="highlight">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
           </div>
         </div>
         <div class="wrapper">
           <div class ="quaterw divspan">
             {{ form.homeaddress.label(class_="bck bold") }}
             {{ form.homeaddress(class_="v_small_field") }}
-            <span class="errors">{% for error in form.homeaddress.errors %}{{ error }}{% endfor %}</span>
+            <span class="highlight">{% for error in form.homeaddress.errors %}{{ error }}{% endfor %}</span>
           </div>
           <div class = "quater divspan">
             {{ form.housename.label(class_="bck bold") }}
@@ -65,12 +65,12 @@
           <div class = "halfw divspan">
             {{ form.subdistrict.label(class_="bck bold") }}
             {{ form.subdistrict(class_="small_field") }}
-            <span class="errors">{% for error in form.subdistrict.errors %}{{ error }}{% endfor %}</span>
+            <span class="highlight">{% for error in form.subdistrict.errors %}{{ error }}{% endfor %}</span>
           </div>
           <div class="halfw fl-right">
             {{ form.district.label(class_="bck bold") }}
             {{ form.district(class_="small_field") }}
-            <span class="errors">{% for error in form.district.errors %}{{ error }}{% endfor %}</span>
+            <span class="highlight">{% for error in form.district.errors %}{{ error }}{% endfor %}</span>
           </div>
         </div>
 
@@ -78,12 +78,12 @@
           <div class = "halfw divspan">
             {{ form.province.label(class_="bck bold") }}
             {{ form.province(class_="small_field") }}
-            <span class="errors">{% for error in form.province.errors %}{{ error }}{% endfor %}</span>
+            <span class="highlight">{% for error in form.province.errors %}{{ error }}{% endfor %}</span>
           </div>
           <div class="halfw fl-right">
             {{ form.postcode.label(class_="bck bold") }}
             {{ form.postcode(class_="small_field") }}
-            <span class="errors">{% for error in form.postcode.errors %}{{ error }}{% endfor %}</span>
+            <span class="highlight">{% for error in form.postcode.errors %}{{ error }}{% endfor %}</span>
           </div>
         </div>
         <div class="break"></div>

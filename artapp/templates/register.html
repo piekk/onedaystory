@@ -1,60 +1,66 @@
 {% extends "layout.html" %}
 {% block content %}
-    <form class ="center" method="POST">
-      <div class="wrapper">
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      {% for message in messages %}
-      <span class="errors">{{ message }}</span>
-      {% endfor %}
-      {% endif %}
-      {% endwith %}
-      </div>
-        <h3>REGISTRATION</h3>
-        {{ form.hidden_tag() }}
-            <div class="wrapper">
-                {{ form.username.label }}
-                {{ form.username(class="small") }}
-                {% if form.username.errors %}
-            <span class="errors">{% for error in form.username.errors %}{{ error }}{% endfor %}</span>
-                {% endif %}
-            </div>
-            <div class="wrapper">
-                {{ form.email.label }}
-                {{ form.email(class="large") }}
-                {% if form.email.errors %}
-            <span class="errors">{% for error in form.email.errors %}{{ error }}{% endfor %}</span>
-                {% endif %}
-            </div>
-            <div class="wrapper">
-                {{ form.contact.label }}
-                {{ form.contact(class="large") }}
-                {% if form.email.errors %}
-            <span class="errors">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
-                {% endif %}
-            </div>
-            <div class="wrapper">
-                {{ form.password.label }}
-                {{ form.password(class="large") }}
-                {% if form.password.errors %}
-            <span class="errors">{% for error in form.password.errors %}{{ error }}{% endfor %}</span>
-                {% endif %}
-            </div>
-            <div class="wrapper">
-                {{ form.confirm_password.label }}
-                {{ form.confirm_password(class="large") }}
-                {% if form.confirm_password.errors %}
-            <span class="errors">{% for error in form.confirm_password.errors %}{{ error }}{% endfor %}</span>
-                {% endif %}
-            </div>
-            <div class="checkbox">
-                {{ form.accept_terms }}<span> I accept the <a href={{ url_for('terms') }}>Terms of use & Privacy policy</a></span>
-            </div>
-            <div class="button">
-                {{ form.submit }}
-            </div>
-    </form>
-    <div class="center">
-        <h4>Already have an account? <a href={{ url_for('login') }}>LOGIN</a></h4>
+<div class="break"></div>
+<div class="norm">
+  <h4>Already have an account? <a class="u_line" href={{ url_for('login') }}>LOGIN</a></h4>
+  <h3>REGISTRATION</h3>
+</div>
+<div class='norm'>
+  <form method="POST">
+  {{ form.hidden_tag() }}
+    <div class="wrapper">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+      <span class="highlight">{{ message }}</span>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     </div>
+    <div class="wrapper divspan quaterw">
+      {{ form.username.label(class_="bold bck") }}
+      {{ form.username(class="v_small_field right") }}
+      {% if form.username.errors %}
+      <span class="highlight">{% for error in form.username.errors %}{{ error }}{% endfor %}</span>
+      {% endif %}
+    </div>
+    <div class="wrapper divspan">
+      {{ form.email.label(class_="bold bck") }}
+      {{ form.email(class_="small_field right") }}
+      {% if form.email.errors %}
+      <span class="highlight">{% for error in form.email.errors %}{{ error }}{% endfor %}</span>
+      {% endif %}
+    </div>
+    <div class="wrapper">
+      {{ form.contact.label(class_="bold bck") }}
+      {{ form.contact(class_="small_field right") }}
+      {% if form.email.errors %}
+      <span class="highlight">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
+      {% endif %}
+    </div>
+    <div class="wrapper">
+      {{ form.password.label(class_="bold bck") }}
+      {{ form.password(class_="small_field right") }}
+      {% if form.password.errors %}
+      <span class="highlight">{% for error in form.password.errors %}{{ error }}{% endfor %}</span>
+      {% endif %}
+    </div>
+    <div class="wrapper">
+      {{ form.confirm_password.label(class_="bold bck") }}
+      {{ form.confirm_password(class_="small_field right") }}
+      {% if form.confirm_password.errors %}
+      <span class="highlight">{% for error in form.confirm_password.errors %}{{ error }}{% endfor %}</span>
+      {% endif %}
+    </div>
+    <div class="wrapper">
+      {{ form.accept_terms }}<span> I accept the <a href={{ url_for('terms') }}>Terms of use & Privacy policy</a></span>
+    </div>
+    <div class="break"></div>
+    <div class="norm">
+      {{ form.submit(class="button w40") }}
+    </div>
+  </form>
+</div>
+
+
 {% endblock %}

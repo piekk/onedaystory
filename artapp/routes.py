@@ -353,7 +353,7 @@ def login(productcode):
             login_user(user)
             return redirect(url_for('admin', name=user.username))
         elif not user:
-            flash("Email not found")
+            flash("EMAIL NOT FOUND")
             return redirect(url_for('login'))
         else:
             flash("INCORRECT PASSWORD")
@@ -410,7 +410,7 @@ def merchantlogin():
             session.permanent = True
             return redirect(url_for('merchant', name=user.username))
         elif not user:
-            flash("Email not found")
+            flash("EMAIL NOT FOUND")
             return redirect(url_for('merchantlogin'))
         else:
             flash("INCORRECT PASSWORD")
