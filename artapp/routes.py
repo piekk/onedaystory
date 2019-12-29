@@ -255,7 +255,6 @@ def process():
     return jsonify(data)
 
 @app.route('/address/<cart>', methods=['GET', 'POST'])
-@login_required
 def address(cart):
     form = Ship_Address()
     if form.validate_on_submit():
@@ -276,7 +275,11 @@ def address(cart):
         except:
             message = "ข้อมูลผิดพลาด"
             return render_template("address.html", form=form, message=message)
-    elif current_user.address:
+    elif current_user.is_anonymous:
+        return redirect(url_for('login'))
+    elif current_user.username==cart and current_user.cart.shippingaddress:
+        return redirect(url_for('payment'))
+    elif current_user.username==cart and current_user.address:
         form.firstname.data = current_user.firstname
         form.lastname.data = current_user.lastname
         form.contact.data = current_user.contact
@@ -288,11 +291,13 @@ def address(cart):
         form.province.data = current_user.address.province
         form.postcode.data = current_user.address.postcode
         return render_template("address.html", form=form)
-    else:
+    elif current_user.username==cart:
         form.firstname.data = current_user.firstname
         form.lastname.data = current_user.lastname
         form.contact.data = current_user.contact
         return render_template("address.html", form=form)
+    else:
+        return redirect(url_for('cart'))
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():

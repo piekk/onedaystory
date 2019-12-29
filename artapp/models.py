@@ -109,7 +109,7 @@ class ShipAddress(db.Model):
     cart_address = db.Column(db.Integer, db.ForeignKey('cart.id'))
 
     def __repr__(self):
-        return "(Name: {} {})" .format(self.fullname, self.lastname)
+        return "(Name: {} {})" .format(self.firstname, self.lastname)
 
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
