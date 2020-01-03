@@ -114,7 +114,7 @@ def product(product):
             if cart.shippingaddress:
                 return redirect(url_for('payment'))
             else:
-                return redirect(url_for('address', cart = current_user.cart.cartcode))
+                return redirect(url_for('address'))
         else:
             timecreate = datetime.now().strftime("%Y-%m-%d  %H:%M")
             expire = datetime.now() + timedelta(days=30)
@@ -174,7 +174,7 @@ def cart():
                         item.price = round(int(product.price)*margin)+int(product.shipping_fee)
                         product.quantity = product.quantity-item.quantity
                         db.session.commit()
-            return redirect(url_for('address', cart = current_user.cart.cartcode))
+            return redirect(url_for('address'))
     elif current_user.is_authenticated:
         time = datetime.now()
         try:
@@ -199,7 +199,7 @@ def cart():
             if cart.shippingaddress:
                 return redirect(url_for('payment'))
             else:
-                return redirect(url_for('address', cart = current_user.cart.cartcode))
+                return redirect(url_for('address'))
         elif cart and cart.items and cart.payment == 'N' and cart.date_expire > time:
             product_inventory = {}
             price = {}
@@ -254,8 +254,8 @@ def process():
         db.session.commit()
     return jsonify(data)
 
-@app.route('/address/<cart>', methods=['GET', 'POST'])
-def address(cart):
+@app.route('/address', methods=['GET', 'POST'])
+def address():
     form = Ship_Address()
     if form.validate_on_submit():
         try:
@@ -277,31 +277,51 @@ def address(cart):
             return render_template("address.html", form=form, message=message)
     elif current_user.is_anonymous:
         return redirect(url_for('login'))
-    elif current_user.username==cart and current_user.cart.shippingaddress:
-        return redirect(url_for('payment'))
-    elif current_user.username==cart and current_user.address:
-        form.firstname.data = current_user.firstname
-        form.lastname.data = current_user.lastname
-        form.contact.data = current_user.contact
-        form.homeaddress.data = current_user.address.homeaddress
-        form.street.data = current_user.address.street
-        form.substreet.data = current_user.address.sub_street
-        form.subdistrict.data = current_user.address.subdistrict
-        form.district.data = current_user.address.district
-        form.province.data = current_user.address.province
-        form.postcode.data = current_user.address.postcode
-        return render_template("address.html", form=form)
-    elif current_user.username==cart:
-        form.firstname.data = current_user.firstname
-        form.lastname.data = current_user.lastname
-        form.contact.data = current_user.contact
-        return render_template("address.html", form=form)
     else:
-        return redirect(url_for('cart'))
+        cart = current_user.cart
+        time = datetime.now()
+        if cart:
+            if cart.shippingaddress and cart.date_expire > time:
+                return redirect(url_for('payment'))
+            elif cart.payment=='N':
+                return redirect(url_for('cart'))
+            elif current_user.address and cart.date_expire > time:
+                form.firstname.data = current_user.firstname
+                form.lastname.data = current_user.lastname
+                form.contact.data = current_user.contact
+                form.homeaddress.data = current_user.address.homeaddress
+                form.street.data = current_user.address.street
+                form.substreet.data = current_user.address.sub_street
+                form.subdistrict.data = current_user.address.subdistrict
+                form.district.data = current_user.address.district
+                form.province.data = current_user.address.province
+                form.postcode.data = current_user.address.postcode
+                return render_template("address.html", form=form)
+            elif cart.date_expire > time:
+                form.firstname.data = current_user.firstname
+                form.lastname.data = current_user.lastname
+                form.contact.data = current_user.contact
+                return render_template("address.html", form=form)
+            else:
+                return redirect(url_for('cart'))
+        elif not cart:
+            return redirect(url_for('cart'))
+        else:
+            return redirect(url_for('address'))
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
-    return render_template("payment.html")
+    if current_user.is_anonymous:
+        redirect (url_for('login'))
+    else:
+        cart = current_user.cart
+        product_title = {}
+        cart_total = 0
+        for item in cart.items:
+            cart_total += int(item.price) * item.quantity
+            t = Products.query.filter_by(productcode = item.product).first()
+            product_title[item.product] = t.title
+        return render_template("payment.html", cart = cart, cart_total = cart_total, product_title=product_title, bucket = app.config['BUCKET'])
 
 
 @app.route('/register', methods=['GET', 'POST'])

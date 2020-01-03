@@ -2,10 +2,12 @@
 {% block content %}
     <div class="break"></div>
     <div class="view">
-      <h4 class = "title-center">{{user.username}}</h4>
-      {% if user.description != None %}
-      <p class = "left-description">{{user.description}}</p>
-      {% endif %}
+      <div class="norm">
+        <h4 class = "upper bold">{{user.username}}</h4>
+        {% if user.description != None %}
+        <p>{{user.description}}</p>
+        {% endif %}
+      </div>
 
       <div class="grid-container">
         {% for item in user.product %}
@@ -16,8 +18,8 @@
           {% else %}
           <img src="{{image}}">
           {% endif %}
-          <h4 class = "left-description italic">{{item.category}}</h4>
-          <h4 class = "left-description">Title: {{item.title}}</h4>
+          <h4 class = "italic">{{item.category}}</h4>
+          <h4>Title: {{item.title}}</h4>
 
           <div class="break"></div>
           {% if item.quantity > 0 %}

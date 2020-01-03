@@ -1,4 +1,76 @@
 {% extends"layout.html" %}
 {% block content %}
-    <div> Payment Process </div>
+<div class="break"></div>
+<div class= "norm">
+  <div>
+    <h4>ชำระเงิน</h4>
+  </div>
+  <ul class="norm">
+    <li class="bold">สรุปตะกร้า</li>
+    <li class="bold">ที่อยู่จัดส่ง</li>
+    <li class="bold">ชำระเงิน</li>
+  </ul>
+</div>
+
+<div class="break"></div>
+
+<div class= "norm">
+  {% if cart.payment == 'W'%}
+  <div>
+    <h4>รอการชำระเงินภายในวันที่ {{cart.payment_expire.strftime('%Y/%m/%d ' '%H:%M')}}</h4>
+  </div>
+  {% else %}
+  <div>
+    <h4>ได้รับการชำระเงินแล้ว</h4>
+  </div>
+</div>
+  {% endif %}
+
+<table class="w-full">
+  <thead>
+    <tr class="head">
+      <th class="cart_product">สินค้า</th>
+      <th>จำนวน</th>
+      <th class="lscreen">ราคาต่อหน่วย</th>
+      <th>ราคารวม</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in cart.items %}
+  {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.img %}
+    <tr>
+      <td>
+        <img class="thumbnail" src="{{image}}">
+        <h5>{{ product_title[item.product] }}</h5>
+      </td>
+      <td>
+        <h4>{{ item.quantity }}</h4>
+      </td>
+      <td class="lscreen">
+        <span>{{ "฿ {:,.2f}".format(item.price|int) }} </span>
+      </td>
+      <td>
+        <h4>{{ "฿ {:,.2f}".format(item.quantity*item.price|int) }}</h4>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>
+      </td>
+      <td class = "lscreen">
+      </td>
+      <td>
+        <h4>ราคารวม</h4>
+      </td>
+      <td>
+        <h4>{{ "฿ {:,.2f}".format(cart_total)}}</h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+
+
 {% endblock %}

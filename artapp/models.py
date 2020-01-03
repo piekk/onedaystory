@@ -72,7 +72,7 @@ class Cart(db.Model):
     payment_expire = db.Column(db.DateTime, nullable=True)
     owner = db.Column(db.Integer, db.ForeignKey('user.id'))
     items = db.relationship("CartItems", backref='cart')
-    shippingaddress = db.relationship("ShipAddress", backref='cartshipaddress')
+    shippingaddress = db.relationship("ShipAddress", backref='cartshipaddress', uselist=False)
 
     def __repr__(self):
         return "(CartCode: %s)" % (self.cartcode)
