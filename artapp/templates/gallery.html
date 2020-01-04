@@ -28,11 +28,11 @@
               {% for word in item.style.split("#") %}
               <span><a class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
               {% endfor %}
-              <span><a class="tag" href="{{url_for('view', name=item.owner.username)}}">{{item.owner.username}} </a></span>
+              <span><a class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
             </div>
             {% if item.quantity > 0 %}
             <h4><a class = "bck button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-            <a class="blk" href="{{url_for('view', name=item.owner.username)}}">ดูแกลอรีของ {{item.owner.username}}</a>
+            <a class="blk" href="{{url_for('view', name=item.owner_product.username)}}">ดูแกลอรีของ {{item.owner_product.username}}</a>
             {% else %}
             <h4 class = 'center w40 red'>สินค้าหมด</h4>
             {% endif %}

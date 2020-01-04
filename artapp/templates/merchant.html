@@ -1,6 +1,13 @@
 {% extends"merchantlayout.html" %}
 {% block content %}
-
+  {% if current_user.verified == 'no' %}
+  <div class="break"></div>
+  <div class="view">
+    <div class="sub-title-head">
+      <h4 class="title-center">รอการยืนยันตัวตน</h4>
+    </div>
+  </div>
+  {% else %}
   <div class="break"></div>
   <div class="view">
     <div class="sub-title-head">
@@ -11,13 +18,7 @@
       <h4> {{ current_user.username }} </h4>
       <h4> Email: <span class="italic">{{ current_user.email }}</span></h4>
       <h4> เบอร์ติดต่อ: <span class="italic">{{ current_user.contact }}</span></h4>
-      <h4> สถานะผู้ขาย:
-        {% if current_user.verified== "no" %}
-          <span class="italic">รอดำเนินการยืนยันตัวตน</span>
-        {% elif current_user.verified== "yes" %}
-          <span class="italic">ผ่านการยืนยันตัวตนแล้ว</span>
-        {% endif %}
-      </h4>
+      <h4> สถานะผู้ขาย: ยืนยันตัวตนแล้ว</h4>
 
       {% if current_user.desciption %}
         <p>{{current_user.description}}</p>
@@ -103,7 +104,11 @@
           {% for item in order %}
           <tr>
             <td>{{item.product}}</td>
+            {% if item.cart.payment == 'C' %}
             <td><a href="{{url_for('order', c_id = item.cart.reference_id, p_id = item.id)}}">{{item.cart.reference_id}}</a></td>
+            {% else %}
+            <td>{{item.cart.reference_id}}</td>
+            {% endif %}
             <td>{{item.quantity}}</td>
             <td>{{item.price|int * item.quantity}}</td>
             {% if item.cart.payment == 'C' %}
@@ -129,7 +134,7 @@
 
 
   </div>
-
+  {% endif %}
   <script type="text/javascript" src="{{ url_for('static',filename='js/merchant.js') }}"></script>
 
 

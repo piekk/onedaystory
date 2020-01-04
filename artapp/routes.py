@@ -10,7 +10,8 @@ from artapp.models import User, Products, Cart, CartItems, Articles, ShipAddress
 from flask_login import login_user, current_user, logout_user, login_required
 from google.cloud import storage
 
-
+default_title = "Onedaystory ตลาดศิลปะและของแต่งบ้าน"
+short_title = "Onedaystory "
 
 @app.route('/')
 def home():
@@ -21,7 +22,7 @@ def home():
     books = Products.query.filter(Products.category=='book').order_by(Products.view.desc()).limit(12).all()
     latest = Products.query.filter(Products.quantity>0).order_by(Products.date_add.desc()).limit(12).all()
     time = datetime.now()
-    return render_template("home.html", title="", latest=latest, illustration=illustration, painting=painting, photography=photography, decorations=decorations, books=books, margin=margin, time=time, bucket = app.config['BUCKET'])
+    return render_template("home.html", title=default_title, latest=latest, illustration=illustration, painting=painting, photography=photography, decorations=decorations, books=books, margin=margin, time=time, bucket = app.config['BUCKET'])
 
 
 @app.route('/gallery/', defaults={'filter':None})
@@ -32,22 +33,22 @@ def gallery(filter):
     if filter == None:
         time = datetime.now()
         product = Products.query.order_by(Products.view.desc()).paginate(per_page=10, page=page)
-        return render_template("gallery.html", product = product, margin=margin, time=time, filter='gallery', bucket = app.config['BUCKET'])
+        return render_template("gallery.html", title=default_title, product = product, margin=margin, time=time, filter='gallery', bucket = app.config['BUCKET'])
     elif filter == 'latest':
         time = datetime.now()
         product = Products.query.filter(Products.quantity>0).order_by(Products.date_add.desc()).paginate(per_page=10, page=page)
-        return render_template("gallery.html", product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
+        return render_template("gallery.html", title=default_title, product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
     elif filter in productcategory:
         time = datetime.now()
         product = Products.query.filter(Products.category==filter).paginate(per_page=10, page=page)
-        return render_template("gallery.html", product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
+        return render_template("gallery.html", title=short_title+filter, product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
     else:
         time = datetime.now()
         fil = secure_filename(filter)
         searchwordlower = fil.lower()
         searchword = searchwordlower.replace(" ","")
         product = Products.query.filter(Products.style.contains(searchword)).paginate(per_page=10, page=page)
-        return render_template("gallery.html", product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
+        return render_template("gallery.html", title=short_title+filter, product = product, margin=margin, time=time, filter=filter, bucket = app.config['BUCKET'])
 
 def check_promotion(p_insert):
     time = datetime.now()
@@ -91,8 +92,13 @@ def product(product):
                 product.quantity += item.quantity
                 db.session.delete(item)
                 db.session.commit()
-            db.session.delete(cart)
-            db.session.commit()
+            if cart.shippingaddress:
+                db.session.delete(cart.shippingaddress)
+                db.session.delete(cart)
+                db.session.commit()
+            else:
+                db.session.delete(cart)
+                db.session.commit()
             time = datetime.now()
             timecreate = time.strftime("%Y-%m-%d  %H:%M")
             expire = datetime.now() + timedelta(days=30)
@@ -189,11 +195,21 @@ def cart():
                     product.quantity += item.quantity
                     db.session.delete(item)
                     db.session.commit()
-                db.session.delete(cart)
-                db.session.commit()
+                if cart.shippingaddress:
+                    db.session.delete(cart.shippingaddress)
+                    db.session.delete(cart)
+                    db.session.commit()
+                else:
+                    db.session.delete(cart)
+                    db.session.commit()
             else:
-                db.session.delete(cart)
-                db.session.commit()
+                if cart.shippingaddress:
+                    db.session.delete(cart.shippingaddress)
+                    db.session.delete(cart)
+                    db.session.commit()
+                else:
+                    db.session.delete(cart)
+                    db.session.commit()
             return redirect('cart')
         elif cart and cart.payment == 'W':
             if cart.shippingaddress:
@@ -231,8 +247,13 @@ def cart():
             for item in cart.items:
                 db.session.delete(item)
                 db.session.commit()
-            db.session.delete(cart)
-            db.session.commit()
+            if cart.shippingaddress:
+                db.session.delete(cart.shippingaddress)
+                db.session.delete(cart)
+                db.session.commit()
+            else:
+                db.session.delete(cart)
+                db.session.commit()
             message = "Your Cart is empty"
             return render_template("cart.html", message = message)
         else:
@@ -528,7 +549,7 @@ def delete_blob(blob_name):
 @app.route('/merchant/product', methods=['GET', 'POST'])
 @login_required
 def addproduct():
-    if current_user.role == 'Seller':
+    if current_user.role == 'Seller' and current_user.verified == 'y':
         form = ProductForm()
         if form.validate_on_submit():
             name = str(current_user.id) + 'ID'+uuid.uuid4().hex[:6]
@@ -556,6 +577,8 @@ def addproduct():
                 return redirect(url_for('addproduct'))
         else:
             return render_template("addproduct.html", form=form, margin=margin)
+    elif current_user.role == 'Seller' and current_user.verified == 'no':
+        return redirect(url_for('merchant', name = current_user.username))
     else:
         return redirect(url_for('home'))
 
@@ -704,7 +727,15 @@ def edit_delete_product(name):
 @login_required
 def order(c_id,p_id):
     product = CartItems.query.join(Cart,(Cart.reference_id==c_id)).filter(CartItems.id == p_id).first()
-    return render_template("order.html", item=product)
+    if current_user.is_authenticated:
+        if current_user.username == product.seller:
+            return render_template("order.html", item=product)
+        elif current_user.role == 'Seller':
+            return redirect(url_for("merchant", name = current_user.username))
+        else:
+            return redirect(url_for("home"))
+    else:
+        return redirect(url_for("home"))
 
 @app.route('/logout')
 def logout():
@@ -752,14 +783,28 @@ def admin():
     else:
         return redirect(url_for('home'))
 
-@app.route('/admin/verify')
-@login_required
-def admin_verify():
-    if current_user.role == 'admin':
+@app.route('/admin/user_verify' , methods=['GET', 'POST'])
+def user_verify():
+    if request.method=='POST':
+        if 'confirm_user' in request.form:
+            confirm_user = request.form.get('confirm_user')
+            user = User.query.get(confirm_user)
+            user.verified = 'y'
+            db.session.commit()
+        return redirect(url_for('user_verify'))
+    elif current_user.is_anonymous:
+        return redirect(url_for('home'))
+    elif current_user.role == 'admin':
         pending_user = User.query.filter(User.role=='Seller',User.verified=='no').order_by(User.date_register.desc()).all()
-        return render_template("verify.html", pending_user=pending_user)
+        return render_template("verifyuser.html", pending_user=pending_user)
     else:
         return redirect(url_for('home'))
+
+@app.route('/admin/payment_verify')
+def payment_verify():
+    order = Cart.query.filter_by(payment = 'W').all()
+    return render_template("verifypayment.html", order = order)
+
 
 @app.errorhandler(404)
 def page_not_found(e):

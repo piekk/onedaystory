@@ -1,0 +1,67 @@
+{% extends"admin.html" %}
+{% block content %}
+<div class="break"></div>
+<div>
+	{% for cart in order %}
+	<table>
+		<caption>Ref: {{ cart.reference_id }} Buyer: {{ cart.cartowner.firstname }}{{ cart.cartowner.lastname }} By Date: {{ cart.date_expire }}</caption>
+		<thead>
+			<th>ชื่อสินค้า</th>
+			<th>ราคา</th>
+			<th>จำนวน</th>
+			<th>ราคารวม</th>
+		</thead>>
+		<tbody>
+		{% for item in cart.items %}
+			<tr>
+				<td>{{item.product}}</td>
+				<td>{{item.price}}</td>
+				<td>{{item.quantity}}</td>
+				<td>{{item.price|int*item.quantity}}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td></td>
+				<td></td>
+				<td>ราคารวม</td>
+				<td></td>
+			</tr>
+		</tfoot>
+	</table>
+	<div class="break"></div>
+	{% if cart.shippingaddress %}
+	<div class="norm">
+		<h4>ที่อยู่จัดส่ง</h4>
+		<h5>ชื้อผู้รับ: {{cart.shippingaddress.firstname }} {{cart.shippingaddress.lastname }}</h5>
+		<h5>เบอร์ติดต่อ: {{ cart.shippingaddress.contact }}</h5>
+		<h5>
+			<span>บ้านเลขที่: {{ cart.shippingaddress.homeaddress }}</span>
+			<span>หมู่บ้าน คอนโด: {{cart.shippingaddress.housename }} </span>
+		</h5>
+		<h5>
+			<span>ซอย: {{cart.shippingaddress.sub_street }} </span>
+			<span>ถนน: {{cart.shippingaddress.street }} </span>
+		</h5>
+		<h5>
+			<span>แขวง/ตำบล: {{cart.shippingaddress.subdistrict }} </span>
+			<span>เขต/อำเภอ: {{cart.shippingaddress.district }} </span>
+		</h5>
+		<h5>
+			<span>จังหวัด: {{cart.shippingaddress.province }} </span>
+			<span>รหัรหัสไปรษณีย์: {{cart.shippingaddress.postcode }} </span>
+		</h5>
+		<h5>
+			<span>ประเทศ: {{cart.shippingaddress.country }} </span>
+		</h5>
+	</div>
+	{% else %}
+	<div class="norm">
+		<h4>ยังไม่มีที่อยู่จัดส่ง</h4>
+	</div>
+	{% endif %}
+	<div class="break"></div>
+	{% endfor %}
+</div>
+{% endblock %}

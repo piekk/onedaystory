@@ -23,8 +23,8 @@ def check_num(form, field):
 def check_username(form, field):
     if form.username.data != current_user.username:
         user = User.query.filter_by(username=form.username.data).first()
-        if len(form.username.data) < 3 or len(form.username.data) > 12:
-            raise ValidationError('Please choose a username between 3-12 characters')
+        if len(form.username.data) < 3 or len(form.username.data) > 18:
+            raise ValidationError('Please choose a username between 3-18 characters')
         elif user:
             raise ValidationError('Username taken')
 

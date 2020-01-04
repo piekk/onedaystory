@@ -9,7 +9,7 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(12), unique=True,  nullable=False)
+    username = db.Column(db.String(22), unique=True,  nullable=False)
     email = db.Column(db.String(40), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     firstname = db.Column(db.String(30), nullable=True)
@@ -23,10 +23,14 @@ class User(db.Model, UserMixin):
     rank = db.Column(db.Numeric(10,2), unique=False, default=1.00, nullable=False)
     date_register = db.Column(db.DateTime, unique=False, nullable=False)
     total_bought = db.Column(db.Integer, unique=False, nullable=True, default=0)
-    product = db.relationship("Products", backref="owner")
+    otp = db.Column(db.String(12), unique=True, nullable=True)
+    otp_expire = db.Column(db.DateTime, unique=False, nullable=True)
+    product = db.relationship("Products", backref="owner_product")
+    payment_due = db.relationship("PaymentDue", backref="owner_paymentdue")
+    payment_recieve = db.relationship("PaymentRecieved", backref="owner_paymentrevieve")
     address = db.relationship("Address", backref="owner_address", uselist=False)
     cart = db.relationship("Cart", backref='cartowner', uselist=False)
-    review = db.relationship("Reviews", backref='shop_review', uselist=False)
+    review = db.relationship("Reviews", backref='owner_review', uselist=False)
 
     def __repr__(self):
         return "(username: %s)" % (self.username)
@@ -127,6 +131,28 @@ class Address(db.Model):
     def __repr__(self):
         return "(Name: {})" .format(self.owner_id)
 
+class PaymentDue(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    buyer_firstname =  db.Column(db.String(30), unique=False, nullable=True)
+    buyer_lastname =  db.Column(db.String(30), unique=False, nullable=True)
+    due_date = db.Column(db.DateTime, nullable=True)
+    amount = db.Column(db.String(7), unique=False, nullable=False)
+    recipient = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return "(เลขที่: {})" .format(self.id)
+
+class PaymentRecieved(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    buyer_firstname =  db.Column(db.String(30), unique=False, nullable=True)
+    buyer_lastname =  db.Column(db.String(30), unique=False, nullable=True)
+    recieve_date = db.Column(db.DateTime, nullable=True)
+    amount = db.Column(db.String(7), unique=False, nullable=False)
+    recipient = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return "(เลขที่: {})" .format(self.id)
+
 class Reviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     star_rating = db.Column(db.Integer, unique=False, nullable=False)
@@ -146,9 +172,11 @@ class Articles(db.Model):
     image1 = db.Column(db.String(50), unique=True, nullable=True)
     image2 = db.Column(db.String(50), unique=True, nullable=True)
     image3 = db.Column(db.String(50), unique=True, nullable=True)
-    image4 = db.Column(db.String(50), unique=True, nullable=True)
-    image5 = db.Column(db.String(50), unique=True, nullable=True)
+    meta_keyword = db.Column(db.String(30), unique=False, nullable=True)
+    title_element = db.Column(db.String(20), unique=True, nullable=False)
+    meta_description = db.Column(db.Text, nullable=False)
     date_publish = db.Column(db.DateTime, nullable=False)
+
     author = db.Column(db.String(10), unique=False, nullable=False)
 
     def __repr__(self):
