@@ -69,7 +69,7 @@ def product(product):
                 else:
                     product_price = round(int(product.price)*margin)+int(product.shipping_fee)
                     db.session.commit()
-                db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner.username, cart=cart))
+                db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner_product.username, cart=cart))
                 db.session.commit()
                 return redirect(url_for('cart'))
             else:
@@ -83,7 +83,7 @@ def product(product):
                         product_price = round((int(product.price)*(1-int(product.promotion)/100))*margin)+int(product.shipping_fee)
                     else:
                         product_price = round(int(product.price)*margin)+int(product.shipping_fee)
-                    db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner.username, cart=cart))
+                    db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner_product.username, cart=cart))
                     db.session.commit()
                     return redirect(url_for('cart'))
         elif cart and cart.payment=='W' and time > cart.payment_expire:
@@ -113,7 +113,7 @@ def product(product):
             else:
                 product_price = round(int(product.price)*margin)+int(product.shipping_fee)
                 db.session.commit()
-            db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner.username, cart=cart))
+            db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner_product.username, cart=cart))
             db.session.commit()
             return redirect(url_for('cart'))
         elif cart and cart.payment == 'W':
@@ -135,7 +135,7 @@ def product(product):
             else:
                 product_price = round(int(product.price)*margin)+int(product.shipping_fee)
                 db.session.commit()
-            db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner.username, cart=cart))
+            db.session.add(CartItems(product = product.productcode, img=product.imgfile1, quantity=1, price=product_price, seller=product.owner_product.username, cart=cart))
             db.session.commit()
             return redirect(url_for('cart'))
     elif request.method == 'POST':
@@ -568,7 +568,7 @@ def addproduct():
                                         imgfile1=filename, quantity=form.quantity.data, category=category, promotion=form.promotion.data,
                                         promotion_expire=expire_on, style=keyword, description=form.description.data, size=form.size.data,
                                         object_size=form.object_size.data, frame=form.frame.data, authors=form.authors.data,
-                                        condition=form.condition.data, book_condition=form.book_condition.data, owner=current_user))
+                                        condition=form.condition.data, book_condition=form.book_condition.data, owner_product=current_user))
                 db.session.commit()
                 return redirect(url_for('edit_product', name=productcode))
             except:
