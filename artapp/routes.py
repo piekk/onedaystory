@@ -146,7 +146,7 @@ def product(product):
         time = datetime.now()
         product.view += 1
         db.session.commit()
-        return render_template("product.html", product = product, time=time, margin=margin, bucket=app.config['BUCKET'])
+        return render_template("product.html", product = product, title=short_title+product.title, time=time, margin=margin, bucket=app.config['BUCKET'])
 
 
 @app.route('/cart', methods=['GET', 'POST'])

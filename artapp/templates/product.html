@@ -9,7 +9,7 @@
       <img src="{{ image }}">
 
       <div class = "norm border">
-        <a href="{{url_for('view', name=product.owner.username)}}">ดูสินค้าอื่นของ {{product.owner.username}} </a>
+        <a href="{{url_for('view', name=product.owner_product.username)}}">ดูสินค้าอื่นของ {{product.owner_product.username}} </a>
 
         {% if product.promotion|int > 0 and time<product.promotion_expire %}
         <h4>
