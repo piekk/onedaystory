@@ -336,13 +336,20 @@ def payment():
         redirect (url_for('login'))
     else:
         cart = current_user.cart
-        product_title = {}
-        cart_total = 0
-        for item in cart.items:
-            cart_total += int(item.price) * item.quantity
-            t = Products.query.filter_by(productcode = item.product).first()
-            product_title[item.product] = t.title
-        return render_template("payment.html", cart = cart, cart_total = cart_total, product_title=product_title, bucket = app.config['BUCKET'])
+        if cart and cart.shippingaddress:
+            product_title = {}
+            cart_total = 0
+            for item in cart.items:
+                cart_total += int(item.price) * item.quantity
+                t = Products.query.filter_by(productcode = item.product).first()
+                product_title[item.product] = t.title
+            return render_template("payment.html", cart = cart, cart_total = cart_total, product_title=product_title, bucket = app.config['BUCKET'])
+        elif cart and cart.payment == 'N':
+            return redirect(url_for('cart', name = current_user.username))
+        elif cart and cart.payment == 'W':
+            return redirect(url_for('address'))
+        else:
+            return redirect(url_for('cart', name = current_user.username))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -397,7 +404,7 @@ def login(productcode):
                     return redirect(url_for('merchant', name=user.username))
         elif user and bcrypt.check_password_hash(user.password, form.password.data) and user.role=='admin':
             login_user(user)
-            return redirect(url_for('admin', name=user.username))
+            return redirect(url_for('adminisor', name=user.username))
         elif not user:
             flash("EMAIL NOT FOUND")
             return redirect(url_for('login'))
@@ -767,19 +774,19 @@ def addarticles():
     form = ArticlesForm()
     if form.validate_on_submit():
         try:
-            return redirect(url_for('admin'))
+            return redirect(url_for('adminisor'))
         except:
-            return redirect(url_for('admin'))
+            return redirect(url_for('adminisor'))
     elif current_user.role == 'admin':
         return render_template("addarticles.html", form=form)
     else:
         return render_template("articles.html")
 
-@app.route('/admin')
+@app.route('/adminisor')
 @login_required
-def admin():
+def adminisor():
     if current_user.role == 'admin':
-        return render_template("admin.html")
+        return render_template("adminisor.html")
     else:
         return redirect(url_for('home'))
 

@@ -13,7 +13,18 @@
 </div>
 
 <div class="break"></div>
-
+<div class="norm">
+  <h4>เลือกวิธีการชำระเงิน</h4>
+  <form>
+    <select id ="SelectPayment" class = "divspan">
+      <option value="Ibank">โอนเงิน Internet Banking</option>
+      <option value="atm">โอนเงินผ่าน ATM</option>
+    </select>
+  </form>
+</div>
+<div class= "norm">
+  <a target="_blank" href="https://www.scb.co.th/th/personal-banking/digital-banking/scb-easy.html">SCB</a>
+</div>
 <div class= "norm">
   {% if cart.payment == 'W'%}
   <div>
@@ -71,6 +82,6 @@
   </tfoot>
 </table>
 
-
+<script type="text/javascript" src="{{ url_for('static',filename='js/payment.js') }}"></script>
 
 {% endblock %}
