@@ -1,23 +1,23 @@
-{% extends"admin.html" %}
+{% extends"adminisor.html" %}
 {% block content %}
 <div class="break"></div>
 <div>
 	{% for cart in order %}
 	<table>
-		<caption>Ref: {{ cart.reference_id }} Buyer: {{ cart.cartowner.firstname }}{{ cart.cartowner.lastname }} By Date: {{ cart.date_expire }}</caption>
+		<caption>Ref: <a href = "{{ url_for('cartref_confirmation', c_id=cart.reference_id) }}">#{{ cart.reference_id }}</a> Buyer: {{ cart.cartowner.username }} By Date: {{ cart.date_expire }}</caption>
 		<thead>
 			<th>ชื่อสินค้า</th>
 			<th>ราคา</th>
 			<th>จำนวน</th>
 			<th>ราคารวม</th>
-		</thead>>
+		</thead>
 		<tbody>
 		{% for item in cart.items %}
 			<tr>
 				<td>{{item.product}}</td>
-				<td>{{item.price}}</td>
+				<td>{{ "฿ {:,.2f}".format(item.price|int) }}</td>
 				<td>{{item.quantity}}</td>
-				<td>{{item.price|int*item.quantity}}</td>
+				<td>{{ "฿ {:,.2f}".format(item.price|int*item.quantity) }}</td>
 			</tr>
 		{% endfor %}
 		</tbody>

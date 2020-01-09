@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
   <link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/admin.css') }}">
 	<title></title>
@@ -16,6 +17,7 @@
 						<ul>
 							<li><a href="{{ url_for('user_verify') }}">VERIFY USER</a></li>
 							<li><a href="{{ url_for('payment_verify') }}">PAYMENT</a></li>
+							<li><a href="{{ url_for('paymentcomplete') }}">COMPLETED PAYMENT</a></li>
 						</ul>
 					</li>
 					<li><span>ARTICLES</span>

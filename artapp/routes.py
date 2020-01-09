@@ -211,7 +211,7 @@ def cart():
                     db.session.delete(cart)
                     db.session.commit()
             return redirect('cart')
-        elif cart and cart.payment == 'W':
+        elif cart and cart.payment == 'W' and time <= cart.payment_expire:
             if cart.shippingaddress:
                 return redirect(url_for('payment'))
             else:
@@ -243,7 +243,7 @@ def cart():
                 return render_template("cart.html", message = message)
             else:
                 return render_template("cart.html", cart = cart, product_inventory = product_inventory, bucket=app.config['BUCKET'], price=price)
-        elif cart and cart.items and cart.payment == 'N' and cart.date_expire < time:
+        elif cart and cart.items and cart.payment == 'N' and time > cart.date_expire:
             for item in cart.items:
                 db.session.delete(item)
                 db.session.commit()
@@ -809,10 +809,44 @@ def user_verify():
 
 @app.route('/admin/payment_verify')
 def payment_verify():
-    order = Cart.query.filter_by(payment = 'W').all()
-    return render_template("verifypayment.html", order = order)
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            order = Cart.query.filter_by(payment = 'W').all()
+            return render_template("verifypayment.html", order = order)
+    else:
+        return redirect(url_for('notfound'))
 
+@app.route('/admin/confirmation/<c_id>' , methods=['GET', 'POST'])
+def cartref_confirmation(c_id):
+    if request.method=='POST':
+        cart = Cart.query.filter_by(reference_id = c_id).first()
+        cart.payment = "C"
+        cart.payment_expire = cart.payment_expire+timedelta(days=7)
+        cart.date_expire = cart.date_expire+timedelta(days=7)
+        db.session.commit()
+        return redirect(url_for('paymentcomplete'))
+    elif current_user.is_authenticated:
+        if current_user.role == 'admin':
+            cart = Cart.query.filter_by(reference_id = c_id).first()
+            total = 0
+            for item in cart.items:
+                total += int(item.price) * item.quantity
+            return render_template("cartconfirmation.html", cart=cart, cart_total = total)
+    else:
+        return redirect(url_for('notfound'))
+
+@app.route('/admin/paymentcomplete' , methods=['GET', 'POST'])
+def paymentcomplete():
+    if current_user.is_authenticated and current_user.role == 'admin':
+        carts = Cart.query.filter_by(payment = 'C').all()
+        return render_template("paymentcomplete.html", carts = carts)
+    else:
+        return redirect(url_for('notfound'))
+
+@app.route('/404')
+def notfound():
+    return render_template("notfound.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return redirect(url_for('home')), 404
+    return redirect(url_for('notfound'))

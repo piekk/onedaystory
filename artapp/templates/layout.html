@@ -64,7 +64,7 @@
 			<li><a href={{ url_for('logout') }}>LOGOUT</a></li>
 			<li><a href={{ url_for('changeuserstatus') }}>CHANGE TO SELLER ACCOUNT</a></li>
 			{% elif current_user.is_authenticated and current_user.role == 'admin' %}
-			<li><a href={{ url_for('admin', name=current_user.username) }}>ADMIN</a></li>
+			<li><a href={{ url_for('adminisor') }}>ADMIN</a></li>
 			<li><a href={{ url_for('logout') }}>LOGOUT</a></li>
 			{% elif current_user.is_authenticated and current_user.role == 'Seller' %}
 			<li><a href={{ url_for('cart') }}><img src="{{ url_for('static', filename='image/icon/shoppingbag.png') }}">&nbsp {{ current_user.cart.items|length }}</a></li>
@@ -95,7 +95,7 @@
 				<li><a href="#">TERMS AND CONDITIONS</a></li>
 			</ul>
 			<div class="social-media">
-				<a href="#"><img src="{{ url_for('static', filename='image/icon/facebook.png') }}" alt="facebook link"></a>
+				<a href="https://www.facebook.com/Onedaystory-104771857721792/" target="_blank"><img src="{{ url_for('static', filename='image/icon/facebook.png') }}" alt="facebook link"></a>
 				<a href="#"><img src="{{ url_for('static', filename='image/icon/instagram.png') }}" alt="instagram link"></a>
 				<a href="#"><img src="{{ url_for('static', filename='image/icon/line.png') }}" alt="lline link"></a>
 			</div>
