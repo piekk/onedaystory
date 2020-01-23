@@ -417,7 +417,7 @@ td{
 }
 
 /* media screen */
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 640px){
   .lscreen{
     display: table-cell;
     vertical-align: inherit;

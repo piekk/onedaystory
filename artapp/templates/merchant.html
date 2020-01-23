@@ -110,7 +110,7 @@
             <td>{{item.cart.reference_id}}</td>
             {% endif %}
             <td>{{item.quantity}}</td>
-            <td>{{item.price|int * item.quantity}}</td>
+            <td>{{ "฿ {:,.2f}".format(item.price|int * item.quantity) }}</td>
             {% if item.cart.payment == 'C' %}
             <td>รอการจัดส่ง</td>
             {% else %}

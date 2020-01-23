@@ -404,7 +404,7 @@ def login(productcode):
                     return redirect(url_for('merchant', name=user.username))
         elif user and bcrypt.check_password_hash(user.password, form.password.data) and user.role=='admin':
             login_user(user)
-            return redirect(url_for('adminisor', name=user.username))
+            return redirect(url_for('adminisor'))
         elif not user:
             flash("EMAIL NOT FOUND")
             return redirect(url_for('login'))
@@ -734,15 +734,13 @@ def edit_delete_product(name):
 @login_required
 def order(c_id,p_id):
     product = CartItems.query.join(Cart,(Cart.reference_id==c_id)).filter(CartItems.id == p_id).first()
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and product:
         if current_user.username == product.seller:
             return render_template("order.html", item=product)
-        elif current_user.role == 'Seller':
-            return redirect(url_for("merchant", name = current_user.username))
         else:
-            return redirect(url_for("home"))
+            return redirect(url_for('notfound'))
     else:
-        return redirect(url_for("home"))
+        return redirect(url_for('notfound'))
 
 @app.route('/logout')
 def logout():
@@ -809,10 +807,9 @@ def user_verify():
 
 @app.route('/admin/payment_verify')
 def payment_verify():
-    if current_user.is_authenticated:
-        if current_user.role == 'admin':
-            order = Cart.query.filter_by(payment = 'W').all()
-            return render_template("verifypayment.html", order = order)
+    if current_user.is_authenticated and current_user.role == 'admin':
+        order = Cart.query.filter_by(payment = 'W').all()
+        return render_template("verifypayment.html", order = order)
     else:
         return redirect(url_for('notfound'))
 
@@ -825,13 +822,12 @@ def cartref_confirmation(c_id):
         cart.date_expire = cart.date_expire+timedelta(days=7)
         db.session.commit()
         return redirect(url_for('paymentcomplete'))
-    elif current_user.is_authenticated:
-        if current_user.role == 'admin':
-            cart = Cart.query.filter_by(reference_id = c_id).first()
-            total = 0
-            for item in cart.items:
-                total += int(item.price) * item.quantity
-            return render_template("cartconfirmation.html", cart=cart, cart_total = total)
+    elif current_user.is_authenticated and current_user.role == 'admin':
+        cart = Cart.query.filter_by(reference_id = c_id).first()
+        total = 0
+        for item in cart.items:
+            total += int(item.price) * item.quantity
+        return render_template("cartconfirmation.html", cart=cart, cart_total = total, bucket = app.config['BUCKET'])
     else:
         return redirect(url_for('notfound'))
 

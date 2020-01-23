@@ -1,7 +1,22 @@
 {% extends"adminisor.html" %}
 {% block content %}
 <div class="break"></div>
-
+<div class="norm">
+	<h4> Cart REFERENCE: #{{cart.reference_id}}</h4>
+	{% if cart.payment == 'C' %}
+		<h4> Payment Status: ชำระเงินแล้ว</h4>
+	{% else %}
+		<h4> Payment Status: รอการชำระเงิน</h4>
+	{% endif %}
+</div>
+<div class="break"></div>
+<div class="norm">
+	<h4>Username ลูกค้า: {{cart.cartowner.username }}</h4>
+	<h4>ชื่อลูกค้า: {{cart.cartowner.firstname }} {{cart.cartowner.lastname }}</h4>
+	<h5>เบอร์ติดต่อ: {{cart.cartowner.contact}} </h5>
+	<h5>email: {{cart.cartowner.email}} </h5>
+</div>
+<div class="break"></div>
 {% if cart.shippingaddress %}
 <div class="norm">
 	<h4>ที่อยู่จัดส่ง</h4>
@@ -36,7 +51,7 @@
 <div class = "break"></div>
 <div>
 	<table>
-		<caption>Ref: {{ cart.reference_id }} Buyer: {{ cart.cartowner.username }} By Date: {{ cart.date_expire }}</caption>
+		<caption>รายการสั่งซื้อ</caption>
 		<thead>
 			<th>ชื่อสินค้า</th>
 			<th>ราคา</th>
@@ -46,7 +61,11 @@
 		<tbody>
 		{% for item in cart.items %}
 			<tr>
-				<td>{{item.product}}</td>
+				{% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.img %}
+				<td>
+	        <img class="thumbnail" src="{{image}}">
+	        <h5 class="productname">{{ item.product }}</h5>
+	      </td>
 				<td>{{ "฿ {:,.2f}".format(item.price|int) }}</td>
 				<td>{{item.quantity}}</td>
 				<td>{{ "฿ {:,.2f}".format(item.price|int*item.quantity) }}</td>
