@@ -1,38 +1,56 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="break"></div>
-    <div class="norm">
-      <h4>Do not have an account? <a class="u_line" href={{ url_for('register') }}>REGISTER</a></h4>
-      <h3>LOGIN</h3>
-    </div>
-    <div class="norm">
-      <form method="POST">
-      {{ form.hidden_tag() }}
-        <div class="wrapper">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-          <span class='highlight'>{{ message }}</span>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        </div>
-        <div class="wrapper">
-          {{ form.email.label(class_="bold bck") }}
-          {{ form.email(class_="med_field right") }}
-          <h5 class="highlight">{% for error in form.email.errors %}{{ error }}{% endfor %}</h5>
 
-        <div class="wrapper">
-          {{ form.password.label(class_="bold bck") }}
-          {{ form.password(class_="med_field right") }}
-        </div>
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h5 class="text-secondary">Do not have an account? <a href={{ url_for('register') }}><h5 class="text-secondary d-inline">REGISTER</h5></a></h5>
+                        <h2>Login</h2>
+                    </div>
+                    <div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                        <p class="text-danger">{{ message }}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    </div>
 
-        <h5><a class="u_line" href={{ url_for('password_email_reset') }}>Forgot your password?</a></h5>
-        <div class="break"></div>
-        <div class="norm">
-          {{ form.submit(class_="button w40") }}
+
+                    <form method="POST">
+                      {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>{{ form.email.label(class_="text-muted") }}</h6>
+                                {{ form.email(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.email.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>{{ form.password.label(class_="text-muted") }}</h6>
+                                {{ form.password(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.password.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="btn amado-btn") }}
+                            </div>
+                            <div class="col-12 mb-3">
+                              <a href={{ url_for('password_email_reset') }}><h5 class ="text-secondary">Forgot your password?</h5></a>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
-      </form>
     </div>
+</div>
+
+
+
 
 {% endblock %}

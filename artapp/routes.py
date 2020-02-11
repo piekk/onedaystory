@@ -15,21 +15,16 @@ short_title = "Onedaystory "
 
 @app.route('/')
 def home():
-    illustration = Products.query.filter(Products.category=='illustration').order_by(Products.view.asc()).limit(12).all()
-    painting = Products.query.filter(Products.category=='painting').order_by(Products.view.desc()).limit(12).all()
-    photography = Products.query.filter(Products.category=='photograph').order_by(Products.view.desc()).limit(12).all()
-    decorations = Products.query.filter(Products.category=='decoration').order_by(Products.view.desc()).limit(12).all()
-    books = Products.query.filter(Products.category=='book').order_by(Products.view.desc()).limit(12).all()
-    latest = Products.query.filter(Products.quantity>0).order_by(Products.date_add.desc()).limit(12).all()
+    latest = Products.query.filter(Products.quantity>0).order_by(Products.date_add.desc()).limit(30).all()
     time = datetime.now()
-    return render_template("home.html", title=default_title, latest=latest, illustration=illustration, painting=painting, photography=photography, decorations=decorations, books=books, margin=margin, time=time, bucket = app.config['BUCKET'])
+    return render_template("home.html", title=default_title, latest=latest, margin=margin, time=time, bucket = app.config['BUCKET'])
 
 
 @app.route('/gallery/', defaults={'filter':None})
 @app.route('/gallery/<filter>')
 def gallery(filter):
     page = request.args.get('page', 1,type=int)
-    productcategory = ['illustration', 'painting', 'photograph', 'decoration', 'book']
+    productcategory = ['illustration', 'painting', 'photography', 'decoration', 'book']
     if filter == None:
         time = datetime.now()
         product = Products.query.order_by(Products.view.desc()).paginate(per_page=10, page=page)

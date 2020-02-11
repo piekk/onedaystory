@@ -1,81 +1,77 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="break"></div>
-<div class="norm">
-  <h4>Already have an account? <a class="u_line" href={{ url_for('login') }}>LOGIN</a></h4>
-  <h3>ลงทะเบียนผู้ขาย</h3>
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h5 class="text-secondary">Already have an account? <a class="u_line" href={{ url_for('login') }}><h5 class="text-secondary d-inline">LOGIN</h5></a></h5>
+                        <h2>Merchant Register</h2>
+                    </div>
+                    <div>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                            <p class="text-danger">{{ message }}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <form method="post">
+                        {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                {{ form.username.label(class_="text-muted") }}
+                                {{ form.username(class_="form-control")  }}
+                                <p class="text-danger">{% for error in form.email.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.firstname.label(class_="text-muted") }}
+                                {{ form.firstname(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.firstname.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.lastname.label(class_="text-muted") }}
+                                {{ form.lastname(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.lastname.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.contact.label(class_="text-muted") }}
+                                {{ form.contact(class="form-control") }}
+                                <p class="text-danger">{% for error in form.contact.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.email.label(class_="text-muted") }}
+                                {{ form.email(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.email.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.password.label(class_="text-muted") }}
+                                {{ form.password(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.password.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.confirm_password.label(class_="text-muted") }}
+                                {{ form.confirm_password(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.confirm_password.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.accept_terms }}<p class="d-inline"> I accept the <a href={{ url_for('terms') }}>Terms of use & Privacy policy</a></p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="btn amado-btn") }}
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class='norm'>
-    <form method="POST">
-    {{ form.hidden_tag() }}
-      <div class="wrapper">
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      {% for message in messages %}
-        <span class="highlight">{{ message }}</span>
-      {% endfor %}
-      {% endif %}
-      {% endwith %}
-      </div>
-      <div class="wrapper quaterw">
-        {{ form.username.label(class_="bold bck") }}
-        {{ form.username(class_="v_small_field")  }}
-        {% if form.username.errors %}
-        <span class="highlight">{% for error in form.username.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper divspan quaterw">
-        {{ form.firstname.label(class_="bold bck") }}
-        {{ form.firstname(class_="v_small_field") }}
-        {% if form.firstname.errors %}
-        <span class="highlight">{% for error in form.firstname.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper divspan">
-        {{ form.lastname.label(class_="bold bck") }}
-        {{ form.lastname(class_="small_field") }}
-        {% if form.lastname.errors %}
-        <span class="highlight">{% for error in form.lastname.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper quarterw">
-        {{ form.contact.label(class_="bold bck") }}
-        {{ form.contact(class="med_field") }}
-        {% if form.contact.errors %}
-        <span class="highlight">{% for error in form.contact.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper quarterw">
-        {{ form.email.label(class_="bold bck") }}
-        {{ form.email(class_="med_field") }}
-        {% if form.email.errors %}
-        <span class="highlight">{% for error in form.email.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper halfw">
-        {{ form.password.label(class_="bold bck") }}
-        {{ form.password(class_="med_field") }}
-        {% if form.password.errors %}
-        <span class="highlight">{% for error in form.password.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper halfw">
-        {{ form.confirm_password.label(class_="bold bck") }}
-        {{ form.confirm_password(class_="med_field") }}
-        {% if form.confirm_password.errors %}
-        <span class="highlight">{% for error in form.confirm_password.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper">
-        {{ form.accept_terms }}<span> I accept the <a href={{ url_for('terms') }}>Terms of use & Privacy policy</a></span>
-      </div>
-      <div class="norm">
-        {{ form.submit(class_="button w40") }}
-      </div>
-    </form>
-  </div>
-  <div class="break"></div>
+
 
 {% endblock %}

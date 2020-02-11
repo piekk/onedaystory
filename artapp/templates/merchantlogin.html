@@ -1,33 +1,51 @@
 {% extends "layout.html" %}
 {% block content %}
-    <form class ="center" method="POST" action="">
 
-        <h3>MERCHANT LOGIN</h3>
-        <div class="wrapper">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <span class="errors">{{ message }}</span>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        </div>
-        {{ form.hidden_tag() }}
-        <div class="wrapper">
-            {{ form.email.label }}
-            {{ form.email(class='large' )}}
-        </div>
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h2>Merchant Login</h2>
+                    </div>
+                    <div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                        <p class="text-danger">{{ message }}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    </div>
 
-        <div class="wrapper">
-            {{ form.password.label }}
-            {{ form.password(class='large' )}}
+                    <form method="POST">
+                    {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>{{ form.email.label(class_="text-muted") }}</h6>
+                                {{ form.email(class_="form-control" )}}
+                                <p class="text-danger">{% for error in form.email.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>{{ form.password.label(class_="text-muted") }}</h6>
+                                {{ form.password(class="form-control" )}}
+                                <p class="text-danger">{% for error in form.password.errors %}{{ error }}{% endfor %}</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="btn amado-btn") }}
+                            </div>
+                            <div class="col-12 mb-3">
+                              <a href={{ url_for('password_email_reset') }}><h5 class ="text-secondary">Forgot your password?</h5></a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
-        <h5><a href={{ url_for('password_email_reset') }}>Forgot your password?</a></h5>
-        <div class="button">
-            {{ form.submit }}
-        <div>
-    </form>
-    <div class="center">
-        <h4>Do not have seller account? <a href={{ url_for('merchantregister') }}>SELLER REGISTER</a></h4>
     </div>
+</div>
+
+
 {% endblock %}

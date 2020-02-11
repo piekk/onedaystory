@@ -1,330 +1,57 @@
 {% extends"layout.html" %}
 {% block content %}
 
-<!-- new products   -->
-    <div class="break"></div>
-    <div class="norm">
-      <h4>NEW ARRIVALS</h4>
-    </div>
-    <div class='norm'>
-      <span><a class="tag" href="{{url_for('home')}}">หน้าหลัก </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery')}}">แกลอรี </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery', filter='latest')}}">สินค้าใหม่</a></span>
-    </div>
-    <!-- Slider main container -->
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        {% for item in latest %}
-        <div class="swiper-slide">
-          <div class="container">
-            {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-            <a href="{{url_for('product', product=item.productcode)}}"><img class = "norm" src="{{image}}"></a>
-            <div class='norm right'>
-              <span><a class="tag" href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
-              {% for word in item.style.split("#") %}
-              <span><a class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
-              {% endfor %}
-              <span><a class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
-            </div>
-            <h4><a class = "bck button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-            <a class = "bck" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}}</a>
-            {% if item.promotion|int > 0 and time< item.promotion_expire %}
-            <h4>
-              <span class="discount">-{{item.promotion}}%</span><span class="highlight"> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} </span><span class="linethrough">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span>
-            </h4>
-            {% else %}
-            <h4>{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
-            {% endif %}
-          </div>
+<!-- Product Catagories Area Start -->
+<div class="products-catagories-area clearfix">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h1 class="display-4">Fluid jumbotron</h1>
+            <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
         </div>
-        {% endfor %}
-      </div>
-      <div class="break"></div>
-      <!-- Add Pagination -->
-      <div class="swiper-pagination"></div>
     </div>
-
-    <div class="small-banner">
-      <div class="text-center"><a href="{{url_for('merchantregister')}}">เป็นผู้ขายกับเรา</a></div>
-    </div>
-
-
-
-<!-- Illustration   -->
-    <div class="break"></div>
-    <div class="norm">
-      <h4>ILLUSTRATION</h4>
-    </div>
-    <div class="norm">
-      <span><a class="tag" href="{{url_for('home')}}">หน้าหลัก </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery')}}">แกลอรี </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery', filter='illustration')}}">อิลัสเตรชัน</a></span>
-    </div>
-    <!-- Slider main container -->
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        {% for item in illustration %}
-        <div class="swiper-slide">
-          <div class="container">
-            {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-            <a href="{{url_for('product', product=item.productcode)}}"><img class="norm" src="{{image}}"></a>
-            <div class="norm right">
-              <span><a class="tag" href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
-              {% for word in item.style.split("#") %}
-              <span><a class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
-              {% endfor %}
-              <span><a class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
+    <div class="container-fluid">
+        <div class="row">
+            {% for item in latest %}
+            <div class = "col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                <div class = "single-product-wrapper">
+                    <div class="product-img">
+                        {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
+                        <a href="{{url_for('product', product=item.productcode)}}">
+                            <img src="{{image}}" alt="">
+                        </a>
+                    </div>
+                    <div class="line"></div>
+                    <div class="product-description d-flex align-text-top justify-content-between">
+                        <div class="product-meta-data">
+                            {% if item.promotion|int > 0 and time < item.promotion_expire %}
+                            <p class = "product-price">฿ {{ "{:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}}</p>
+                            <del class ="text-muted">฿ {{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int|round)}}</del>
+                            <p class="bg-primary text-white text-center">{{ item.promotion }}% OFF</p>
+                            {% else %}
+                            <p class="product-price">{{"฿ {:,.2f}".format(((item.price|int*margin)+item.shipping_fee|int)|round)}}</p>
+                            {% endif %}
+                            <a href="{{url_for('product', product=item.productcode)}}">
+                                <h5 class = "text-muted">{{item.title}}</h5>
+                            </a>
+                        </div>
+                        <div class="ratings-cart float-right">
+                            <div class="ratings">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </div>
+                            <div class="cart text-right">
+                                <a href="{{url_for('product', product=item.productcode)}}"><img src="{{ url_for('static', filename='image/core-img/cart.png') }}" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {% if item.quantity > 0 %}
-            <h4><a class = "bck button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-            <a class="blk" href="{{url_for('view', name=item.owner_product.username)}}">ดูแกลอรีของ {{item.owner_product.username}}</a>
-            {% else %}
-            <h4 class = 'center w40 red'>สินค้าหมด</h4>
-            {% endif %}
-            {% if item.promotion|int > 0 and time< item.promotion_expire %}
-            <h4>
-              <span class="discount">-{{item.promotion}}%</span><span class="highlight"> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} </span><span class="linethrough">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span>
-            </h4>
-            {% else %}
-            <h4>{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
-            {% endif %}
-          </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-      <div class="break"></div>
-      <!-- Add Pagination -->
-      <div class="swiper-pagination"></div>
     </div>
-
-    <div class="banner">
-      <img src="{{ url_for('static', filename='image/banner/painting.png')}}" alt="ศิลปะ แต่งบ้าน">
-      <div class="text-center"><a href="{{url_for('gallery', filter='illustration')}}">ILLUSTRATION</a></div>
-    </div>
-
-<!-- painting   -->
-    <div class="break"></div>
-    <div class="norm">
-      <h4>PAINTINGS</h4>
-    </div>
-    <div class="norm">
-      <span><a class="tag" href="{{url_for('home')}}">หน้าหลัก </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery')}}">แกลอรี </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery', filter='painting')}}">รูปวาด</a></span>
-    </div>
-    <!-- Slider main container -->
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        {% for item in painting %}
-        <div class="swiper-slide">
-          <div class="container">
-            {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-            <a href="{{url_for('product', product=item.productcode)}}"><img class="norm" src="{{image}}"></a>
-            <div class='norm right'>
-              <span><a class="tag" href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
-              {% for word in item.style.split("#") %}
-              <span><a class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
-              {% endfor %}
-              <span><a class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
-            </div>
-            {% if item.quantity > 0 %}
-            <h4><a class = "bck button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-            <a class="blk" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}}</a>
-            {% else %}
-            <h4 class = 'center w40 red'>สินค้าหมด</h4>
-            {% endif %}
-            {% if item.promotion|int > 0 and time< item.promotion_expire %}
-            <h4>
-              <span class="discount">-{{item.promotion}}%</span><span class="highlight"> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} </span><span class="linethrough">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span>
-            </h4>
-            {% else %}
-            <h4>{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
-            {% endif %}
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="break"></div>
-      <!-- Add Pagination -->
-      <div class="swiper-pagination"></div>
-    </div>
-
-    <div class="banner">
-      <img src="{{ url_for('static', filename='image/banner/painting.png')}}" alt="สีน้ำ สีน้ำมัน">
-      <div class="text-center"><a href="{{url_for('gallery', filter='painting')}}">PAINTING</a></div>
-    </div>
-
-
-<!-- photography   -->
-      <div class="break"></div>
-      <div class="norm">
-        <h4>PHOTOGRAPH</h4>
-      </div>
-      <div class="norm">
-        <span><a class="tag" href="{{url_for('home')}}">หน้าหลัก </a>|</span>
-        <span><a class="tag" href="{{url_for('gallery')}}">แกลอรี </a>|</span>
-        <span><a class="tag" href="{{url_for('gallery', filter='photograph')}}">ภาพถ่าย</a></span>
-      </div>
-      <!-- Slider main container -->
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          {% for item in photography %}
-          <div class="swiper-slide">
-            <div class="container">
-              {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-              <a href="{{url_for('product', product=item.productcode)}}"><img class="norm" src="{{image}}"></a>
-              <div class="norm right">
-                <span><a class="tag" href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
-                {% for word in item.style.split("#") %}
-                <span><a  class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
-                {% endfor %}
-                <span><a  class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
-              </div>
-              {% if item.quantity>0 %}
-              <h4><a class="bck button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-              <a class="blk" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}}</a>
-              {% else %}
-              <h4 class = 'center w40 red'>สินค้าหมด</h4>
-              {% endif %}
-              {% if item.promotion|int > 0 and time< item.promotion_expire %}
-              <h4>
-                <span class="discount">-{{item.promotion}}%</span><span class="highlight"> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} </span><span class="linethrough">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span>
-              </h4>
-              {% else %}
-              <h4>{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
-              {% endif %}
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="break"></div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-      </div>
-      <div class="banner">
-        <img src="{{ url_for('static', filename='image/banner/photography.png')}}" alt="รูปถ่าย รุปขาวดำ">
-        <div class="text-center"><a href="{{url_for('gallery', filter='photograph')}}">PHOTOGRAPHY</a></div>
-      </div>
-
-
-
-
-<!-- decorations ของแต่่งบ้าน   -->
-      <div class="break"></div>
-      <div class="norm">
-        <h4>DECORATION</h4>
-      </div>
-      <div class="norm">
-        <span><a class="tag" href="{{url_for('home')}}">หน้าหลัก </a>|</span>
-        <span><a class="tag" href="{{url_for('gallery')}}">แกลอรี </a>|</span>
-        <span><a class="tag" href="{{url_for('gallery', filter='decoration')}}">ของแต่งบ้าน</a></span>
-      </div>
-      <!-- Slider main container -->
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          {% for item in decorations %}
-          <div class="swiper-slide">
-            <div class="container">
-              {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-              <a href="{{url_for('product', product=item.productcode)}}"><img class="norm" src="{{image}}"></a>
-              <div class="norm right">
-                <span><a class="tag" href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
-                {% for word in item.style.split("#") %}
-                <span><a class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
-                {% endfor %}
-                <span><a class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
-              </div>
-              {% if item.quantity>0 %}
-              <h4><a class="bck button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-              <a class="blk" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}}</a>
-              {% else %}
-              <h4 class = "center w40 red">สินค้าหมด</h4>
-              {% endif %}
-              {% if item.promotion|int > 0 and time< item.promotion_expire %}
-              <h4>
-                <span class="discount">-{{item.promotion}}%</span><span class="highlight"> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} </span><span class="linethrough">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span>
-              </h4>
-              {% else %}
-              <h4>{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
-              {% endif %}
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="break"></div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-      </div>
-      <div class="banner">
-        <img src="{{ url_for('static', filename='image/banner/mockup.png')}}" alt="ของตกแต่ง แต่งบ้าน">
-        <div class="text-center"><a href="{{url_for('gallery', filter='decoration')}}">VIEW DECORATION</a></div>
-      </div>
-
-
-<!-- หนังสือ แมกกาซีน   -->
-      <div class="break"></div>
-      <div class="norm">
-        <h4>BOOKS AND MAGAZINES</h4>
-      </div>
-      <div class='norm'>
-        <span><a class="tag" href="{{url_for('home')}}">หน้าหลัก </a>|</span>
-        <span><a class="tag" href="{{url_for('gallery')}}">แกลอรี </a>|</span>
-        <span><a class="tag" href="{{url_for('gallery', filter='book')}}">หนังสือและนิตยาสาร</a></span>
-      </div>
-      <!-- Slider main container -->
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          {% for item in books %}
-          <div class="swiper-slide">
-            <div class="container">
-              {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-              <a href="{{url_for('product', product=item.productcode)}}"><img class="norm" src="{{image}}"></a>
-              <div class="norm right">
-                <span><a class="tag" href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
-                {% for word in item.style.split("#") %}
-                <span><a class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
-                {% endfor %}
-                <span><a class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
-              </div>
-              {% if item.quantity>0 %}
-              <h4><a class="blk button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-              <a class="blk" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}}</a>
-              {% else %}
-              <h4 class = "w40 red center">สินค้าหมด</h4>
-              {% endif %}
-              {% if item.promotion|int > 0 and time< item.promotion_expire %}
-              <h4>
-                <span class="discount">-{{item.promotion}}%</span><span class="highlight"> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} </span><span class="linethrough">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span>
-              </h4>
-              {% else %}
-              <h4>{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
-              {% endif %}
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-        <div class = "break"></div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-      </div>
-      <div class="banner">
-        <img src="{{ url_for('static', filename='image/banner/mockup.png')}}" alt="ของตกแต่ง แต่งบ้าน">
-        <div class="text-center"><a href="{{url_for('gallery', filter='book')}}">VIEW Books and Magazines</a></div>
-      </div>
-
-
-
-
-
-<script type="text/javascript" src="{{ url_for('static',filename='js/swiper.js') }}"></script>
-
-<!-- Initialize Swiper -->
-<script>
-  var swiper = new Swiper('.swiper-container', {
-    pagination: {
-      el: '.swiper-pagination',
-    },
-  });
-</script>
+</div>
 
 {% endblock %}

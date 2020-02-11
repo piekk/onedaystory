@@ -1118,10 +1118,11 @@ img {
     }
     .hover-content {
         position: absolute;
-        top: 40px;
+        top: 30px;
         left: 40px;
         z-index: 10;
         @media #{$breakpoint-xs} {
+            position: absolute;
             top: 30px;
             left: 30px;
         }

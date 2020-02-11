@@ -53,7 +53,7 @@ class ProductForm(FlaskForm):
     shipping_fee = StringField('Shipping', id="ship-set", default=0, validators=[DataRequired(), check_num])
     promotion = IntegerField('Promotion', id="discount-set", default = 0)
     promotion_expire = IntegerField('Promotion Expire', default=90)
-    category = SelectField('Category', id="category", choices=[('illustration', 'ภาพคอมพิวเตอร์กราฟิก อิลัสเตรชัน'),('photograph', 'ภาพถ่าย'),('painting','ภาพเขียน งานปรินท์ภาพเขียน'),('decoration','ของแต่งบ้าน'),('book','หนังสือและนิตยสารศิลปะ')])
+    category = SelectField('Category', id="category", choices=[('illustration', 'ภาพคอมพิวเตอร์กราฟิก อิลัสเตรชัน'),('photography', 'ภาพถ่าย'),('painting','ภาพเขียน งานปรินท์ภาพเขียน'),('decoration','ของแต่งบ้าน'),('book','หนังสือและนิตยสารศิลปะ')])
     quantity = SelectField('Inventory', choices=[('1', '1'),('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9')])
     style = StringField('Tag', validators=[DataRequired()])
     size = StringField('Size', id = "addsize")

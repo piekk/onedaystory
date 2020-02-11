@@ -1,72 +1,157 @@
 {% extends"layout.html" %}
 {% block content %}
-    <div class="break"></div>
-    <div class="view">
-      <div class = "norm">
-        <h4>{{product.title}}</h4>
-      </div>
-      {% set image = "https://storage.googleapis.com/"+ bucket +"/"+product.imgfile1 %}
-      <img src="{{ image }}">
 
-      <div class = "norm border">
-        <a href="{{url_for('view', name=product.owner_product.username)}}">ดูสินค้าอื่นของ {{product.owner_product.username}} </a>
+<div class="single-product-area section-padding-100 clearfix">
+  <div class="container-fluid">
 
-        {% if product.promotion|int > 0 and time<product.promotion_expire %}
-        <h4>
-          <span class="highlight">{{product.promotion}}% OFF </span><span>(ภายในวันที่ {{ product.promotion_expire.strftime("%Y/%m/%d") }} เท่านั้น)</span>
-        </h4>
-        {% else %}
-        {% endif %}
-
-        {% if product.quantity==0 %}
-        <h4 class="highlight" >สินค้าหมด</h4>
-        {% elif product.quantity==1 %}
-        <h4 class="highlight" >เหลือชิ้นสุดท้าย</h4>
-        {% else %}
-        <h4 class="highlight" >เหลือเพียง {{product.quantity}} </h4>
-        {% endif %}
-
-        {% if product.category == 'illustration' or product.category == 'painting' or product.category=='photograph' %}
-        <h4>กรอบรูป: {{product.frame}}</h4>
-        <h4>ขนาด: {{product.size}} นิ้ว</h4>
-        {% elif product.category == 'book' %}
-        <h4>ผู้แต่ง: {{product.authors}}</h4>
-        <h4>รูปแบบ: {{product.book_condition}}</h4>
-        {% else %}
-        <h4>สภาพ: {{product.condition}}</h4>
-        {% endif %}
-
-        {% if product.description %}
-        <p>{{product.description}}</p>
-        {% else %}
-        {% endif %}
-
-
-        <h4>
-          <span>ราคา:  </span>{{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}
-          <span>(รวมค่าจัดส่ง)</span>
-        </h4>
-      </div>
-      <div class="break"></div>
-
-      {% if product.quantity>0 %}
-      <div class = "norm">
-        <form method="POST">
-          <input class="add-cart" type="submit" value="ADD TO CART">
-        </form>
-        <h4 class="italic right tag">จัดเตรียมและจัดส่งสินค้าภายใน 3 วัน</h4>
-        <h4 class="italic right tag">รับประกันคืนสินค้าได้ภายใน 7 วัน</h4>
-      </div>
-      {% else %}
-      <div class = "norm">
-        <h4 class="red">สินค้าหมด</h4>
-      </div>
-      {% endif %}
-
-      <div class="break"></div>
-      <div class = "norm">
-        <a class="blk button w40" href="{{url_for('gallery', filter=product.category)}}">SEE MORE</a>
+    <div class="row">
+      <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mt-50">
+                <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{url_for('gallery')}}">Gallery</a></li>
+                <li class="breadcrumb-item"><a href="{{url_for('gallery', filter=product.category)}}">{{product.category}}</a></li>
+                <li class="breadcrumb-item active"><a href="{{url_for('product', product=product.productcode)}}">{{product.title}}</a></li>
+            </ol>
+        </nav>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-12 col-lg-7">
+        <div class="single_product_thumb">
+          <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% set image1 = "https://storage.googleapis.com/"+ bucket +"/"+product.imgfile1 %}
+                {% if product.imgfile2 %}
+                {% set image2 = "https://storage.googleapis.com/"+ bucket +"/"+product.imgfile2 %}
+                {% else %}
+                {% endif %}
+                {% if product.imgfile3 %}
+                {% set image3 = "https://storage.googleapis.com/"+ bucket +"/"+product.imgfile3 %}
+                {% else %}
+                {% endif %}
+                {% if product.imgfile4 %}
+                {% set image4 = "https://storage.googleapis.com/"+ bucket +"/"+product.imgfile4 %}
+                {% else %}
+                {% endif %}
+                <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{image1}});">
+                </li>
+                {% if product.imgfile2 %}
+                <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url({{image2}});">
+                </li>
+                {% else %}
+                {% endif %}
+                {% if product.imgfile3 %}
+                <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url({{image3}});">
+                </li>
+                {% else %}
+                {% endif %}
+                {% if product.imgfile4 %}
+                <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url({{image4}});">
+                </li>
+                {% else %}
+                {% endif %}
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <a class="gallery_img" href="{{image1}}">
+                        <img class="d-block w-100" src="{{image1}}" alt="First slide">
+                    </a>
+                </div>
+                {% if product.imgfile2 %}
+                <div class="carousel-item">
+                    <a class="gallery_img" href="{{image2}}">
+                        <img class="d-block w-100" src="{{image2}}" alt="Second slide">
+                    </a>
+                </div>
+                {% else %}
+                {% endif %}
+                {% if product.imgfile3 %}
+                <div class="carousel-item">
+                    <a class="gallery_img" href="{{image3}}">
+                        <img class="d-block w-100" src="{{image3}}" alt="Third slide">
+                    </a>
+                </div>
+                {% else %}
+                {% endif %}
+                {% if product.imgfile4 %}
+                <div class="carousel-item">
+                    <a class="gallery_img" href="{{image4}}">
+                        <img class="d-block w-100" src="{{image4}}" alt="Fourth slide">
+                    </a>
+                </div>
+                {% else %}
+                {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-5">
+        <div class="single_product_desc">
+          <!-- Product Meta Data -->
+          <div class="product-meta-data">
+            <div class="line"></div>
+            {% if product.promotion|int > 0 and time < product.promotion_expire %}
+            <del class ="text-muted">฿ {{"{:,.2f}".format((product.price|int*margin)+product.shipping_fee|int|round)}}</del>
+            <p class = "product-price">฿ {{ "{:,.2f}".format((((product.price|int*(1-(product.promotion|int/100)))*margin)+product.shipping_fee|int)|round)}}</p>
+            <p class="bg-primary text-white text-center">{{ product.promotion }}% OFF</p>
+            {% else %}
+            <p class="product-price">{{"฿ {:,.2f}".format(((product.price|int*margin)+product.shipping_fee|int)|round)}}</p>
+            {% endif %}
+            <a href="product-details.html">
+                <h6>{{product.title}}</h6>
+                <h6><a href="{{url_for('view', name=product.owner_product.username)}}"><p class = "font-italic">ดูสินค้าอื่นของ {{product.owner_product.username}} </p></a></h6>
+            </a>
+            <!-- Ratings & Review -->
+            <div class="ratings-review mb-15 d-flex align-text-top justify-content-between">
+              <div class="ratings">
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
+              </div>
+            </div>
+            <!-- Avaiable -->
+            {% if product.quantity>0 %}
+            <p class="avaibility"><i class="fa fa-circle"></i> เหลือเพียง {{product.quantity}} ชิ้น</p>
+            {% else %}
+            <p class="avaibility"><i class="fa fa-circle unavailable"></i> OUT OF STOCK</p>
+            {% endif %}
+          </div>
+          <div class="short_overview my-5">
+              {% if product.category == 'illustration' or product.category == 'painting' or product.category=='photograph' %}
+              <p>กรอบรูป: {{product.frame}}</p>
+              <p>ขนาด: {{product.size}} นิ้ว</p>
+              {% elif product.category == 'book' %}
+              <p>ผู้แต่ง: {{product.authors}}</p>
+              <p>รูปแบบ: {{product.book_condition}}</p>
+              {% else %}
+              <p>สภาพ: {{product.condition}}</p>
+              {% endif %}
+              <p>{{product.description}}</p>
+          </div>
+          <div>
+            <h6><small class = "text-muted font-italic">จัดเตรียมและจัดส่งสินค้าภายใน 3 วัน</small></h6>
+            <h6><small class = "text-muted font-italic">รับประกันคืนสินค้าได้ภายใน 7 วัน</small></h6>
+          </div>
+          <!-- Add to Cart Form -->
+          {% if product.quantity>0 %}
+            <form class="cart clearfix" method="POST">
+              <input class="btn amado-btn" type="submit" value="ADD TO CART">
+            </form>
+          {% else %}
+            <h4>Out of stock</h4>
+          {% endif %}
+        </div>
+      </div>
+
+    <!-- close row -->
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}

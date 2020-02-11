@@ -1,92 +1,149 @@
 {% extends"layout.html" %}
 {% block content %}
-<!-- แกลอรี   -->
-    <div class="break"></div>
-    <div class="banner">
-      <img src="{{ url_for('static', filename='image/banner/photography.png')}}" alt="รูปถ่าย รุปขาวดำ">
-      <div class="text-center"><a href="{{url_for('merchantregister')}}">ลงผลงานกับเรา</a></div>
+<div class="shop_sidebar_area">
+    <div class="widget mb-50">
+        <h6 class="widget-title mb-50">Categories</h6>
+        <div class="catagories-menu">
+            <ul>
+                <li><a href="{{url_for('gallery', filter='latest')}}">New Arrivals</a></li>
+                <li><a href="{{url_for('gallery', filter='painting')}}">Painting</a></li>
+                <li><a href="{{url_for('gallery', filter='illustration')}}">illustration</a></li>
+                <li><a href="{{url_for('gallery', filter='photography')}}">Photography</a></li>
+                <li><a href="{{url_for('gallery', filter='book')}}">Book</a></li>
+                <li><a href="{{url_for('gallery', filter='decoration')}}">Decoration</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="break"></div>
-    <div class="norm">
-      <h4 class="upper">{{filter}}</h4>
-    </div>
-    <div class= "norm">
-      <span><a class="tag" href="{{url_for('home')}}">หน้าหลัก </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery')}}">แกลอรี </a>|</span>
-      <span><a class="tag" href="{{url_for('gallery', filter='latest')}}">สินค้าใหม่</a></span>
-    </div>
-    <!-- Slider main container -->
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        {% for item in product.items %}
-        <div class="swiper-slide">
-          <div class="container">
-            {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-            <a href="{{url_for('product', product=item.productcode)}}"><img class="norm" src="{{image}}"></a>
-            <div class="norm right">
-              <span><a class="tag" href="{{url_for('gallery', filter=item.category)}}">{{item.category}} </a></span>
-              {% for word in item.style.split("#") %}
-              <span><a class="tag" href="{{url_for('gallery', filter=word)}}">{{word}} </a>|</span>
-              {% endfor %}
-              <span><a class="tag" href="{{url_for('view', name=item.owner_product.username)}}">{{item.owner_product.username}} </a></span>
-            </div>
-            {% if item.quantity > 0 %}
-            <h4><a class = "bck button w40 center" href="{{url_for('product', product=item.productcode)}}">ดูข้อมูล</a></h4>
-            <a class="blk" href="{{url_for('view', name=item.owner_product.username)}}">ดูแกลอรีของ {{item.owner_product.username}}</a>
-            {% else %}
-            <h4 class = 'center w40 red'>สินค้าหมด</h4>
-            {% endif %}
-            {% if item.promotion|int > 0 and time< item.promotion_expire %}
-            <h4>
-              <span class="discount">-{{item.promotion}}%</span><span class="highlight"> {{"฿ {:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}} </span><span class="linethrough">{{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</span>
-            </h4>
-            {% else %}
-            <h4>{{"฿ {:,.2f}".format((item.price|int*margin)+item.shipping_fee|int)}}</h4>
-            {% endif %}
+
+</div>
+<div class="amado_product_area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+              <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+                      <li class="breadcrumb-item"><a href="{{url_for('gallery')}}">Gallery</a></li>
+                      {% if filter != 'gallery'%}
+                      <li class="breadcrumb-item active"><a href="{{url_for('gallery', filter=filter)}}">{{filter}}</a></li>
+                      {% else %}
+                      {% endif %}
+                  </ol>
+              </nav>
           </div>
         </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="product-topbar d-xl-flex align-items-end justify-content-between">
+                    <!-- Total Products -->
+                    <div class="total-products">
+                        <p class = "text-muted">Showing 1-10</p>
+                        <div class="view d-flex">
+                            <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <!-- Sorting -->
+                    <div class="product-sorting d-flex">
+                        <div class="sort-by-date d-flex align-items-center mr-15">
+                            <p>Sort by</p>
+                            <form action="#" method="get">
+                                <select name="select" id="sortBydate">
+                                    <option value="value">Date</option>
+                                    <option value="value">Newest</option>
+                                    <option value="value">Price</option>
+                                    <option value="value">Popular</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+          <!-- Single Product Area -->
+          {% for item in product.items %}
+          <div class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-4">
+              <div class="single-product-wrapper">
+                  <!-- Product Image -->
+                  {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
+                  <div class="product-img">
+                      <a href="{{url_for('product', product=item.productcode)}}"><img src="{{image}}" alt=""></a>
+                  </div>
+                  <div class="line"></div>
+                  <!-- Product Description -->
+                  <div class="product-description d-flex align-text-top justify-content-between">
+                      <!-- Product Meta Data -->
+                      <div class="product-meta-data">
+                          {% if item.promotion|int > 0 and time < item.promotion_expire %}
+                          <p class = "product-price">฿ {{ "{:,.2f}".format((((item.price|int*(1-(item.promotion|int/100)))*margin)+item.shipping_fee|int)|round)}}</p>
+                          <del class ="text-muted">฿ {{"{:,.2f}".format((item.price|int*margin)+item.shipping_fee|int|round)}}</del>
+                          <p class="bg-primary text-white text-center">{{ item.promotion }}% OFF</p>
+                          {% else %}
+                          <p class="product-price">{{"฿ {:,.2f}".format(((item.price|int*margin)+item.shipping_fee|int)|round)}}</p>
+                          {% endif %}
+                          <a href="{{url_for('product', product=item.productcode)}}">
+                              <h5>{{item.title}}</h5>
+                          </a>
+                          <a href="{{url_for('view', name=item.owner_product.username)}}">
+                              <h6 class ="text-muted">by {{item.owner_product.username}}</h6>
+                          </a>
+                      </div>
+
+                  </div>
+
+                  <div aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                          {% for word in item.style.split("#") %}
+                          {% if word|length==0 %}
+                          {% else %}
+                          <li class="breadcrumb-item"><a href="{{url_for('gallery', filter=word)}}"><small class="text-secondary">{{word}}</small></a></li>
+                          {%endif%}
+                          {% endfor %}
+                      </ol>
+                  </div>
+
+              </div>
+          </div>
         {% endfor %}
-      </div>
-      <div class="break"></div>
-      <!-- Add Pagination -->
-      <div class="swiper-pagination"></div>
-    </div>
-    <div class="info-page">
-      {% for page_num in product.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-        {% if page_num %}
-          {% if product.page == page_num %}
-            {% if filter == "gallery" %}
-              <a class ="btn-page current" href="{{ url_for('gallery', page=page_num) }}">{{page_num}}</a>
-            {% else %}
-              <a class ="btn-page current" href="{{ url_for('gallery', filter=filter, page=page_num) }}">{{page_num}}</a>
-            {% endif %}
-          {% else %}
-            {% if filter == "gallery" %}
-              <a class ="btn-page" href="{{ url_for('gallery', page=page_num) }}">{{page_num}}</a>
-            {% else %}
-              <a class ="btn-page" href="{{ url_for('gallery', filter=filter, page=page_num) }}">{{page_num}}</a>
-            {% endif %}
-          {% endif %}
-        {% else %}
-          <a class ="btn-page">. . .</a>
-        {% endif %}
-      {% endfor %}
-      {% if filter=="gallery"%}
-        <a href="{{ url_for('gallery', page=product.next_num) }}" class="button fl-right">LOAD MORE</a>
-      {% else %}
-      <a href="{{ url_for('gallery', filter=filter, page=product.next_num) }}" class="button fl-right">LOAD MORE</a>
-      {% endif %}
-    </div>
+        </div>
 
-<script type="text/javascript" src="{{ url_for('static',filename='js/swiper.js') }}"></script>
+        <div class="row">
+            <div class="col-12">
+              {% for page_num in product.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                  {% if product.page == page_num %}
+                    {% if filter == "gallery" %}
+                      <a class ="d-inline page-link active" href="{{ url_for('gallery', page=page_num) }}">{{page_num}}</a>
+                    {% else %}
+                      <a class ="d-inline page-link active" href="{{ url_for('gallery', filter=filter, page=page_num) }}">{{page_num}}</a>
+                    {% endif %}
+                  {% else %}
+                    {% if filter == "gallery" %}
+                      <a class ="d-inline page-link" href="{{ url_for('gallery', page=page_num) }}">{{page_num}}</a>
+                    {% else %}
+                      <a class ="d-inline page-link" href="{{ url_for('gallery', filter=filter, page=page_num) }}">{{page_num}}</a>
+                    {% endif %}
+                  {% endif %}
+                {% else %}
+                  <a class ="d-inline page-link">. . .</a>
+                {% endif %}
+              {% endfor %}
+              {% if filter=="gallery"%}
+                <a href="{{ url_for('gallery', page=product.next_num) }}" class="d-inline btn btn-secondary">LOAD MORE</a>
+              {% else %}
+              <a href="{{ url_for('gallery', filter=filter, page=product.next_num) }}" class="d-inline btn btn-secondary">LOAD MORE</a>
+              {% endif %}
+            </div>
+        </div>
 
-<!-- Initialize Swiper -->
-<script>
-  var swiper = new Swiper('.swiper-container', {
-    pagination: {
-      el: '.swiper-pagination',
-    },
-  });
-</script>
+    </div>
+</div>
+
+
+
+
 
 {% endblock %}
