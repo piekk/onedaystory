@@ -58,7 +58,7 @@
                     <div class="col-12 mb-3">
                         {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
                         <img class="mb-3" src="{{ image }}">
-                        <a class = "amado-btn d-block" href="{{url_for('update_image', name=product.productcode)}}">เปลี่ยนรูปภาพ</a>
+                        <a class = "amado-btn d-block w-25 text-center" href="{{url_for('update_image', name=product.productcode)}}">เปลี่ยนรูปภาพ</a>
                     </div>
                     <div class="col-12 mb-3">
                         <p>กลุ่มสินค้า: {{product.category}}</p>
@@ -78,7 +78,7 @@
                         {% else %}
                         <p class="mb-3">ไม่มีคำอธิบายสินค้า</p>
                         {% endif %}
-                        <a class = "amado-btn" href="{{url_for('update_detail', name=product.productcode)}}">เปลี่ยนแปลงข้อมูล</a>
+                        <a class = "amado-btn d-block w-25 text-center" href="{{url_for('update_detail', name=product.productcode)}}">เปลี่ยนแปลงข้อมูล</a>
                     </div>
                     <div class="col-12 mb-3">
                         <p>ราคาสินค้า: {{"฿ {:,.2f}".format(product.price|int)}}</p>
@@ -92,14 +92,14 @@
                         {% endif %}
                         <p class="mb-3">จำนวนเงินที่คุณได้รับ: {{"฿ {:,.2f}".format((((product.price|int*(1-(product.promotion|int/100))))+product.shipping_fee|int)|round)}}</p>
 
-                        <a class = "amado-btn" href="{{url_for('update_price', name=product.productcode)}}">เปลี่ยนแปลงราคาและโปรโมชัน</a>
+                        <a class = "amado-btn d-block w-25 text-center" href="{{url_for('update_price', name=product.productcode)}}">เปลี่ยนแปลงราคาและโปรโมชัน</a>
                     </div>
                     <div class="col-12 mb-3">
                       <h6>จำนวนสินค้าที่มีอยู่: {{product.quantity}} </h6>
-                      <a class = "amado-btn" href="{{url_for('update_stock', name=product.productcode)}}">แก้ไขจำนวนสต็อก</a>
+                      <a class = "amado-btn d-block w-25 text-center" href="{{url_for('update_stock', name=product.productcode)}}">แก้ไขจำนวนสต็อก</a>
                     </div>
                     <div class="col-12 mb-3">
-                        <a class = "amado-btn bg-dark" href="{{url_for('edit_delete_product', name=product.productcode)}}">ลบสินค้าชิ้นนี้</a>
+                        <a class = "amado-btn bg-dark w-25 text-center" href="{{url_for('edit_delete_product', name=product.productcode)}}">ลบสินค้าชิ้นนี้</a>
                     </div>
                     <div class="col-12 mb-3">
                         <a class="btn bg-dark text-white float-right text-center" href="{{request.referrer}}">BACK</a>
