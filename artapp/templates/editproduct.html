@@ -57,8 +57,8 @@
                     </div>
                     <div class="col-12 mb-3">
                         {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
-                        <img src="{{ image }}">
-                        <a class = "amado-btn" href="{{url_for('update_image', name=product.productcode)}}">เปลี่ยนรูปภาพ</a>
+                        <img class="mb-3" src="{{ image }}">
+                        <a class = "amado-btn d-block" href="{{url_for('update_image', name=product.productcode)}}">เปลี่ยนรูปภาพ</a>
                     </div>
                     <div class="col-12 mb-3">
                         <p>กลุ่มสินค้า: {{product.category}}</p>
