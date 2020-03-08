@@ -31,14 +31,14 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <h6>{{ form.email.label(class_="text-muted") }}</h6>
-                                {{ form.email(class="form-control") }}
+                                {{ form.email(class_="form-control") }}
                                 {% if form.email.errors %}
                                 <p class="text-danger">{% for error in form.email.errors %}{{ error }}{% endfor %}</p>
                                 {% endif %}
                             </div>
                             <div class="col-12 mb-3">
                                 <h6>{{ form.contact.label(class_="text-muted") }}</h6>
-                                {{ form.contact(class="form-control") }}
+                                {{ form.contact(class_="form-control") }}
                                 {% if form.email.errors %}
                                 <p class="text-danger">{% for error in form.contact.errors %}{{ error }}{% endfor %}</p>
                                 {% endif %}

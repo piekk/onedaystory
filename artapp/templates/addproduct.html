@@ -1,146 +1,149 @@
 {% extends"merchantlayout.html" %}
 {% block content %}
-    <div class="break"></div>
-    <div class="errors">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    {% for message in messages %}
-    <span class='errors'>{{ message }}</span>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
+
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-10">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h5 class="mb-4">เพิ่มสินค้า</h5>
+                    </div>
+                    <div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                        <p class="text-danger">{{ message }}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6 id = 'category-detail'>เลือกประเภทสินค้า</h6>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                <p class="text-danger">{% for error in form.category.errors %}{{ error }}{% endfor %}</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6 id = 'product-title'>ชื่อสินค้า</h6>
+                                <p>ชื่อสินค้าต้องไม่ซ้ำกับชื่อสินค้ารายการอื่นของคุณ</p>
+                                {{ form.title(class_="form-control") }}
+                                <p class="text-danger">{% for error in form.title.errors %}{{ error }}{% endfor %}</p>
+                                <p class="text-danger" id="titleError"></p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <button class="amado-btn" id="confirm-category" type="button" onclick="addImage()">ใส่รูปสินค้า</button>
+                            </div>
+                            <div id="add-image">
+                                <div class="col-12 mb-3" >
+                                    <h6>วิธีการเพิ่มรูปสินค้า</h6>
+                                    <p>ภาพต้องเป็นไฟล์ jpg สี่เหลี่ยมจตุรัส โดยมีขนาดไม่ต่ำกว่า 1000x1000 pixel</p>
+                                    {{ form.photo1 }}
+                                    {% if form.photo1.errors %}
+                                    <p class="text-danger">{% for error in form.photo1.errors %}{{ error }}{% endfor %}</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <h6> เลือกใส่ Hashtag ที่เกี่ยวข้องกับสินค้าของคุณ เช่น #keyword1 #keyword2</h6>
+                                    {{ form.style(class_="form-control") }}
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <button id="confirm-image" class="amado-btn" type="button" onclick="addDescription()">คำอธิบายสินค้า</button>
+                            </div>
+                            <div id="propandobjects">
+                                <div class="col-12 mb-3">
+                                    <p>เลือกสภาพสินค้า</p>
+                                    {{ form.condition(class_="form-control") }}
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <p>ขนาดสินค้า</p>
+                                    {{ form.object_size(class_="form-control") }}
+                                </div>
+                            </div>
+                            <div id="bookandmagazine">
+                                <div class="col-12 mb-3">
+                                    <h6 id="author-name">กรุณาระบุชื่อผู้แต่ง หริอ สำนักพิมพ์</h6>
+                                    {{ form.authors(class_="form-control") }}
+                                    <p id="authorError" class="text-danger"></p>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <p>เลือกสภาพสินค้า</p>
+                                    {{ form.book_condition(class_="form-control") }}
+                                </div>
+                            </div>
+                            <div id="artwork">
+                                <div class="col-12 mb-3">
+                                    <h6>ระบุขนาดของสินค้า เช่น 12"x12" หน่วยเป็นนิ้ว</h6>
+                                    <p>ขนาด</p>
+                                    {{ form.size(class_="form-control") }}
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <h6>ระบุวัสดุและสีของเฟรม</h6>
+                                    <p>กรอบรูป</p>
+                                    {{ form.frame(class_="form-control") }}
+                                    <p id="frameError"></p>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <button id="price-setting" class="amado-btn" type="button" onclick="toSetPrice()">กำหนดราคา</button>
+                            </div>
+                            <div id="setprice" class="col-12 mb-3">
+                                <div class="mb-3">
+                                    {{ form.quantity}}
+                                </div>
+                                <div class="mb-5">
+                                    <h6>จำนวนสินค้าที่ต้องการขาย</h6>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>กำหนดราคาสินค้า</h6>
+                                    {{ form.price(class_="form-control") }}
+                                    {% if form.price.errors %}
+                                    {% for error in form.price.errors %}<p class="text-danger">{{ error }}</p>{% endfor %}
+                                    {% endif %}
+                                    <p class="text-danger" id="PriceError">กรุณาใส่แต่ตัวเลข</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <h6>กำหนดราคาค่าส่งสินค้า</h6>
+                                    {{ form.shipping_fee(class_="form-control") }}
+                                    <p class="text-danger" id="ShippingFeeError">กรุณาใส่แต่ตัวเลข</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>ส่วนลดสินค้า</h6>
+                                    {{ form.promotion(class_="form-control") }}
+                                    <h6>ระยะเวลาที่โปรโมชันหมดอายุ</h6>
+                                    {{ form.promotion_expire}} <span>วัน</span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <button id="price-show" class="amado-btn" type="button" onclick="checkPrice()">คำนวณราคา</button>
+                                </div>
+                                <h6 id ="auto-mark-noshow">{{margin}}</h6>
+                                <div id="price-sum" class="mb-3">
+                                    <h6 id ="pr-show"></h6>
+                                    <h6 id ="merchant-gets"></h6>
+                                </div>
+                                <div class="mb-3">
+                                    <h5>คำอธิบายเพิ่มเติมของสินค้านี้</h5>
+                                    {{ form.description(class_="form-control") }}
+                                </div>
+                                <div>
+                                      {{ form.submit(class_="amado-btn") }}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <form method="POST" enctype="multipart/form-data">
-      {{ form.hidden_tag() }}
-      <div class="wrapper">
-        <h5 id = 'category-detail'>เลือกประเภทสินค้า</h5>
-        {{ form.category }}
-        {% if form.category.errors %}
-        <span class="errors">{% for error in form.category.errors %}{{ error }}{% endfor %}</span>
-        {% endif %}
-      </div>
-      <div class="wrapper">
-        <h5 id = 'product-title'>ชื่อสินค้า</h5>
-        <p class="addnote">ชื่อสินค้าต้องไม่ซ้ำกับชื่อสินค้ารายการอื่นของคุณ</p>
-        {{ form.title }}
-        <span class="errors">{% for error in form.title.errors %}{{ error }}{% endfor %}</span>
-        <span id="titleError"></span>
-      </div>
+</div>
 
-      <div class="wrapper">
-        <button id="confirm-category" type="button" onclick="addImage()">ใส่รูปสินค้า</button>
-      </div>
-      <div id="add-image">
-        <div class="wrapper">
-            <h5>วิธีการเพิ่มรูปสินค้า</h5>
-            <p class="addnote">ภาพต้องเป็นไฟล์ jpg สี่เหลี่ยมจตุรัส โดยมีขนาดไม่ต่ำกว่า 1000x1000 pixel</p>
-            <a class="addnote red" href="#">ดูตัวอย่างการลงรูปภาพ</a>
-            {{ form.photo1 }}
-            {% if form.photo1.errors %}
-            {% for error in form.photo1.errors %}<span>{{ error }}</span>{% endfor %}
-            {% endif %}
-        </div>
-        <div class="wrapper">
-          <h5> เลือกใส่ Hashtag ที่เกี่ยวข้องกับสินค้าของคุณ เช่น #keyword1 #keyword2</h5>
-          <a class="addnote" href="#">ดูวิธีการเลือกใช้ Hashtag ที่เหมาะสม</a>
-          {{ form.style }}
-        </div>
-
-      </div>
-
-      <div class="wrapper">
-        <button id="confirm-image" type="button" onclick="addDescription()">คำอธิบายสินค้า</button>
-      </div>
-      <div id="propandobjects">
-        <div class="wrapper">
-          <span>เลือกสภาพสินค้า</span>
-          {{ form.condition }}
-        </div>
-        <div class="wrapper">
-          <span>ขนาดสินค้า</span>
-          {{ form.object_size }}
-        </div>
-      </div>
-
-      <div id="bookandmagazine">
-        <div class="wrapper">
-          <h5 id="author-name">กรุณาระบุชื่อผู้แต่ง หริอ สำนักพิมพ์</h5>
-          {{ form.authors }}
-          <span id="authorError"></span>
-        </div>
-        <div class="wrapper">
-          <span>เลือกสภาพสินค้า</span>
-          {{ form.book_condition }}
-        </div>
-      </div>
-
-      <div id="artwork">
-        <div class="wrapper">
-          <h5>ระบุขนาดของสินค้า เช่น 12"x12" หน่วยเป็นนิ้ว</h5>
-          <span>ขนาด</span>
-          {{ form.size }}
-        </div>
-        <div class="wrapper">
-          <h5>ถ้าสินค้าคุณมีกรอบระบุวัสดุและสีของเฟรม</h5>
-          <span>กรอบรูป</span>
-          {{ form.frame }}
-          <span id="frameError"></span>
-        </div>
-      </div>
-      <div class="wrapper">
-        <button id="price-setting" type="button" onclick="toSetPrice()">กำหนดราคา</button>
-      </div>
-
-      <div id="setprice">
-        <div class="wrapper">
-          <h5>จำนวนสินค้าที่ต้องการขาย</h5>
-          <h5 class="addnote">1. คุณสามารถเปลี่ยนปริมาณสินค้าที่ต้องการขายได้บน Dashboard ของคุณหลังจากได้สร้างสินค้าแล้ว</h5>
-          <h5 class="addnote">2. ปริมาณสินค้าจะถูกปรับอัตโนมัติทางระบบเมื่อคุณดำเนินการส่งสินค้าให้ผู้ซื้อแล้ว</h5>
-          <span> จำนวน </span>{{ form.quantity }}
-        </div>
-
-        <div class="wrapper">
-          <h5>กำหนดราคาสินค้าเป็นตัวเลขเท่านั้น </h5>
-          {{ form.price }}
-          {% if form.price.errors %}
-          {% for error in form.price.errors %}<span>{{ error }}</span>{% endfor %}
-          {% endif %}
-          <span id="PriceError">กรุณาใส่แต่ตัวเลข</span>
-        </div>
-
-        <div class="wrapper">
-          <h5>กำหนดราคาค่าส่งสินค้า</h5>
-          {{ form.shipping_fee }}
-          <span id="ShippingFeeError">กรุณาใส่แต่ตัวเลข</span>
-        </div>
-        <div class="wrapper">
-          <h5>ส่วนลดสินค้า</h5>
-          {{ form.promotion }}<span>%</span>
-          <h5>ระยะเวลาที่โปรโมชันหมดอายุ</h5>
-          {{ form.promotion_expire}} <span>วัน</span>
-        </div>
-
-        <div class="wrapper">
-          <button id="price-show" type="button" onclick="checkPrice()">คำนวณราคา</button>
-        </div>
-        <h5 id ="auto-mark-noshow">{{margin}}</h5>
-        <div id="price-sum" class="wrapper">
-          <h5 id ="pr-show"></h5>
-          <h5 id ="merchant-gets"></h5>
-        </div>
-
-
-        <div class="wrapper">
-          <h5>คำอธิบายเพิ่มเติมของสินค้านี้</h5>
-          {{ form.description }}
-        </div>
-        <div class="button">
-            {{ form.submit }}
-        </div>
-    </form>
-      </div>
-
-
-
-  <script type="text/javascript" src="{{ url_for('static',filename='js/productform.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/productform.js') }}"></script>
 {% endblock %}

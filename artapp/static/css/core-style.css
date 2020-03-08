@@ -601,10 +601,10 @@ img {
     @media only screen and (min-width: 992px) and (max-width: 1199px) {
       .main-content-wrapper .table-area {
         -webkit-box-flex: 0;
-        -ms-flex: 0 0 calc(100% - 320px);
-        flex: 0 0 calc(100% - 320px);
-        width: calc(100% - 320px);
-        max-width: calc(100% - 320px); } }
+        -ms-flex: 0 0 calc(100% - 280px);
+        flex: 0 0 calc(100% - 280px);
+        width: calc(100% - 280px);
+        max-width: calc(100% - 280px); } }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .main-content-wrapper .table-area {
         -webkit-box-flex: 0;

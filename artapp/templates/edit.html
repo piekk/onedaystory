@@ -1,112 +1,126 @@
 {% extends"merchantlayout.html" %}
 {% block content %}
-<section>
-  {% if current_user.role == 'Seller' %}
-    <form method="POST">
-      {{ form.hidden_tag() }}
-      <div class="head">
-        <h4>Required</h4>
-      </div>
-
-      <h4>{{ current_user.role }}</h4>
-      <div class="">
-        <h4>{{ current_user.firstname }} {{ current_user.lastname }}</h4>
-      </div>
-      <div class="">
-        {{ form.username.label }}
-        {{ form.username }}
-        {% if form.username.errors %}
-        {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
-        {% endif %}
-        <p>Your public profile only shows your username</p>
-      </div>
-      <div class="">
-        <h4>Your current email: {{ current_user.email }}</h4>
-        {{ form.email.label }}
-        {{ form.email }}
-        {% if form.email.errors %}
-        {% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}
-        {% endif %}
-        <p>We won't share your private email address with other users.</p>
-      </div>
-      <div class="">
-        <h4>{{ current_user.contact }}</h4>
-        <a href="{{ url_for('add_contact') }}">Add Contact</a>
-        <p>This is for your customers to contact you.</p>
-      </div>
-
-      {% if current_user.verified=='no' %}
-      <div class="">
-        <p>Please provide government identification. We will contact you for verification process</p>
-        <a href="{{ url_for('add_contact') }}">Verify User</a>
-      {% elif current_user.verified=='wat' %}
-        <h4>Your verification is in process.</h4>
-      {% else %}
-        <h4>Your status is verified</h4>
-      </div>
-      {% endif %}
-
-      <div class="">
-        <label for="Yourself">Describe Yourself</label>
-        <textarea name="name" rows="8" cols="80"></textarea>
-      </div>
-      <div class="button">
-          {{ form.submit }}
-      </div>
-    </form>
-
-<!--Admin login to verify user-->
-  {% else %}
-    <h4>{{ current_user.role }}{{ current_user.username }}</h4>
-    <form method="POST">
-      {{ form.hidden_tag() }}
-      <div class="head">
-        <h4>Required</h4>
-      </div>
 
 
-      <div class="">
-        <h4>{{ user.firstname }} {{ user.lastname }}</h4>
-        <h4>{{ user.role }}</h4>
-      </div>
-      <div class="">
-        {{ form.username.label }}
-        {{ form.username }}
-        {% if form.username.errors %}
-        {% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}
-        {% endif %}
-        <p>Your public profile only shows your username</p>
-      </div>
-      <div class="">
-        <h4>Your current email: {{ user.email }}</h4>
-        {{ form.email.label }}
-        {{ form.email }}
-        {% if form.email.errors %}
-        {% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}
-        {% endif %}
-        <p>We won't share your private email address with other users.</p>
-      </div>
-      <div class="">
-        <h4>{{ user.contact }}</h4>
-        <a href="{{ url_for('add_contact') }}">Add Contact</a>
-        <p>This is for your customers to contact you.</p>
-      </div>
-
-      {% if current_user.verified=='no' %}
-      <div class="">
-        <p>Please provide government identification. We will contact you for verification process</p>
-        <a href="{{ url_for('add_contact') }}">Verify User</a>
-      {% elif current_user.verified=='wat' %}
-        <h4>Your verification is in process.</h4>
-      {% else %}
-        <h4>Your status is verified</h4>
-      </div>
-      {% endif %}
-
-      <div class="button">
-          {{ form.submit }}
-      </div>
-    </form>
-  {% endif %}
-</section>
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="details_area mt-50 clearfix">
+                    {% if current_user.role == 'Seller' %}
+                    <div class="title">
+                        <h5 class="mb-4">Update Profile</h5>
+                    </div>
+                    <form method="POST">
+                    {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>{{ current_user.firstname }} {{ current_user.lastname }}</h6>
+                                <h6>{{ current_user.role }}</h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>{{ form.username.label(class_="text-muted") }}
+                                {{ form.username(class_="form-control") }}
+                                {% if form.username.errors %}
+                                {% for error in form.username.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                                {% endif %}
+                                <p>Your public profile only shows your username</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>Your current email: {{ current_user.email }}</h6>
+                                <h6>{{ form.email.label(class_="text-muted") }}</h6>
+                                {{ form.email(class_="form-control") }}
+                                {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                                {% endif %}
+                                <p>We won't share your private email address with other users.</p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>{{ current_user.contact }}</h6>
+                                <a href="{{ url_for('add_contact') }}">เพิ่มเบอร์ติดต่อ</a>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {% if current_user.verified=='no' %}
+                                <p>Please provide government identification. We will contact you for verification process</p>
+                                <a href="{{ url_for('add_contact') }}">Verify User</a>
+                                {% elif current_user.verified=='wat' %}
+                                <h6>Your verification is in process.</h6>
+                                {% else %}
+                                <h6>Your status is verified</h6>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.description(class_="form-control") }}
+                                <label for="Yourself">Describe Yourself</label>
+                                <textarea name="name" rows="8" cols="80"></textarea>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="amado-btn") }}
+                            </div>
+                        </div>
+                    </form>
+                    <!--Admin login to verify user-->
+                    {% else %}
+                    <div class="title">
+                        <h5 class="mb-4">Update Profile</h5>
+                    </div>
+                    <h4>{{ current_user.role }}{{ current_user.username }}</h4>
+                    <form method="POST">
+                    {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>{{ current_user.role }}{{ current_user.username }}</h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>{{ user.firstname }} {{ user.lastname }}</h6>
+                                <h6>{{ user.role }}</h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.username.label(class_="text-muted") }}
+                                {{ form.username(class_="form-control") }}
+                                {% if form.username.errors %}
+                                {% for error in form.username.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>Your current email: {{ user.email }}</h6>
+                                {{ form.email.label(class_="text-muted") }}
+                                {{ form.email(class_="form-control") }}
+                                {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>{{ user.contact }}</h6>
+                                <a href="{{ url_for('add_contact') }}">เพิ่มเบอร์ติดต่อ</a>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {% if user.verified=='no' %}
+                                <p>Please provide government identification. We will contact you for verification process</p>
+                                <a href="{{ url_for('add_contact') }}">Verify User</a>
+                                {% elif user.verified=='wat' %}
+                                <h6>Your verification is in process.</h6>
+                                {% else %}
+                                <h6>Your status is verified</h6>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="amado-btn") }}
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,26 +1,42 @@
 {% extends"merchantlayout.html" %}
 {% block content %}
 <!-- เปลี่ยนสต็อกสินค้า -->
-
-  <div class = "break"></div>
-  <div class = "view">
-    <h4 class="title-center">{{product.title}}</h4>
-    {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
-    <img src="{{ image }}">
-    <h3 class="box-center inverse">เปลี่ยนสต็อกสินค้า</h3>
-    <h4>สินค้าที่มีอยู่: {{product.quantity }}</h4>
-
-    <form method="POST" enctype="multipart/form-data">
-      {{ form.hidden_tag() }}
-
-        <h4> จำนวน: {{ form.quantity }}</h4>
-
-        <button class="b-left">{{ form.submit }}</button>
-
-    </form>
-
-    <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
-  </div>
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-10">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h4>แก้ไขราคาสต็อกสินค้า</h4>
+                        <h6>{{product.title}}</h6>
+                    </div>
+                    <div class="col-12 mb-3">
+                        {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+                        <img src="{{ image }}">
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>สินค้าที่มีอยู่: {{product.quantity }}</h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6> จำนวน: </h6>
+                                {{ form.quantity }}
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="amado-btn") }}
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <a class="btn bg-dark text-white float-right text-center" href="{{request.referrer}}">BACK</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

@@ -2,38 +2,52 @@
 {% block content %}
 <!-- เปลี่ยนราคาสินค้า -->
 
-  <div class = "break"></div>
-  <div class = "view">
-    <h4 class="title-center">{{product.title}}</h4>
-    {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
-    <img src="{{ image }}">
-    <h3 class="box-center inverse">แก้ไขราคาสินค้าและโปรโมชัน</h3>
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-10">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h4>แก้ไขราคาสินค้าและโปรโมชัน</h4>
+                        <h6>{{product.title}}</h6>
+                    </div>
+                    <div class="col-12 mb-3">
+                        {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+                        <img src="{{ image }}">
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>ราคาสินค้า</h6>
+                                {{ form.price(class_="form-control") }} <span> บาท </span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>ราคาค่าส่งสินค้า</h6>
+                                {{ form.shipping_fee(class_="form-control") }} <span> บาท </span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>โปรโมชันสินค้า</h6>
+                                {{ form.promotion(class_="form-control") }} <span> % </span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>หมดอายุใน</h6>
+                                {{ form.promotion_expire(class_="form-control") }} <span> วัน </span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="amado-btn") }}
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <a class="btn bg-dark text-white float-right text-center" href="{{request.referrer}}">BACK</a>
+                    </div>
 
-    <form method="POST" enctype="multipart/form-data">
-      {{ form.hidden_tag() }}
-      <div class="wrapper">
-        <h5>ราคาสินค้า</h5>
-        {{ form.price }} <span> บาท </span>
-      </div>
-      <div class="wrapper">
-        <h5>ราคาค่าส่งสินค้า</h5>
-        {{ form.shipping_fee }} <span> บาท </span>
-      </div>
-      <div class="wrapper">
-        <h5>โปรโมชันสินค้า</h5>
-        {{ form.promotion }} <span> % </span>
-      </div>
-
-      <div class="wrapper">
-        <h5>หมดอายุใน</h5>
-        {{ form.promotion_expire }} <span> วัน </span>
-      </div>
-      <button class="b-left">{{ form.submit }} </button>
-
-    </form>
-
-    <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
-  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

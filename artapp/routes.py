@@ -206,7 +206,7 @@ def cart():
                     db.session.delete(cart)
                     db.session.commit()
             return redirect('cart')
-        elif cart and cart.payment == 'W' and time <= cart.payment_expire:
+        elif cart and cart.payment == 'W' and time < cart.payment_expire:
             if cart.shippingaddress:
                 return redirect(url_for('payment'))
             else:
@@ -312,12 +312,18 @@ def address():
                 form.district.data = current_user.address.district
                 form.province.data = current_user.address.province
                 form.postcode.data = current_user.address.postcode
-                return render_template("address.html", form=form)
+                cart_total = 0
+                for item in cart.items:
+                    cart_total += int(item.price)*item.quantity
+                return render_template("address.html", form=form, cart_total=cart_total)
             elif cart.date_expire > time:
                 form.firstname.data = current_user.firstname
                 form.lastname.data = current_user.lastname
                 form.contact.data = current_user.contact
-                return render_template("address.html", form=form)
+                cart_total = 0
+                for item in cart.items:
+                    cart_total += int(item.price)*item.quantity
+                return render_template("address.html", form=form, cart_total=cart_total)
             else:
                 return redirect(url_for('cart'))
         elif not cart:

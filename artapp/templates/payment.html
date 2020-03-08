@@ -1,16 +1,41 @@
 {% extends"layout.html" %}
 {% block content %}
-<div class="break"></div>
-<div class= "norm">
-  <div>
-    <h4>ชำระเงิน</h4>
-  </div>
-  <ul class="norm">
-    <li class="bold">สรุปตะกร้า</li>
-    <li class="bold">ที่อยู่จัดส่ง</li>
-    <li class="bold">ชำระเงิน</li>
-  </ul>
+
+<div class="table-ares section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="details_area mt-5 clearfix">
+                    <div class="title">
+                        <h5 class="text-secondary">ชำระเงิน</h5>
+                    </div>
+
+                    <form>
+                        <h5>เลือกวิธีชำระเงิน</h5>
+                        <select id="SelectPayment">
+                            <option value="Ibank">Internet Banking</option>
+                            <option value="atm">ATM</option>
+                        </select>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="cart-summary">
+                    <h5>Cart Total</h5>
+                    <div class ="summary-table text-right">
+                      <span>Total: ฿ {{ "{:,.2f}".format(cart_total|round)}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
+
 
 <div class="break"></div>
 <div class="norm">

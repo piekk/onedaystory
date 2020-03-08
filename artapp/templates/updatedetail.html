@@ -1,50 +1,68 @@
 {% extends"merchantlayout.html" %}
 {% block content %}
-<!-- เปลี่ยนข้อมูลสินค้า -->
 
-  <div class = "break"></div>
-  <div class = "view">
-    <h4 class="title-center">{{product.title}}</h4>
-    {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
-    <img src="{{ image }}">
-    <h3 class="box-center inverse">แก้ไขข้อมูลสินค้า</h3>
-    <h4>ประเภทสินค้า: {{product.category}}</h4>
+<!-- เปลี่ยนข้อมูลค้า -->
 
-    <form method="POST" enctype="multipart/form-data">
-      {{ form.hidden_tag() }}
-      <div class="wrapper">
-        <h5> เลือกใส่ Hashtag ที่เกี่ยวข้องกับสินค้าของคุณ เช่น #keyword1 #keyword2</h5>
-        <a class="addnote" href="#">ดูวิธีการเลือกใช้ Hashtag ที่เหมาะสม</a>
-        {{ form.tag }}
-      </div>
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-10">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h4>แก้ไขข้อมูลสินค้า</h4>
+                        <h6>{{product.title}}</h6>
+                    </div>
+                    <div class="col-12 mb-3">
+                        {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+                        <img src="{{ image }}">
+                    </div>
 
-    {% if product.category == 'decoration' %}
-      <div class="wrapper">
-        <h5>ระบุขนาดของสินค้า</h5>
-        <span>ขนาด</span>
-        {{ form.object_size }}
-      </div>
-    {% elif product.category == 'illustration' or product.category == 'photograph' or product.category == 'painting' %}
-      <div class="wrapper">
-        <h5>ระบุขนาดของสินค้า เช่น 12"x12" หน่วยเป็นนิ้ว</h5>
-        <span>ขนาด</span>
-        {{ form.size }}
-      </div>
-      <div class="wrapper">
-        <h5>ถ้าสินค้าคุณมีกรอบระบุวัสดุและสีของเฟรม</h5>
-        <span>กรอบ</span>
-        {{ form.frame }}
-      </div>
-    {% endif %}
-      <div class="wrapper">
-        <h5>คำอธิบายเพิ่มเติมของสินค้านี้</h5>
-        {{ form.description }}
-      </div>
-      <button class="b-left">{{ form.submit }}</button>
-    </form>
-
-    <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
-  </div>
+                    <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h6>ประเภทสินค้า: {{product.category}}</h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                              <h6> เลือกใส่ Hashtag ที่เกี่ยวข้องกับสินค้าของคุณ เช่น #keyword1 #keyword2</h6>
+                              <h6><a href="#">ดูวิธีการเลือกใช้ Hashtag ที่เหมาะสม</a></h6>
+                              {{ form.tag(class_="form-control") }}
+                            </div>
+                            {% if product.category == 'decoration' %}
+                            <div class="col-12 mb-3">
+                                <h6>ระบุขนาดของสินค้า</h6>
+                                <p>ขนาด</p>
+                                {{ form.object_size(class_="form-control") }}
+                            </div>
+                            {% elif product.category == 'illustration' or product.category == 'photograph' or product.category == 'painting' %}
+                            <div class="col-12 mb-3">
+                                <h6>ระบุขนาดของสินค้า เช่น 12"x12" หน่วยเป็นนิ้ว</h6>
+                                <p>ขนาด</p>
+                                {{ form.size(class_="form-control") }}
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h6>ถ้าสินค้าคุณมีกรอบระบุวัสดุและสีของเฟรม</h6>
+                                <p>กรอบ</p>
+                                {{ form.frame(class_="form-control") }}
+                            </div>
+                            {% endif %}
+                            <div class="col-12 mb-3">
+                                <h6>คำอธิบายเพิ่มเติมของสินค้านี้</h6>
+                                {{ form.description(class_="form-control") }}
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="amado-btn") }}
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <a class="btn bg-dark text-white float-right text-center" href="{{request.referrer}}">BACK</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

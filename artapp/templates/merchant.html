@@ -1,142 +1,124 @@
 {% extends"merchantlayout.html" %}
 {% block content %}
-  {% if current_user.verified == 'no' %}
-  <div class="break"></div>
-  <div class="view">
-    <div class="sub-title-head">
-      <h4 class="title-center">รอการยืนยันตัวตน</h4>
-    </div>
-  </div>
-  {% else %}
-  <div class="break"></div>
-  <div class="view">
-    <div class="sub-title-head">
-      <h4 class="title-center">ข้อมูลส่วนตัว</h4>
-      <img src="{{ url_for('static', filename='image/dropdown.png') }}" onclick="showuserinfo()">
-    </div>
-    <div id="userinfo-container">
-      <h4> {{ current_user.username }} </h4>
-      <h4> Email: <span class="italic">{{ current_user.email }}</span></h4>
-      <h4> เบอร์ติดต่อ: <span class="italic">{{ current_user.contact }}</span></h4>
-      <h4> สถานะผู้ขาย: ยืนยันตัวตนแล้ว</h4>
-
-      {% if current_user.desciption %}
-        <p>{{current_user.description}}</p>
-      {% else %}
-        <p>ยังไม่มีข้อมูลส่วนตัว</p>
-      {% endif %}
-
-      <div class="btn-user">
-        <a href="{{ url_for('user_edit', name=current_user.username) }}">แก้ไขข้อมูล</a>
-      </div>
-    </div>
-
-    <div class="break"></div>
-
-    <div class="sub-title-head">
-      <h4 class="title-center">สินค้าของคุณ</h4>
-      <img src="{{ url_for('static', filename='image/dropdown.png') }}" onclick="showproductinfo()">
-    </div>
-
-    <div class="break"></div>
-
-    <div id ="productinfo-container">
-      <div class="grid-container">
-
-        {% for item in current_user.product %}
-
-          <div class="double">
-            {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
-            <img src="{{ image }}">
-
-            <div class="view-item"><a href="{{url_for('edit_product', name=item.productcode)}}">EDIT ITEM</a></div>
-
-          </div>
-          <div class="double item-info">
-            <h4>Title: {{item.title}}</h4>
-            <h4>Category: {{item.category}}</h4>
-            <h4>Hashtag:<span class="italic">{{item.style}}</span></h4>
-            {% if item.quantity == 0 %}
-              <h4 class = "alert">สินค้าหมด</h4>
-            {% else %}
-              <h4>เหลือ: {{item.quantity}}</h4>
-            {% endif %}
-            <h4>ราคา: {{item.price}}</h4>
-            {% if item.promotion|int > 0 and item.promotion_expire > time %}
-            <h4>โปรโมชัน: {{item.promotion}} % ถึง: {{item.promotion_expire.strftime("%d-%m-%Y")}}</h4>
-            {% else %}
-            <h4>โปรโมชัน: ไม่มีโปรโมชัน</h4>
-            {% endif %}
-
-
-
-            <h4>คำอธิบาย: </h4>
-            <div class="item-description">
-            {% if item.description %}
-              <p>{{item.description}}</p>
-            {% else %}
-              <p class="no-description">ไม่มีรายละเอียดสินค้า</p>
-            {% endif %}
+{% if current_user.verified == 'no' %}
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="details_area clearfix">
+                    <div class="title">
+                        <h5>รอการยืนยันตัวตน</h5>
+                    </div>
+                </div>
             </div>
-          </div>
-
-        {% endfor %}
-      </div>
+        </div>
     </div>
-    <div class="break"></div>
+</div>
 
-    <div class="sub-title-head">
-      <h4 class="title-center">คำสั่งซื้อสินค้า</h4>
-      <img src="{{ url_for('static', filename='image/dropdown.png') }}" onclick="showorder()">
+{%else%}
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="details_area clearfix">
+                    <div class="title">
+                        <h5>ข้อมูลส่วนตัว</h5>
+                    </div>
+                    <div class="info">
+                        <p> {{ current_user.username }} </p>
+                        <p> Email: <span class="italic">{{ current_user.email }}</span></p>
+                        <p> เบอร์ติดต่อ: <span class="italic">{{ current_user.contact }}</span></p>
+                        <p> สถานะผู้ขาย: ยืนยันตัวตนแล้ว</p>
+
+                        {% if current_user.desciption %}
+                        <p>{{current_user.description}}</p>
+                        {% else %}
+                        <p>ยังไม่มีข้อมูลส่วนตัว</p>
+                        {% endif %}
+                        <a class="btn amado-btn" href="{{ url_for('user_edit', name=current_user.username) }}">แก้ไขข้อมูล</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <div class="details_area mt-5 clearfix">
+                    <div class="title">
+                        <h5>สินค้า</h5>
+                    </div>
+                </div>
+            </div>
+            {% for item in current_user.product %}
+            {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
+            <div class="col-12 col-sm-6 col-lg-4">
+                <img src="{{ image }}">
+                    <div class="align-baseline">
+                        <h5 class="mt-5">Title: {{item.title}}</h5>
+                        <p class="mb-0">Category: {{item.category}}</p>
+                        <p>Hashtag:<span class="font-italic">{{item.style}}</span></p>
+                        {% if item.quantity == 0 %}
+                        <p class="text-danger mb-0">สินค้าหมด</p>
+                        {% else %}
+                        <p class="mb-0">เหลือ: {{item.quantity}}</p>
+                        {% endif %}
+                        <p class="mb-0">ราคา: {{item.price}}</p>
+                        {% if item.promotion|int > 0 and item.promotion_expire > time %}
+                        <p>โปรโมชัน: {{item.promotion}} % ถึง: {{item.promotion_expire.strftime("%d-%m-%Y")}}</p>
+                        {% else %}
+                        <p>โปรโมชัน: ไม่มีโปรโมชัน</p>
+                        {% endif %}
+                        <p class="mb-0">คำอธิบาย: </p>
+                        {% if item.description %}
+                        <p class="font-italic">{{item.description}}</p>
+                        {% else %}
+                        <p class="font-italic">ไม่มีรายละเอียดสินค้า</p>
+                        {% endif %}
+                        <a class="btn amado-btn" href="{{url_for('edit_product', name=item.productcode)}}">EDIT ITEM</a>
+                    </div>
+            </div>
+            {% endfor %}
+
+
+            <div class="col-12">
+                <div class="details_area mt-5 clearfix">
+                    <div class="title mb-5">
+                        <h5>คำสั่งซื้อสินค้า</h5>
+                    </div>
+                <table class="w-75">
+                    <thead>
+                        <tr>
+                            <th class="align-bottom">ชื่อสินค้า</th>
+                            <th class="align-middle">Reference</th>
+                            <th class="align-middle">จำนวน</th>
+                            <th class="align-middle">ราคารวม</th>
+                            <th class="align-middle">สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in order %}
+                        <tr>
+                            <td>{{item.product}}</td>
+                            {% if item.cart.payment == 'C' %}
+                            <td><a href="{{url_for('order', c_id = item.cart.reference_id, p_id = item.id)}}">{{item.cart.reference_id}}</a></td>
+                            {% else %}
+                            <td>{{item.cart.reference_id}}</td>
+                            {% endif %}
+                            <td>{{item.quantity}}</td>
+                            <td>{{ "฿ {:,.2f}".format(item.price|int * item.quantity) }}</td>
+                            {% if item.cart.payment == 'C' %}
+                            <td>รอการจัดส่ง</td>
+                            {% else %}
+                            <td>รอการชำระเงิน</td>
+                        {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div id="order-detail">
-      <table class="order-summary">
-        <thead>
-          <tr>
-            <th>ชื่อสินค้า</th>
-            <th>Reference</th>
-            <th>จำนวน</th>
-            <th>ราคารวม</th>
-            <th>สถานะ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in order %}
-          <tr>
-            <td>{{item.product}}</td>
-            {% if item.cart.payment == 'C' %}
-            <td><a href="{{url_for('order', c_id = item.cart.reference_id, p_id = item.id)}}">{{item.cart.reference_id}}</a></td>
-            {% else %}
-            <td>{{item.cart.reference_id}}</td>
-            {% endif %}
-            <td>{{item.quantity}}</td>
-            <td>{{ "฿ {:,.2f}".format(item.price|int * item.quantity) }}</td>
-            {% if item.cart.payment == 'C' %}
-            <td>รอการจัดส่ง</td>
-            {% else %}
-            <td>รอการชำระเงิน</td>
-            {% endif %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <div class="break"></div>
-
-    <div class="sub-title-head">
-      <h4 class="title-center">สรุปยอดขายที่ผ่านมา</h4>
-      <img src="{{ url_for('static', filename='image/dropdown.png') }}" onclick="showsale()">
-    </div>
-    <div id = "sale-summary">
-
-    </div>
-
-
-
-  </div>
-  {% endif %}
-  <script type="text/javascript" src="{{ url_for('static',filename='js/merchant.js') }}"></script>
-
-
-
+</div>
+{%endif%}
 {% endblock %}

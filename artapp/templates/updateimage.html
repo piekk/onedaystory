@@ -2,32 +2,43 @@
 {% block content %}
 <!-- เปลี่ยนรูปสินค้า -->
 
-  <div class = "break"></div>
-  <div class = "view">
-    <h4 class="title-center">{{product.title}}</h4>
-    {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
-    <img src="{{ image }}">
-    <h4>เปลี่ยนรูปภาพสินค้า</h4>
-    <p>เลือกไฟล์รูปภาพสำหรับสินค้านี้</p>
-    <form method="POST" enctype="multipart/form-data">
-    {{ form.hidden_tag() }}
-
-
-        <div class="wrapper">
-          {{ form.image }}
-          {% if form.image.errors %}
-          {% for error in form.image.errors %}<span>{{ error }}</span>{% endfor %}
-          {% endif %}
+<div class="table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-10">
+                <div class="details_area mt-50 clearfix">
+                    <div class="title">
+                        <h4>เปลี่ยนรูปภาพสินค้า</h4>
+                        <h6>{{product.title}}</h6>
+                    </div>
+                    <div class="col-12 mb-3">
+                        {% set image = "https://storage.googleapis.com/"+ bucket +"/"+ product.imgfile1 %}
+                        <img src="{{ image }}">
+                    </div>
+                    <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                {{ form.image }}
+                                {% if form.image.errors %}
+                                {% for error in form.image.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="col-12 mb-3">
+                                {{ form.submit(class_="amado-btn") }}
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <a class="btn bg-dark text-white float-right text-center" href="{{request.referrer}}">BACK</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="wrapper">
-          {{ form.submit }}
-        </div>
-
-
-    </form>
-
-    <div class="button b-right"><a href="{{request.referrer}}">BACK</a></div>
-  </div>
+    </div>
+</div>
 
 
 {% endblock %}

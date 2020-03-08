@@ -81,7 +81,7 @@
                                           {% if product_inventory[item.product]==0 %}
                                           <h4>Not Available</h4>
                                           {% else %}
-                                          <form method="post">
+                                          <form method="POST">
                                               <select name="{{item.product}}" id="{{item.product}}" onchange="getVal()">
                                               {% for i in range(product_inventory[item.product]) %}
                                                   <option value="{{ i+1 }}">{{i+1}}</option>
@@ -93,7 +93,7 @@
                                   </div>
                               </td >
                               <td class="remove">
-                                  <form method="post">
+                                  <form method="POST">
                                       <input type="hidden" name="todelete" value="{{item.id}}">
                                       <input type="submit" class="btn btn-sm" value="ลบ">
                                   </form>
@@ -107,12 +107,12 @@
             <div class="col-12 col-lg-4">
                 <div class="cart-summary">
                     <h5>Cart Total</h5>
-                    <ul class ="summary-table">
-                      <li><span>Total: </span> <span id="t_amount"></span><span>.00</span></li>
-                    </ul>
-                    <div class="cart-btn mt-100">
-                        <form method="post">
-                            <input class="btn amado-btn w-100" type="sumbit" name="checkout" value="Checkout">
+                    <div class ="summary-table text-right">
+                      <span>Total: ฿</span> <span id="t_amount"></span><span>.00</span>
+                    </div>
+                    <div class="mt-100">
+                        <form method="POST">
+                            <input class="btn amado-btn w-100" type="submit" name="checkout" value="CHECKOUT">
                         </form>
                     </div>
                 </div>
