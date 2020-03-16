@@ -1145,15 +1145,14 @@ img {
     z-index: 1;
     margin-top: 25px; }
     .single-product-wrapper .line {
-      width: 80px;
-      height: 3px;
+      width: 100%;
+      height: 2px;
       background-color: #fbb710;
       margin-bottom: 15px;
       display: block; }
     .single-product-wrapper .product-description .product-meta-data .product-price {
       line-height: 1;
       color: #fbb710;
-      font-size: 20px;
       margin-bottom: 10px; }
     .single-product-wrapper .product-description .product-meta-data a {
       display: block; }

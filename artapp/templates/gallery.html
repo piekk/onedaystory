@@ -70,7 +70,7 @@
                   <!-- Product Image -->
                   {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
                   <div class="product-img">
-                      <a href="{{url_for('product', product=item.productcode)}}"><img src="{{image}}" alt=""></a>
+                      <a href="{{url_for('product', product=item.productcode)}}"><img class="mb-2" src="{{image}}" alt=""></a>
                   </div>
                   <div class="line"></div>
                   <!-- Product Description -->

@@ -2,17 +2,17 @@
 {% block content %}
 
 <!-- Product Catagories Area Start -->
-<div class="products-catagories-area clearfix">
+<div class="products-catagories-area clearfix mt-50">
 
     <div class="container-fluid">
         <div class="row">
             {% for item in latest %}
-            <div class = "col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+            <div class = "col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3">
                 <div class = "single-product-wrapper">
                     <div class="product-img">
                         {% set image = "https://storage.googleapis.com/"+ bucket +"/"+item.imgfile1 %}
                         <a href="{{url_for('product', product=item.productcode)}}">
-                            <img src="{{image}}" alt="">
+                            <img class="mb-2" src="{{image}}" alt="">
                         </a>
                     </div>
                     <div class="line"></div>
@@ -26,17 +26,10 @@
                             <p class="product-price">{{"฿ {:,.2f}".format(((item.price|int*margin)+item.shipping_fee|int)|round)}}</p>
                             {% endif %}
                             <a href="{{url_for('product', product=item.productcode)}}">
-                                <h5 class = "text-muted">{{item.title}}</h5>
+                                <h6>{{item.title}}</h6>
                             </a>
                         </div>
                         <div class="ratings-cart float-right">
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
                             <div class="cart text-right">
                                 <a href="{{url_for('product', product=item.productcode)}}"><img src="{{ url_for('static', filename='image/core-img/cart.png') }}" alt=""></a>
                             </div>
