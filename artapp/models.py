@@ -169,6 +169,7 @@ class Reviews(db.Model):
     def __repr__(self):
         return "(star_rating: {}, by: {})" .format(self.star_rating, self.review_by)
 
+
 class Articles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), unique=True, nullable=False)
